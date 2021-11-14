@@ -1,0 +1,14 @@
+$utilities: (
+        "background-color": (
+                property: background-color,
+                class: bg,
+                values: map-merge(
+                                $theme-colors,
+                                (
+                                        "body": $body-bg,
+                                        "white": $white,
+                                        "transparent": transparent
+                                )
+                )
+        )
+);

@@ -1,0 +1,19 @@
+html, body, #app, #emeraude {
+  height: 100%;
+}
+
+.disable-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.logo-font {
+  font-family: 'BankGothic', serif;
+  text-transform: uppercase;
+  font-size: 25px;
+  letter-spacing: -2px;
+}

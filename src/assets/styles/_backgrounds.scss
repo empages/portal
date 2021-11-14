@@ -1,0 +1,5 @@
+@each $color, $value in $bg-custom-colors {
+  .bg-custom-#{$color} {
+    background: $value !important;
+  }
+}
