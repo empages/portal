@@ -21,14 +21,14 @@
               v-if="!inputSizeStatuses[translationIndex]"
               v-model="translation.value"
               class="form-control"
-              :placeholder="`Translation in ${getLanguage(translation.languageId).name}`"
+              :placeholder="`Translation in ${getLanguage(translation.languageId)?.name}`"
               @focusin="focusInput(translationIndex, true)">
             <textarea
               v-show="inputSizeStatuses[translationIndex]"
-              :ref="el => translationsTextareaItems[translationIndex] = el"
+              :ref="el => { translationsTextareaItems[translationIndex] = el }"
               v-model="translation.value"
               class="form-control"
-              :placeholder="`Translation in ${getLanguage(translation.languageId).name}`"
+              :placeholder="`Translation in ${getLanguage(translation.languageId)?.name}`"
               rows="5"
               @focusout="focusInput(translationIndex, false)" />
           </div>
@@ -81,14 +81,14 @@ export default defineComponent({
   emits: ['form:submit', 'form:reset'],
   setup () {
     return {
-      v$: useVuelidate()
+      v$: useVuelidate() as any
     }
   },
   data() {
     return {
       form: getEmptyForm(this.languages),
       inputSizeStatuses: [] as Array<boolean>,
-      translationsTextareaItems: [] as Array<HTMLTextAreaElement>
+      translationsTextareaItems: [] as Array<any>
     }
   },
   validations (): any {
@@ -128,7 +128,7 @@ export default defineComponent({
       this.inputSizeStatuses[index] = value;
       if (value) {
         this.$nextTick(() => {
-          this.translationsTextareaItems[index].focus();
+          (this.translationsTextareaItems[index] as HTMLTextAreaElement).focus();
         })
       }
     },

@@ -80,7 +80,7 @@ export default defineComponent({
   emits: ['form:submit', 'form:reset'],
   setup () {
     return {
-      v$: useVuelidate(),
+      v$: useVuelidate() as any,
       ...useNotifications()
     }
   },
@@ -90,7 +90,7 @@ export default defineComponent({
       confirmationModal: null
     }
   },
-  validations () {
+  validations (): any {
     return {
       form: {
         code: { required: helpers.withMessage('Language code is required', required), },

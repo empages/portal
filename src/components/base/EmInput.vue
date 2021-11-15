@@ -56,7 +56,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'keypress'],
   methods: {
-    update(event: InputEvent): void {
+    update(event: Event): void {
       const target = event.target as HTMLInputElement;
       this.$emit('update:modelValue', target.value);
       if (this.inputEvent) {

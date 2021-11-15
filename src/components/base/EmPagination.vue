@@ -24,7 +24,7 @@
       </li>
       <li class="page-item active mx-1 mb-0">
         <button
-          disabled="disabled"
+          :disabled="true"
           class="btn btn-secondary p-2">
           {{ model.currentPage }}
         </button>
@@ -106,8 +106,10 @@ export default defineComponent({
     }
   },
   methods: {
-    selectPage(page: number) {
-      this.$emit('select:page', page);
+    selectPage(page: number | null): void {
+      if (page) {
+        this.$emit('select:page', page);
+      }
     },
     build(model: EmPaginationModel, currentPage: number, pagesCount: number) {
       model.currentPage = currentPage;

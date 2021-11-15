@@ -117,7 +117,7 @@ export default defineComponent({
         handleRequestError(e, this.showErrorToast);
       }
     },
-    debounceFilterInputHandler(event: InputEvent) {
+    debounceFilterInputHandler(event: Event) {
       _.debounce((event) => {
         this.searchQuery = event.target.value;
         this.page = 1;

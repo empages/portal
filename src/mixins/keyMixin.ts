@@ -14,7 +14,7 @@ export const keyMixin = {
                 return false;
             }
         },
-        transformKeyInput(event: InputEvent): string {
+        transformKeyInput(event: Event): string {
             const target = event.target as HTMLInputElement;
             let input = target.value.toUpperCase();
             input = input.replace(/ /g, "_");

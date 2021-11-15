@@ -6,7 +6,7 @@
           class="form-check-input my-auto me-1 opacity-100"
           type="checkbox"
           :checked="value"
-          disabled="disabled">
+          :disabled="true">
         {{ value ? 'Yes' : 'No' }}
       </label>
     </div>

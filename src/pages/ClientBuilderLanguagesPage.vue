@@ -87,10 +87,10 @@ export default defineComponent({
     }
   },
   computed: {
-    submitFormText() {
+    submitFormText(): string {
       return this.editMode ? 'Edit' : 'Create';
     },
-    formTitle() {
+    formTitle(): string {
       return this.editMode ? `Edit ${this.language.name}` : 'Create new';
     }
   },

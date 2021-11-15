@@ -14,7 +14,7 @@
               class="btn btn-primary cb-gen-btn"
               @click="generateModulesByInstanceType(module.type)">
               <span class="cb-gen-btn-text">
-                <i :class="getInstanceTypeIcon(module.type)" /> {{ getInstanceTypeText(module.type) }} Modules ({{ getModulesCountByExpression(x => x.type === module.type) }})
+                <i :class="getInstanceTypeIcon(module.type)" /> {{ getInstanceTypeText(module.type) }} Modules ({{ getModulesCountByExpression((x: any) => x.type === module.type) }})
               </span>
             </button>
           </div>
@@ -32,7 +32,7 @@
                 :src="getApplicationUrl(module.iconUrl)"
                 class="cb-gen-btn-img">
               <span class="cb-gen-btn-text">
-                {{ module.scaffoldTypeName }} Modules ({{ getModulesCountByExpression(x => x.clientId === module.clientId) }})
+                {{ module.scaffoldTypeName }} Modules ({{ getModulesCountByExpression((x: any) => x.clientId === module.clientId) }})
               </span>
             </button>
           </div>

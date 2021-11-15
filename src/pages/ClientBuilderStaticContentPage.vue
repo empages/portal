@@ -34,7 +34,7 @@
                   class="form-control"
                   placeholder="Key"
                   @keypress="isKeyValid"
-                  @input="currentContentEntity.key = transformKeyInput($event)">
+                  @input="$event => { if (currentContentEntity) currentContentEntity.key = transformKeyInput($event) }">
               </div>
             </div>
             <div class="form-group col-12 col-md-2 col-lg-1 px-1 pb-2 pt-3 pb-md-0 pt-2 pt-md-0">
@@ -66,7 +66,7 @@
           v-for="(contentItem, contentItemIndex) in currentContentEntity.staticContentList"
           :key="'code-editor-' + contentItemIndex">
           <hr>
-          <h6>{{ getLanguageById(contentItem.languageId).name }} Version</h6>
+          <h6>{{ getLanguageById(contentItem.languageId)?.name }} Version</h6>
           <div class="border">
             <EmHtmlRawEditor v-model="contentItem.content" />
           </div>

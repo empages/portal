@@ -97,7 +97,7 @@ name: "AdminAuthPage",
       postAuthenticationToken: ''
     }
   },
-  validations () {
+  validations (): any {
     return {
       loginForm: {
         email: { required: helpers.withMessage('Email is required', required), email },

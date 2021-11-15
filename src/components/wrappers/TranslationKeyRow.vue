@@ -22,7 +22,7 @@
           @focusin="focusInput(translationIndex, true)">
         <textarea
           v-show="inputSizeStatuses[translationIndex]"
-          :ref="el => translationsTextareaItems[translationIndex] = el"
+          :ref="el => { translationsTextareaItems[translationIndex] = el }"
           v-model="translation.value"
           class="form-control"
           rows="5"
@@ -86,7 +86,7 @@ export default defineComponent({
     return {
       keyEditedStatus: false,
       inputSizeStatuses: [] as Array<boolean>,
-      translationsTextareaItems: [] as Array<HTMLTextAreaElement>,
+      translationsTextareaItems: [] as Array<any>,
       rowData: Object.assign({}, this.inputData)
     }
   },
@@ -108,7 +108,7 @@ export default defineComponent({
       this.inputSizeStatuses[index] = value;
       if (value) {
         this.$nextTick(() => {
-          this.translationsTextareaItems[index].focus();
+          (this.translationsTextareaItems[index] as HTMLTextAreaElement).focus();
         })
       }
     },

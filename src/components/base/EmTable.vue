@@ -40,15 +40,15 @@ import {defineComponent} from "vue";
 export interface EmTableColumn {
   key: string;
   title: string;
-  thClass: string | undefined;
-  tdClass: string | undefined;
+  thClass?: string | undefined;
+  tdClass?: string | undefined;
 }
 
 export default defineComponent({
   name: "EmTable",
   props: {
     columns: {
-      type: Object as () => Array<EmTableColumn>,
+      type: Array as () => Array<EmTableColumn>,
       required: true
     },
     data: {

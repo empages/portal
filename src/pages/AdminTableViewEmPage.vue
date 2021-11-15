@@ -8,19 +8,18 @@
         :key="`table-item-key-${itemIndex}-${item.key}`"
         #[item.key]="{data}">
         <Component
-          :is="getCell(data, item.key).component.sourceName"
-          :set="cell = getCell(data, item.key)"
+          :is="getCell(data, item.key)?.component?.sourceName"
           :view-model="viewModel"
-          :component="cell.component"
-          :renderer-value="cell.value"
-          v-bind="cell.parameters" />
+          :component="getCell(data, item.key)?.component"
+          :renderer-value="getCell(data, item.key)?.value"
+          v-bind="getCell(data, item.key)?.parameters" />
       </template>
     </EmTable>
   </EmAdminLayout>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
+import {computed, defineComponent, Ref, ref} from 'vue'
 import EmAdminLayout from "@/components/layouts/EmAdminLayout.vue";
 import adminService from '@/services/admin-service';
 import {EmPageTableViewModel} from '@/models/em-page-table-view-model';
@@ -31,33 +30,38 @@ import {EmPageTableRowModel} from "@/models/em-page-table-row-model";
 export default defineComponent({
 name: "AdminTableViewEmPage",
   components: {EmTable, EmAdminLayout},
-  data(): any {
-    return {
-      viewModel: null as EmPageTableViewModel | null
-    }
-  },
-  computed: {
-    route() {
-      return this.$route.params.route;
-    },
-    tableData(): any {
-      if (!this.viewModel) {
+  setup() {
+    let viewModel: Ref<EmPageTableViewModel | null> = ref(null);
+    const tableData = computed(() => {
+      if (!viewModel.value) {
         return [];
       }
 
-      return this.viewModel.rows;
-    },
-    tableColumns(): Array<EmTableColumn> {
-      if (!this.viewModel) {
+      return viewModel.value.rows;
+    })
+
+    const tableColumns = computed(() => {
+      if (!viewModel.value) {
         return [];
       }
 
-      return this.viewModel.headModel.cells.map((x: EmPageTableHeadCellModel) => {
+      return viewModel.value.headModel.cells.map((x: EmPageTableHeadCellModel) => {
         return {
           key: x.identifier,
           title: x.name
         }
       });
+    })
+
+    return {
+      viewModel,
+      tableData,
+      tableColumns
+    }
+  },
+  computed: {
+    route() {
+      return this.$route.params.route;
     }
   },
   watch: {
