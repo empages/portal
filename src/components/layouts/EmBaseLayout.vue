@@ -3,8 +3,10 @@
     <div class="container-fluid h-100">
       <div class="card main-panel-full h-100">
         <EmBaseNavbar />
-        <div class="card-body h-100 pt-1">
-          <slot />
+        <div class="container">
+          <div class="card-body h-100 pt-1 px-0">
+            <slot />
+          </div>
         </div>
       </div>
     </div>
@@ -24,6 +26,5 @@ export default defineComponent({
 
 <style scoped lang="scss">
   .main-panel-full {
-    padding-top: 53px;
   }
 </style>

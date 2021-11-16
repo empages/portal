@@ -3,3 +3,7 @@
     background: $value !important;
   }
 }
+
+.bg-main-gradient {
+  background: linear-gradient(45deg, $base, $base-dark);
+}

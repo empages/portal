@@ -1,38 +1,3 @@
-/* Miscellanoeous */
-
-body,
-html {
-    overflow-x: hidden;
-    padding-right: 0 !important; // resets padding right added by Bootstrap modal
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-::selection {
-    background: $base-dark;
-    color: #fff;
-}
-
-::-moz-selection {
-    background: $base-dark;
-    color: #fff;
-}
-
-*:-moz-full-screen,
-*:-webkit-full-screen,
-*:fullscreen *:-ms-fullscreen {
-  overflow: auto !important;
-}
-
-a {
-    color: $base;
-}
-
-a:hover,
-a:active,
-a:focus {
-    color: $base-dark;
-}
-
 .scroll-container {
   position: relative;
 
@@ -200,7 +165,6 @@ pre {
 }
 
 .page-body-wrapper {
-    min-height: calc(100vh - #{$navbar-height});
     display: flex;
     flex-direction: row;
     padding-left: 0;
@@ -214,8 +178,8 @@ pre {
 
 .main-panel {
     transition: width $action-transition-duration $action-transition-timing-function, margin $action-transition-duration $action-transition-timing-function;
-    width: calc(100% - #{$sidebar-width-lg});
-    min-height: calc(100vh - #{$navbar-height});
+    width: 100%;
+    padding-left: $sidebar-width-lg;
     display: flex;
     flex-direction: column;
     background: $content-bg-main;

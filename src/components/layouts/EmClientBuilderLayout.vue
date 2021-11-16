@@ -2,28 +2,29 @@
   <div
     id="cb"
     ref="app">
-    <div class="p-3 pt-0">
-      <nav class="navbar navbar-light">
+    <div class="p-0">
+      <nav class="navbar navbar-light bg-main-gradient px-3">
         <div class="container-fluid">
           <a
             class="navbar-brand"
             href="#">
-            <span class="d-flex">
+            <span class="d-flex position-relative">
               <img
                 :src="logo"
                 alt="Emeraude"
-                width="36"
                 height="36"
                 class="d-inline-block ms-0 me-1 my-auto">
-              <span class="logo-font ms-0 me-2 my-auto">Emeraude Client Builder</span>
             </span>
           </a>
-          <EmConfigurationDropdown />
+          <div class="d-flex side-buttons">
+            <EmHomePageButton />
+            <EmConfigurationDropdown />
+          </div>
         </div>
       </nav>
       <div
         id="cb-main"
-        class="container-fluid">
+        class="container-fluid p-3">
         <div class="card">
           <div class="card-body">
             <EmClientBuilderNavigation />
@@ -39,11 +40,12 @@
 import {defineComponent} from 'vue'
 import EmClientBuilderNavigation from "@/components/layouts/EmClientBuilderNavigation.vue";
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
-import logo from "@/assets/images/logo.svg";
+import logo from "@/assets/images/logo_text_white.svg";
+import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 
 export default defineComponent({
   name: "EmClientBuilderLayout",
-  components: {EmConfigurationDropdown, EmClientBuilderNavigation},
+  components: {EmHomePageButton, EmConfigurationDropdown, EmClientBuilderNavigation},
   setup() {
     return {
       logo
@@ -52,6 +54,14 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import "src/assets/styles/variables";
+  .side-buttons :deep .btn {
+    margin-left: 4px;
 
+    &:hover {
+      background: $lighter-gray;
+      color: $black;
+    }
+  }
 </style>

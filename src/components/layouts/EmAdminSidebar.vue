@@ -39,7 +39,13 @@
           href="javascript:void(0)"
           class="nav-link"
           data-bs-toggle="minimize"
-          title="Collapse Menu"><i class="menu-icon mdi mdi-arrow-left-drop-circle" /><span class="menu-title">Collapse Menu</span></a>
+          title="Collapse Menu"
+          @click="() => sidebarMini = !sidebarMini">
+          <i
+            class="menu-icon mdi"
+            :class="{ 'mdi-arrow-left-drop-circle': !sidebarMini, 'mdi-arrow-right-drop-circle': sidebarMini }" />
+          <span class="menu-title">Collapse Menu</span>
+        </a>
       </li>
     </ul>
   </nav>
@@ -53,8 +59,10 @@ import EmAdminSidebarSection from "@/components/layouts/EmAdminSidebarSection.vu
 export default defineComponent({
   name: "EmAdminSidebar",
   components: {EmAdminSidebarSection},
+  emits: ['sidebar:toggle'],
   data() {
     return {
+      sidebarMini: false
     }
   },
   computed: {
@@ -66,6 +74,11 @@ export default defineComponent({
     }
   },
   watch: {
+    sidebarMini(value: boolean): void {
+      this.$emit('sidebar:toggle', value)
+    }
+  },
+  watcher: {
     currentRoute() {
       this.$store.commit('sidebarModule/reloadSidebarSchema', this.currentRoute);
     }

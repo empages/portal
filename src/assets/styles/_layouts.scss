@@ -11,127 +11,6 @@
     padding-right: 0px;
 }
 
-.sidebar-mini {
-    @media (min-width: 992px) {
-        .navbar {
-            .navbar-brand-wrapper {
-                width: $sidebar-width-mini;
-            }
-
-            .navbar-menu-wrapper {
-                width: calc(100% - #{$sidebar-width-mini});
-            }
-        }
-
-        .sidebar {
-            width: $sidebar-width-mini;
-
-            .nav {
-                .nav-item {
-                    .nav-link {
-                        display: flex;
-                        align-content: center;
-                        justify-content: center;
-                        flex-direction: column;
-                        position: relative;
-
-                        .menu-title {
-                            display: inline-block;
-                        }
-
-                        .badge {
-                            margin-left: 5px;
-                            display: none;
-                        }
-
-                        img {
-                            display: block;
-                            margin-right: auto;
-                            margin-left: auto;
-                            margin-bottom: 10px;
-                        }
-
-                        .menu-arrow {
-                            position: absolute;
-                            right: 7px;
-                        }
-
-                        .menu-icon {
-                            margin-right: 0;
-                        }
-                    }
-
-                    &.nav-profile {
-                        .nav-link {
-                            justify-content: center;
-
-                            .profile-name {
-                                display: none;
-                            }
-                        }
-
-                        i {
-                            margin-left: 1rem;
-                        }
-                    }
-
-                    .sidebar-sticker {
-                        display: none;
-                    }
-                }
-            }
-        }
-
-        .main-panel {
-            width: calc(100% - #{$sidebar-width-mini});
-        }
-
-        &:not(.sidebar-icon-only) {
-            //Apply these styles only when sidebar-mini is not collapsed to icon-only mode
-            .sidebar {
-                .nav {
-                    &:not(.sub-menu) {
-                        > .nav-item {
-                            border-top: 1px solid rgba($sidebar-dark-menu-color, .2);
-
-                            &.nav-doc,
-                            &.nav-profile {
-                                border-top: 0;
-                            }
-
-                            .nav-link {
-                                height: auto;
-                                padding: $sidebar-mini-menu-padding;
-
-                                i {
-                                    &.menu-icon {
-                                        margin-bottom: 0.5rem;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    &.sub-menu {
-                        padding: 0 0.5rem;
-
-                        .nav-item {
-                            .nav-link {
-                                padding: 1rem 0;
-                                text-align: center;
-
-                                &:before {
-                                    display: none;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 .sidebar-icon-only {
     @media (min-width: 992px) {
         .navbar {
@@ -173,6 +52,7 @@
                         }
 
                         i {
+                            font-size: 22px;
                             &.menu-icon {
                                 margin-right: 0;
                             }
@@ -285,11 +165,7 @@
         }
 
         .main-panel {
-            width: calc(100% - #{$sidebar-width-icon});
-        }
-
-        .footer {
-            padding-left: calc(#{$sidebar-width-icon} + 1rem);
+            padding-left: $sidebar-width-icon;
         }
     }
 }

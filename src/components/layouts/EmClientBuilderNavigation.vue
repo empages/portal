@@ -26,8 +26,7 @@ export default defineComponent({
         { title: 'Endpoints', route: 'client-builder-endpoints', icon: 'mdi mdi-cloud-braces' },
         { title: 'Languages', route: 'client-builder-languages', icon: 'mdi mdi-comment-processing' },
         { title: 'Translations', route: 'client-builder-translations', icon: 'mdi mdi-translate' },
-        { title: 'Static Content', route: 'client-builder-static-content', icon: 'mdi mdi-format-float-left' },
-        { title: 'Home', route: 'home', icon: 'mdi mdi-home' }
+        { title: 'Static Content', route: 'client-builder-static-content', icon: 'mdi mdi-format-float-left' }
       ]
     }
   }

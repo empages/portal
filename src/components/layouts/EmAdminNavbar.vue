@@ -20,8 +20,9 @@
       <ul class="addon-navbar navbar-nav navbar-nav-left header-links d-none d-md-flex p-0">
         <!--        <EmNavigationActions />-->
       </ul>
-      <div class="d-flex ms-auto me-0 align-items-center">
-        <EmConfigurationDropdown />
+      <div class="d-flex ms-auto me-0 align-items-center side-buttons">
+        <EmHomePageButton />
+        <EmConfigurationDropdown class="ms-1" />
         <EmDropdown
           class="ms-1 me-2"
           button-classes="btn-icon"
@@ -76,10 +77,11 @@ import logo from '@/assets/images/logo_white.svg'
 import logoText from '@/assets/images/logo_text_white.svg'
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
 import EmDropdown from "@/components/base/EmDropdown.vue";
+import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 
 export default defineComponent({
   name: "EmAdminNavbar",
-  components: {EmDropdown, EmConfigurationDropdown},
+  components: {EmHomePageButton, EmDropdown, EmConfigurationDropdown},
   data() {
     return {
       logo: logo,

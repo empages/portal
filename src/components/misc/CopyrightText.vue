@@ -2,8 +2,8 @@
   <span class="text-muted text-small">
     <span class="footer-text text-center">
       Copyright © {{ year }} <a
-        href="https://definux.io/"
-        target="_blank">Definux</a>. All rights reserved.
+        href="https://georgi.karagogov.com/"
+        target="_blank">Georgi Karagogov</a>. All rights reserved.
     </span>
   </span>
 </template>
