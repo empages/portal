@@ -29,14 +29,16 @@
               data-toggle="collapse"
               data-target="#em-nav-nav"
               aria-label="Toggle navigation"
-              @click="menuButton?.toggle">
+              aria-expanded="false"
+              aria-controls="em-nav-nav"
+              @click="menuToggle">
               <span class="mdi mdi-menu" />
             </button>
           </div>
           <div
             id="em-nav-nav"
             ref="menuCollapse"
-            class="navbar-collapse collapse order-lg-1"
+            class="em-navbar-collapse collapse order-lg-1"
             style="">
             <ul class="navbar-nav ml-auto mr-md-3">
               <RouterLink
@@ -98,6 +100,11 @@ export default defineComponent({
   mounted() {
     const targetElement = this.$refs.menuCollapse as Element;
     this.menuButton = new Collapse(targetElement, { toggle: false });
+  },
+  methods: {
+    menuToggle() {
+      this.menuButton?.toggle();
+    }
   }
 })
 </script>
@@ -135,6 +142,21 @@ export default defineComponent({
     }
   }
 
+  .em-navbar-collapse {
+    flex-basis: 100%;
+    flex-grow: 1;
+    align-items: center;
+
+    @include respond-below(md) {
+      margin-top: 0.5rem;
+    }
+
+    @include respond-above(md) {
+      display: flex !important;
+      flex-basis: auto;
+    }
+  }
+
   .em-nav-navbar-light {
     background: white !important;
     z-index: 3;
@@ -148,6 +170,10 @@ export default defineComponent({
       position: relative;
       top: 0;
       padding: 10px 15px;
+
+      .container {
+        padding: 0;
+      }
     }
 
     .navbar-brand {

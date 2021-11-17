@@ -1,6 +1,7 @@
 import {IdentityStorageRecord} from "@/models/identity-storage-record";
 import storageService from "@/services/storage-service";
 import {validateAccessTokenExpiration} from "@/utils/helpers";
+import jwtDecode, {JwtPayload} from "jwt-decode";
 
 interface IdentityModuleState {
     identityRecords: Array<IdentityStorageRecord>;
@@ -19,10 +20,19 @@ export default {
         identityRecords(state: IdentityModuleState) {
             return state.identityRecords;
         },
-        authenticated(state: IdentityModuleState) {
+        authenticated(state: IdentityModuleState, getters: any) {
+            return getters.currentIdentityRecord && validateAccessTokenExpiration(getters.currentIdentityRecord.accessToken);
+        },
+        currentIdentityRecord(state: IdentityModuleState)  {
             const selectedApplicationId = storageService.getSelectedApplicationId();
-            const identityRecord = state.identityRecords.find(x => x.applicationId === selectedApplicationId);
-            return identityRecord && validateAccessTokenExpiration(identityRecord.accessToken);
+            return state.identityRecords.find(x => x.applicationId === selectedApplicationId);
+        },
+        decodedIdentity(state: IdentityModuleState, getters: any) {
+            if (!getters.currentIdentityRecord) {
+                return null;
+            }
+
+            return jwtDecode<JwtPayload>(getters.currentIdentityRecord.accessToken);
         }
     },
     mutations: {

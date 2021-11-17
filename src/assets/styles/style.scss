@@ -12,6 +12,8 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 @import "../../../node_modules/@mdi/font/scss/materialdesignicons";
 
+@import "mixins";
+
 @import "mixins/animation";
 @import "mixins/background";
 @import "mixins/badges";

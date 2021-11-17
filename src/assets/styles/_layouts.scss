@@ -169,3 +169,21 @@
         }
     }
 }
+
+.navbar-toggle-menu {
+    @include respond-above(md) {
+        display: none;
+    }
+}
+
+#sidebar-collapse-btn {
+    @include respond-below(md) {
+        display: none;
+    }
+}
+
+.show-mobile-menu {
+    .sidebar-offcanvas {
+        left: 0;
+    }
+}

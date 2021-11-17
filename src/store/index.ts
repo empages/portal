@@ -3,6 +3,8 @@ import settingsModule from "@/store/modules/settings-module";
 import notificationModule from "@/store/modules/notification-module";
 import identityModule from "@/store/modules/identity-module";
 import sidebarModule from "@/store/modules/sidebar-module";
+import breadcrumbsModule from "@/store/modules/breadcrumbs-module";
+import navActionsModule from "@/store/modules/nav-actions-module";
 
 const store: Store<MainState> = createStore({
     state (): MainState {
@@ -17,7 +19,9 @@ const store: Store<MainState> = createStore({
         settingsModule,
         notificationModule,
         identityModule,
-        sidebarModule
+        sidebarModule,
+        breadcrumbsModule,
+        navActionsModule
     }
 })
 

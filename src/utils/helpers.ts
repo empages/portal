@@ -19,6 +19,11 @@ export function validateAccessTokenExpiration(token: string): boolean {
     return Date.now() < ((decodedToken.exp || 0) * 1000);
 }
 
+export function isUrlAbsolute(url: string): boolean {
+    const regex = new RegExp('^(?:[a-z]+:)?//', 'i');
+    return regex.test(url);
+}
+
 export const normalizeRoute = function (route: string): string {
     if (route && route.trim() !== '') {
         route = route.toLowerCase().trim();

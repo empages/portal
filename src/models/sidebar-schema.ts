@@ -1,7 +1,7 @@
 import {SidebarMenuSection} from "@/models/sidebar-menu-section";
-import {SidebarEssentialLink} from "@/models/sidebar-essential-link";
+import {SidebarShortcutLink} from "@/models/sidebar-shortcut-link";
 
 export class SidebarSchema {
     sections: Array<SidebarMenuSection>;
-    essentialLinks: Array<SidebarEssentialLink>;
+    shortcutsLinks: Array<SidebarShortcutLink>;
 }

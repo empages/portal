@@ -5,34 +5,12 @@
     <ul
       v-if="sidebarSchema"
       class="nav">
-      <li class="nav-item nav-profile">
-        <div class="nav-link">
-          <div class="dropdown">
-            <button
-              id="dropdownAppInstance"
-              class="btn btn-primary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false">
-              <span class="mdi mdi-link-variant" /> Essential Links
-            </button>
-            <div
-              class="dropdown-menu mt-2 p-2"
-              aria-labelledby="dropdownAppInstance">
-              <a
-                class="dropdown-item pt-2 pb-2 pl-1"
-                target="_blank"
-                href="/"><i class="mr-2 mdi mdi-home" /> Home Page</a>
-            </div>
-          </div>
-        </div>
-      </li>
       <EmAdminSidebarSection
         v-for="(section, sectionIndex) in sidebarSchema.sections"
         :key="`admin-menu-section-${sectionIndex}`"
         :section="section"
         :section-index="sectionIndex" />
+      <EmAdminSidebarShortcutsSection :links="sidebarSchema.shortcutsLinks" />
       <li class="nav-item main-nav-item">
         <a
           id="sidebar-collapse-btn"
@@ -55,10 +33,11 @@
 import { SidebarSchema } from '@/models/sidebar-schema'
 import {defineComponent} from 'vue'
 import EmAdminSidebarSection from "@/components/layouts/EmAdminSidebarSection.vue";
+import EmAdminSidebarShortcutsSection from "@/components/layouts/EmAdminSidebarShortcutsSection.vue";
 
 export default defineComponent({
   name: "EmAdminSidebar",
-  components: {EmAdminSidebarSection},
+  components: {EmAdminSidebarShortcutsSection, EmAdminSidebarSection},
   emits: ['sidebar:toggle'],
   data() {
     return {
@@ -76,9 +55,7 @@ export default defineComponent({
   watch: {
     sidebarMini(value: boolean): void {
       this.$emit('sidebar:toggle', value)
-    }
-  },
-  watcher: {
+    },
     currentRoute() {
       this.$store.commit('sidebarModule/reloadSidebarSchema', this.currentRoute);
     }
@@ -97,5 +74,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+  .dropdown-menu {
+    min-width: 100%;
+  }
 </style>

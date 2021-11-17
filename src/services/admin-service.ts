@@ -4,6 +4,7 @@ import {AdminAuthResponse} from "@/models/admin-auth-response";
 import {LoginWithTwoFactorAuthenticationRequest} from "@/models/login-with-two-factor-authentication-request";
 import {SidebarSchema} from "@/models/sidebar-schema";
 import {EmPageTableViewModel} from "@/models/em-page-table-view-model";
+import {EmPageDetailsViewModel} from "@/models/em-page-details-view-model";
 
 class AdminService extends EmService {
     constructor() {
@@ -34,8 +35,8 @@ class AdminService extends EmService {
         return await this.getData<EmPageTableViewModel>(`/admin/em-pages/table/${route}`);
     }
 
-    public async getDetailsViewModel(route: any, modelId: string): Promise<any> {
-        return await this.getData<any>(`/admin/em-pages/details/${route}/${modelId}`);
+    public async getDetailsViewModel(route: any, modelId: string): Promise<EmPageDetailsViewModel> {
+        return await this.getData<EmPageDetailsViewModel>(`/admin/em-pages/details/${route}/${modelId}`);
     }
 
     public async getFormViewModel(route: any, modelId: string | null): Promise<any> {

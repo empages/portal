@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
-import {adminAuthenticatedGuard, adminGuard} from "@/router/guards";
+import {adminAuthenticatedGuard, adminGuard, settingsGuard} from "@/router/guards";
 
 const routes: Array<RouteRecordRaw> = [
     { name: 'home', path: '/', component: () => import('@/pages/HomePage.vue') },
@@ -14,12 +14,12 @@ const routes: Array<RouteRecordRaw> = [
     { name: 'admin-create-form-view-em-page', path: '/admin/:route/create', component: () => import('@/pages/AdminCreateFormViewEmPage.vue'), beforeEnter: adminGuard },
     { name: 'admin-edit-form-view-em-page', path: '/admin/:route/:id/edit', component: () => import('@/pages/AdminEditFormViewEmPage.vue'), beforeEnter: adminGuard },
     { name: 'admin-feature-view-em-page', path: '/admin/:route/:id/:feature', component: () => import('@/pages/AdminFeatureViewEmPage.vue'), beforeEnter: adminGuard },
-    { name: 'client-builder', path: '/client-builder', redirect: '/client-builder/scaffold' },
-    { name: 'client-builder-scaffold', path: '/client-builder/scaffold', component: () => import('@/pages/ClientBuilderScaffoldPage.vue') },
-    { name: 'client-builder-endpoints', path: '/client-builder/endpoints', component: () => import('@/pages/ClientBuilderEndpointsPage.vue') },
-    { name: 'client-builder-languages', path: '/client-builder/languages', component: () => import('@/pages/ClientBuilderLanguagesPage.vue') },
-    { name: 'client-builder-translations', path: '/client-builder/translations', component: () => import('@/pages/ClientBuilderTranslationsPage.vue') },
-    { name: 'client-builder-static-content', path: '/client-builder/static-content', component: () => import('@/pages/ClientBuilderStaticContentPage.vue') },
+    { name: 'client-builder', path: '/client-builder', redirect: '/client-builder/scaffold', beforeEnter: settingsGuard },
+    { name: 'client-builder-scaffold', path: '/client-builder/scaffold', component: () => import('@/pages/ClientBuilderScaffoldPage.vue'), beforeEnter: settingsGuard },
+    { name: 'client-builder-endpoints', path: '/client-builder/endpoints', component: () => import('@/pages/ClientBuilderEndpointsPage.vue'), beforeEnter: settingsGuard },
+    { name: 'client-builder-languages', path: '/client-builder/languages', component: () => import('@/pages/ClientBuilderLanguagesPage.vue'), beforeEnter: settingsGuard },
+    { name: 'client-builder-translations', path: '/client-builder/translations', component: () => import('@/pages/ClientBuilderTranslationsPage.vue'), beforeEnter: settingsGuard },
+    { name: 'client-builder-static-content', path: '/client-builder/static-content', component: () => import('@/pages/ClientBuilderStaticContentPage.vue'), beforeEnter: settingsGuard },
     { name: 'not-found', path: '/:pathMatch(.*)*', component: () => import('@/pages/NotFoundPage.vue') },
 ]
 

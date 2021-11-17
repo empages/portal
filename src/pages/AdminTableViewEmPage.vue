@@ -1,7 +1,7 @@
 <template>
   <EmAdminLayout>
     <EmTable
-      :columns="tableColumns"
+      :columns="[...tableColumns, ...actionColumns]"
       :data="tableData">
       <template
         v-for="(item, itemIndex) in tableColumns"
@@ -14,6 +14,21 @@
           :renderer-value="getCell(data, item.key)?.value"
           v-bind="getCell(data, item.key)?.parameters" />
       </template>
+      <template #actions="{ data, value }">
+        <div class="d-flex">
+          <div
+            v-for="(action, actionIndex) in orderedActions(value)"
+            :key="`row-${data.identifier}-action-${actionIndex}`"
+            class="row-action-container">
+            <RouterLink
+              class="btn btn-primary px-2 py-1"
+              :title="action.title"
+              :to="action.actionUrl">
+              {{ action.title }}
+            </RouterLink>
+          </div>
+        </div>
+      </template>
     </EmTable>
   </EmAdminLayout>
 </template>
@@ -24,8 +39,10 @@ import EmAdminLayout from "@/components/layouts/EmAdminLayout.vue";
 import adminService from '@/services/admin-service';
 import {EmPageTableViewModel} from '@/models/em-page-table-view-model';
 import {EmPageTableHeadCellModel} from '@/models/em-page-table-head-cell-model';
-import EmTable, {EmTableColumn} from "@/components/base/EmTable.vue";
+import EmTable from "@/components/base/EmTable.vue";
 import {EmPageTableRowModel} from "@/models/em-page-table-row-model";
+import _ from 'lodash';
+import {ActionModel} from "@/models/action-model";
 
 export default defineComponent({
 name: "AdminTableViewEmPage",
@@ -53,10 +70,23 @@ name: "AdminTableViewEmPage",
       });
     })
 
+    const actionColumns = computed(() => {
+      if (!viewModel.value?.hasActions) {
+        return []
+      }
+
+      return [{
+        key: 'actions',
+        title: 'Actions',
+        thClass: 'fit',
+      }]
+    })
+
     return {
       viewModel,
       tableData,
-      tableColumns
+      tableColumns,
+      actionColumns
     }
   },
   computed: {
@@ -66,17 +96,24 @@ name: "AdminTableViewEmPage",
   },
   watch: {
     async route(value) {
-      this.viewModel = await adminService.getTableViewModel(value);
-      console.log(this.viewModel);
+      await this.loadViewModel(value);
     }
   },
   async mounted() {
-    this.viewModel = await adminService.getTableViewModel(this.route);
+    await this.loadViewModel(this.route);
   },
   methods: {
     getCell(row: EmPageTableRowModel, property: string) {
       return row.cells.find(x => x.property === property)
     },
+    async loadViewModel(route: any) {
+      this.viewModel = await adminService.getTableViewModel(route);
+      this.$store.commit('breadcrumbsModule/setBreadcrumbs', this.viewModel.context.breadcrumbs);
+      this.$store.commit('navActionsModule/setActions', this.viewModel.context.navbarActions);
+    },
+    orderedActions(actions: Array<ActionModel>): Array<ActionModel> {
+      return _.sortBy(actions, x => x.order);
+    }
   }
 })
 </script>

@@ -8,7 +8,7 @@ $primary: $base;
 $secondary: $base;
 $success: #309700;
 $info: #00aeef;
-$warning: #ffaf00;
+$warning: #cf9411;
 $danger: #ff6258;
 $light: #e3e3e3;
 $dark: #23282d;
@@ -63,7 +63,7 @@ $base-focus-box-shadow: rgb(152 208 72 / 45%);
 
 $footer-height: 60px;
 
-$type-1: 'Nunito', sans-serif;
+$type-1: inherit;
 $type-2: $type-1;
 $default-font-size: 0.875rem; //14px
 $text-muted: #858585;

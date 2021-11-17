@@ -184,8 +184,9 @@ pre {
     flex-direction: column;
     background: $content-bg-main;
 
-    @media (max-width: 991px) {
+    @include respond-below(md) {
         margin-left: 0;
+        padding-left: 0;
         width: 100%;
     }
 }
@@ -283,4 +284,13 @@ pre {
 
 .cursor-pointer {
     cursor: pointer !important;
+}
+
+.dropdown-item {
+    &:active {
+        background: $base-dark;
+        .dropdown-link {
+            color: $white !important;
+        }
+    }
 }
