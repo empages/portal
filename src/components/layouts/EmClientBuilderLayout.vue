@@ -36,22 +36,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 import EmClientBuilderNavigation from "@/components/layouts/EmClientBuilderNavigation.vue";
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
 import logo from "@/assets/images/logo_text_white.svg";
 import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 
-export default defineComponent({
-  name: "EmClientBuilderLayout",
-  components: {EmHomePageButton, EmConfigurationDropdown, EmClientBuilderNavigation},
-  setup() {
-    return {
-      logo
-    }
-  }
-})
 </script>
 
 <style scoped lang="scss">

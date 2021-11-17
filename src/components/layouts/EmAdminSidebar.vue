@@ -29,48 +29,44 @@
   </nav>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { SidebarSchema } from '@/models/sidebar-schema'
-import {defineComponent} from 'vue'
+import {computed, ComputedRef, defineEmits, onMounted, ref, watch} from 'vue'
 import EmAdminSidebarSection from "@/components/layouts/EmAdminSidebarSection.vue";
 import EmAdminSidebarShortcutsSection from "@/components/layouts/EmAdminSidebarShortcutsSection.vue";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
 
-export default defineComponent({
-  name: "EmAdminSidebar",
-  components: {EmAdminSidebarShortcutsSection, EmAdminSidebarSection},
-  emits: ['sidebar:toggle'],
-  data() {
-    return {
-      sidebarMini: false
-    }
-  },
-  computed: {
-    currentRoute() {
-      return this.$route.fullPath;
-    },
-    sidebarSchema(): SidebarSchema | null {
-      return this.$store.getters['sidebarModule/sidebarSchema'];
-    }
-  },
-  watch: {
-    sidebarMini(value: boolean): void {
-      this.$emit('sidebar:toggle', value)
-    },
-    currentRoute() {
-      this.$store.commit('sidebarModule/reloadSidebarSchema', this.currentRoute);
-    }
-  },
-  async mounted() {
-    if (!this.sidebarSchema) {
-      await this.$store.dispatch('sidebarModule/loadSidebarSchema');
-    }
+const emit = defineEmits(['sidebar:toggle'])
+const routeInstance = useRoute();
+const store = useStore();
 
-    this.$store.commit('sidebarModule/reloadSidebarSchema', this.currentRoute);
-  },
-  methods: {
+const sidebarMini = ref(false);
 
-  }
+const currentRoute = computed(() => {
+  return routeInstance.fullPath;
 })
+
+const sidebarSchema: ComputedRef<SidebarSchema> = computed(() => {
+  return store.getters['sidebarModule/sidebarSchema'];
+})
+
+watch(currentRoute, (value) => {
+  store.commit('sidebarModule/reloadSidebarSchema', value);
+})
+
+watch(sidebarMini, (value) => {
+  emit('sidebar:toggle', value)
+})
+
+onMounted(async () => {
+  if (!sidebarSchema.value) {
+    await store.dispatch('sidebarModule/loadSidebarSchema');
+  }
+
+  store.commit('sidebarModule/reloadSidebarSchema', currentRoute.value);
+})
+
 </script>
 
 <style scoped>

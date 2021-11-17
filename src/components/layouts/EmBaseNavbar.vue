@@ -66,47 +66,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {onMounted, ref, Ref} from 'vue'
 import { Collapse } from 'bootstrap'
-import logoText from "@/assets/images/logo_text.svg";
+import logo from "@/assets/images/logo_text.svg";
 
-export default defineComponent({
-  name: "EmBaseNavbar",
-  data() {
-    return {
-      logo: logoText,
-      menuButton: null as  Collapse | null,
-      menus: [
-        {
-          name: 'Home',
-          route: 'home'
-        },
-        {
-          name: 'Settings',
-          route: 'settings'
-        },
-        {
-          name: 'Admin',
-          route: 'admin-dashboard'
-        },
-        {
-          name: 'Client Builder',
-          route: 'client-builder'
-        }
-      ]
-    }
-  },
-  mounted() {
-    const targetElement = this.$refs.menuCollapse as Element;
-    this.menuButton = new Collapse(targetElement, { toggle: false });
-  },
-  methods: {
-    menuToggle() {
-      this.menuButton?.toggle();
-    }
-  }
+const menuButton: Ref<Collapse | null> = ref(null);
+const menus = [
+    { name: 'Home', route: 'home' },
+    { name: 'Settings', route: 'settings' },
+    { name: 'Admin', route: 'admin-dashboard' },
+    { name: 'Client Builder', route: 'client-builder' }
+]
+
+const menuCollapse: Ref<Element | null> = ref(null);
+
+onMounted(() => {
+  const targetElement = menuCollapse.value as Element;
+  menuButton.value = new Collapse(targetElement, { toggle: false });
 })
+
+function menuToggle() {
+  menuButton.value?.toggle();
+}
+
 </script>
 
 <style scoped lang="scss">

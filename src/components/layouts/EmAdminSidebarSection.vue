@@ -45,45 +45,28 @@
   </li>
 </template>
 
-<script lang="ts">
-import {computed, defineComponent} from 'vue'
+<script lang="ts" setup>
+import {computed, defineProps} from 'vue'
 import {SidebarMenuSection} from "@/models/sidebar-menu-section";
 
-export default defineComponent({
-  name: "EmAdminSidebarSection",
-  props: {
-    section: {
-      type: Object as () => SidebarMenuSection,
-      required: true
-    },
-    sectionIndex: {
-      type: Number,
-      required: true
-    }
-  },
-  setup(props: any) {
-    const sectionId = `section-${props.sectionIndex}`;
+const props = defineProps<{
+  section: SidebarMenuSection,
+  sectionIndex: number
+}>()
 
-    const sectionRoute = computed(() => {
-      let route: string | undefined = "";
-      if (props.section.isSingle && !props.section.isDropdown) {
-        route = props.section.singleLink?.defaultRoute;
-      }
-      else {
-        route = `#${sectionId}`;
-      }
+const sectionId = `section-${props.sectionIndex}`;
 
-      return route;
-    });
-
-
-
-    return {
-      sectionId,
-      sectionRoute
-    }
+const sectionRoute = computed(() => {
+  let route: string | undefined = "";
+  if (props.section.isSingle && !props.section.isDropdown) {
+    route = props.section.singleLink?.defaultRoute;
   }
-})
+  else {
+    route = `#${sectionId}`;
+  }
+
+  return route;
+});
 </script>
 
 <style scoped>

@@ -14,23 +14,14 @@
   </ul>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
-
-export default defineComponent({
-  name: "EmClientBuilderNavigation",
-  data() {
-    return {
-      menuItems: [
-        { title: 'Scaffold', route: 'client-builder-scaffold', icon: 'mdi mdi-arrow-right-drop-circle' },
-        { title: 'Endpoints', route: 'client-builder-endpoints', icon: 'mdi mdi-cloud-braces' },
-        { title: 'Languages', route: 'client-builder-languages', icon: 'mdi mdi-comment-processing' },
-        { title: 'Translations', route: 'client-builder-translations', icon: 'mdi mdi-translate' },
-        { title: 'Static Content', route: 'client-builder-static-content', icon: 'mdi mdi-format-float-left' }
-      ]
-    }
-  }
-})
+<script lang="ts" setup>
+const menuItems = [
+  { title: 'Scaffold', route: 'client-builder-scaffold', icon: 'mdi mdi-arrow-right-drop-circle' },
+  { title: 'Endpoints', route: 'client-builder-endpoints', icon: 'mdi mdi-cloud-braces' },
+  { title: 'Languages', route: 'client-builder-languages', icon: 'mdi mdi-comment-processing' },
+  { title: 'Translations', route: 'client-builder-translations', icon: 'mdi mdi-translate' },
+  { title: 'Static Content', route: 'client-builder-static-content', icon: 'mdi mdi-format-float-left' }
+]
 </script>
 
 <style scoped>

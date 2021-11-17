@@ -25,41 +25,35 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {computed, ref, watch} from 'vue'
 import EmAdminFooter from "@/components/layouts/EmAdminFooter.vue";
 import EmAdminNavbar from "@/components/layouts/EmAdminNavbar.vue";
 import EmAdminSidebar from "@/components/layouts/EmAdminSidebar.vue";
 import EmBreadcrumbs from "@/components/layouts/EmBreadcrumbs.vue";
+import {useRoute} from "vue-router";
 
-export default defineComponent({
-  name: "EmAdminLayout",
-  components: {EmBreadcrumbs, EmAdminSidebar, EmAdminNavbar, EmAdminFooter},
-  data() {
-    return {
-      sidebarMini: false,
-      mobileMenuToggled: false
-    }
-  },
-  computed: {
-    minWrapperHeight() {
-      return `${window.innerHeight - 135}px`;
-    },
-    route() {
-      return this.$route.fullPath;
-    }
-  },
-  watch: {
-    route() {
-      this.mobileMenuToggled = false;
-    }
-  },
-  methods: {
-    toggleMobileMenu() {
-      this.mobileMenuToggled = !this.mobileMenuToggled;
-    }
-  }
+const routeInstance = useRoute();
+
+const sidebarMini = ref(false);
+const mobileMenuToggled = ref(false);
+
+const minWrapperHeight = computed(() => {
+  return `${window.innerHeight - 135}px`;
 })
+
+const route = computed(() => {
+  return routeInstance.fullPath;
+})
+
+function toggleMobileMenu() {
+  mobileMenuToggled.value = !mobileMenuToggled.value;
+}
+
+watch(route, () => {
+  mobileMenuToggled.value = false;
+})
+
 </script>
 
 <style scoped>

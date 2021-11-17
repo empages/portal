@@ -45,38 +45,35 @@
   </EmDropdown>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {computed} from 'vue'
 import EmDropdown from "@/components/base/EmDropdown.vue";
 import moment from 'moment';
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
-export default defineComponent({
-  name: "EmAdminUserDropdown",
-  components: {EmDropdown},
-  data() {
-    return {
-      menuItems: [
-        { title: 'Two Factor Authentication', route: 'admin-manage-2fa', icon: 'mdi-qrcode-edit' },
-        { title: 'Manage Email', route: 'admin-manage-email', icon: 'mdi-email-edit-outline' },
-        { title: 'Manage Password', route: 'admin-manage-password', icon: 'mdi-form-textbox-password' }
-      ]
-    }
-  },
-  computed: {
-    identity() {
-      return this.$store.getters['identityModule/decodedIdentity'];
-    },
-    expiration(): string {
-      const expirationDate = new Date(((this.identity.exp || 0) * 1000));
-      return moment(expirationDate).format('YYYY-MM-DD HH:mm');
-    }
-  },
-  methods: {
-    logout() {
-      this.$router.go(0);
-    }
-  }
+const menuItems = [
+  { title: 'Two Factor Authentication', route: 'admin-manage-2fa', icon: 'mdi-qrcode-edit' },
+  { title: 'Manage Email', route: 'admin-manage-email', icon: 'mdi-email-edit-outline' },
+  { title: 'Manage Password', route: 'admin-manage-password', icon: 'mdi-form-textbox-password' }
+]
+
+const store = useStore();
+const router = useRouter();
+
+const identity = computed(() => {
+  return store.getters['identityModule/decodedIdentity'];
 })
+
+const expiration = computed(() => {
+  const expirationDate = new Date(((identity.value.exp || 0) * 1000));
+  return moment(expirationDate).format('YYYY-MM-DD HH:mm');
+})
+
+function logout() {
+  router.go(0);
+}
+
 </script>
 
 <style scoped lang="scss">

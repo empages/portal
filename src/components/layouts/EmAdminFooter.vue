@@ -9,21 +9,8 @@
   </footer>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 import CopyrightText from "@/components/misc/CopyrightText.vue";
-
-export default defineComponent({
-  name: "EmAdminFooter",
-  components: {CopyrightText},
-  setup() {
-    const year = new Date().getFullYear();
-
-    return {
-      year
-    }
-  }
-})
 </script>
 
 <style scoped>

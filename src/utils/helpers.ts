@@ -68,3 +68,21 @@ export function getMessagesFromErrorResponse(error: AxiosError) {
 
     return errors;
 }
+
+export function encodeHtml(htmlString: string): string {
+    const buf = [];
+
+    for (let i=htmlString.length-1;i>=0;i--) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        buf.unshift(['&#', htmlString[i].charCodeAt(), ';'].join(''));
+    }
+
+    return buf.join('');
+}
+
+export function decodeHtml(htmlString: string): string {
+    return htmlString.replace(/&#(\d+);/g, function(match, dec) {
+        return String.fromCharCode(dec);
+    });
+}

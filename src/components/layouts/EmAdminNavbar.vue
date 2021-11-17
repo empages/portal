@@ -40,8 +40,8 @@
   </nav>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {defineEmits} from 'vue'
 import logo from '@/assets/images/logo_white.svg'
 import logoText from '@/assets/images/logo_text_white.svg'
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
@@ -49,17 +49,8 @@ import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 import EmAdminUserDropdown from "@/components/layouts/EmAdminUserDropdown.vue";
 import EmAdminNavbarActions from "@/components/layouts/EmAdminNavbarActions.vue";
 
-export default defineComponent({
-  name: "EmAdminNavbar",
-  components: {EmAdminNavbarActions, EmAdminUserDropdown, EmHomePageButton, EmConfigurationDropdown},
-  emits: ['menu:toggle'],
-  data() {
-    return {
-      logo: logo,
-      logoText: logoText
-    }
-  }
-})
+defineEmits(['menu:toggle'])
+
 </script>
 
 <style scoped lang="scss">

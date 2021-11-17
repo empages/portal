@@ -8,18 +8,8 @@
   </span>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
-
-export default defineComponent({
-  name: "CopyrightText",
-  setup() {
-    const year = new Date().getFullYear();
-    return {
-      year
-    }
-  }
-})
+<script lang="ts" setup>
+const year = new Date().getFullYear();
 </script>
 
 <style scoped>

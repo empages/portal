@@ -7,18 +7,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script lang="ts" setup>
+import {computed} from "vue";
 import EmToast from "@/components/base/EmToast.vue";
-export default defineComponent({
-  name: "EmNotifications",
-  components: {EmToast},
-  computed: {
-    notifications() {
-      return this.$store.getters['notificationModule/notifications'];
-    }
-  }
+import {useStore} from "vuex";
+
+const store = useStore();
+const notifications = computed(() => {
+  return store.getters['notificationModule/notifications'];
 })
+
 </script>
 
 <style scoped>

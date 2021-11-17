@@ -31,23 +31,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
-import logoText from '@/assets/images/logo_text.svg'
+<script lang="ts" setup>
+import logo from '@/assets/images/logo_text.svg'
 import CopyrightText from "@/components/misc/CopyrightText.vue";
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
 
-export default defineComponent({
-  name: "EmAdminAuthLayout",
-  components: {EmConfigurationDropdown, CopyrightText},
-  setup() {
-    const logo = logoText;
-
-    return {
-      logo
-    }
-  }
-})
 </script>
 
 <style scoped>

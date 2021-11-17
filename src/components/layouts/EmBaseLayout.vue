@@ -13,15 +13,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 import EmBaseNavbar from "@/components/layouts/EmBaseNavbar.vue";
-
-export default defineComponent({
-  name: "EmBaseLayout",
-  components: {EmBaseNavbar},
-
-})
 </script>
 
 <style scoped lang="scss">

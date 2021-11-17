@@ -61,79 +61,71 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {computed, ComputedRef, onMounted} from 'vue'
 import EmDropdown from "@/components/base/EmDropdown.vue";
 import {Application} from "@/models/application";
 import accessService from '@/services/access-service';
 import clientBuilderService from '@/services/client-builder-service';
 import adminService from '@/services/admin-service';
 import { useNotifications } from '@/composables/notifications-composable';
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
-export default defineComponent({
-  name: "EmConfigurationDropdown",
-  components: {EmDropdown},
-  setup() {
-    return {
-      ...useNotifications(),
-    }
-  },
-  data() {
-    return {
+const notifications = useNotifications();
+const store = useStore();
+const router = useRouter();
 
-    }
-  },
-  computed: {
-    applications(): Array<Application> {
-      return this.$store.getters['settingsModule/applications'];
-    },
-    selectedApplication(): Application {
-      return this.$store.getters['settingsModule/selectedApplication']
-    },
-    isSelectedApplicationConnected(): boolean {
-      return this.$store.getters['settingsModule/isSelectedApplicationConnected'];
-    }
-  },
-  async mounted() {
-    await this.refreshApplicationState(true);
-  },
-  methods: {
-    async refreshApplicationState(ignoreSuccessMessage = false) {
-      let isSelectedApplicationConnected = false;
-      try {
-        const application = this.$store.getters["settingsModule/selectedApplication"];
-        const response = await accessService.verifyPortalAccess(application);
-        if (!response.verified) {
-          this.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
-          isSelectedApplicationConnected = false;
-        }
-        else {
-          if (!ignoreSuccessMessage) {
-            this.showSuccessToast(`Emeraude Portal has been connected with '${application.name}'`);
-          }
+const applications = computed(() => {
+  return store.getters['settingsModule/applications'];
+})
 
-          isSelectedApplicationConnected = true;
-          adminService.setApplication(application);
-          clientBuilderService.setApplication(application);
-        }
-      }
-      catch (e) {
-        this.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
-        isSelectedApplicationConnected = false;
+const selectedApplication: ComputedRef<Application> = computed(() => {
+  return store.getters['settingsModule/selectedApplication']
+})
+
+const isSelectedApplicationConnected = computed(() => {
+  return store.getters['settingsModule/isSelectedApplicationConnected'];
+})
+
+async function refreshApplicationState(ignoreSuccessMessage = false) {
+  let isSelectedApplicationConnected = false;
+  try {
+    const application = store.getters["settingsModule/selectedApplication"];
+    const response = await accessService.verifyPortalAccess(application);
+    if (!response.verified) {
+      notifications.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
+      isSelectedApplicationConnected = false;
+    }
+    else {
+      if (!ignoreSuccessMessage) {
+        notifications.showSuccessToast(`Emeraude Portal has been connected with '${application.name}'`);
       }
 
-      this.$store.commit('settingsModule/setIsSelectedApplicationConnected', isSelectedApplicationConnected);
-
-    },
-    async selectApplication(applicationId: string): Promise<void> {
-      if (this.selectedApplication && this.selectedApplication.id === applicationId) {
-        return;
-      }
-
-      this.$store.commit('settingsModule/selectApplication', applicationId);
-      this.$router.go(0);
+      isSelectedApplicationConnected = true;
+      adminService.setApplication(application);
+      clientBuilderService.setApplication(application);
     }
   }
+  catch (e) {
+    notifications.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
+    isSelectedApplicationConnected = false;
+  }
+
+  store.commit('settingsModule/setIsSelectedApplicationConnected', isSelectedApplicationConnected);
+}
+
+async function selectApplication(applicationId: string): Promise<void> {
+  if (selectedApplication.value && selectedApplication.value.id === applicationId) {
+    return;
+  }
+
+  store.commit('settingsModule/selectApplication', applicationId);
+  router.go(0);
+}
+
+onMounted(async () => {
+  await refreshApplicationState(true);
 })
 </script>
 
