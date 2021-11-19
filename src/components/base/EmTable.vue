@@ -4,7 +4,7 @@
       <thead class="text-left">
         <tr>
           <th
-            v-for="column in columns"
+            v-for="column in props.columns"
             :key="`thead-th-${column.key}`"
             class="p-2 h-auto"
             :class="column.thClass">
@@ -14,10 +14,10 @@
       </thead>
       <tbody>
         <tr
-          v-for="(dataItem, dataItemIndex) in data"
+          v-for="(dataItem, dataItemIndex) in props.data"
           :key="`data-item-${dataItemIndex}`">
           <td
-            v-for="column in columns"
+            v-for="column in props.columns"
             :key="`tbody-td-${column.key}`"
             class="px-2 py-0 text-left"
             :class="column.tdClass">
@@ -34,8 +34,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script lang="ts" setup>
+import {defineProps} from "vue";
 
 export interface EmTableColumn {
   key: string;
@@ -44,19 +44,11 @@ export interface EmTableColumn {
   tdClass?: string | undefined;
 }
 
-export default defineComponent({
-  name: "EmTable",
-  props: {
-    columns: {
-      type: Array as () => Array<EmTableColumn>,
-      required: true
-    },
-    data: {
-      type: Array as () => Array<any>,
-      required: true
-    }
-  }
-})
+const props = defineProps<{
+  columns: Array<EmTableColumn>,
+  data: Array<any>
+}>();
+
 </script>
 
 <style scoped>

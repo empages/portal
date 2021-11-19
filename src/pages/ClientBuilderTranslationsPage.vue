@@ -4,7 +4,7 @@
       :title="title"
       :sub-title="subTitle">
       <TranslationKeyForm
-        v-if="languages"
+        v-if="languages && languages.length"
         :languages="languages"
         @form:submit="submitForm" />
       <hr>
@@ -98,13 +98,20 @@ export default defineComponent({
       newKey: {
         key: '',
         languageValues: []
-      }
+      },
+      debounceFunc: (inputEvent: any) => console.log(inputEvent)
     }
   },
   async mounted() {
     this.loadQueryParams();
     await this.loadLanguages();
     await this.loadGridData();
+
+    this.debounceFunc = _.debounce((inputEvent) => {
+      this.searchQuery = inputEvent.target.value;
+      this.page = 1;
+      this.loadGridData();
+    }, 500)
   },
   methods: {
     async deleteKey(keyId: number) {
@@ -118,11 +125,7 @@ export default defineComponent({
       }
     },
     debounceFilterInputHandler(event: Event) {
-      _.debounce((event) => {
-        this.searchQuery = event.target.value;
-        this.page = 1;
-        this.loadGridData();
-      }, 500)(event)
+      this.debounceFunc(event)
     },
     async editKey(key: TranslationKey, successCallback: () => void) {
       try {

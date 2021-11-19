@@ -1,30 +1,25 @@
 <template>
-  <div :class="`form-group ${classes}`">
+  <div :class="`form-group ${props.classes}`">
     <label
-      v-if="label"
+      v-if="props.label"
       class="form-label">
-      {{ label }}
+      {{ props.label }}
     </label>
     <slot />
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {defineProps, withDefaults} from 'vue'
 
-export default defineComponent({
-  name: "EmFormGroup",
-  props: {
-    label: {
-      type: String,
-      default: null
-    },
-    classes: {
-      type: String,
-      default: () => 'mb-2'
-    }
-  }
-})
+const props = withDefaults(defineProps<{
+  label: string,
+  classes: string;
+}>(), {
+  label: '',
+  classes: 'mb-2'
+});
+
 </script>
 
 <style scoped>

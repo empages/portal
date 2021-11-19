@@ -4,13 +4,8 @@
   </EmAdminLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import EmAdminLayout from "@/components/layouts/EmAdminLayout.vue";
-export default defineComponent({
-name: "AdminEditFormViewEmPage",
-  components: {EmAdminLayout}
-})
 </script>
 
 <style scoped>

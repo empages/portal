@@ -1,28 +1,20 @@
 <template>
   <div class="em-runtime-component">
     <Component
-      :is="name"
-      v-bind="args" />
+      :is="props.name"
+      v-bind="props.args" />
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {defineProps, withDefaults} from 'vue'
 
-export default defineComponent({
-  name: "EmRuntimeComponent",
-  props: {
-    name: {
-      type: String,
-      required: true
-    },
-    args: {
-      type: Object,
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      default: () => {}
-    }
-  }
-})
+const props = withDefaults(defineProps<{
+  name: string,
+  args: any
+}>(),{
+  args: {}
+});
 </script>
 
 <style scoped>

@@ -31,7 +31,7 @@ class AdminService extends EmService {
         return await this.getData<SidebarSchema>('/admin/general/admin-menus');
     }
 
-    public async getTableViewModel(route: any): Promise<EmPageTableViewModel> {
+    public async getTableViewModel(route: string): Promise<EmPageTableViewModel> {
         return await this.getData<EmPageTableViewModel>(`/admin/em-pages/table/${route}`);
     }
 

@@ -29,11 +29,12 @@
 import {BreadcrumbModelItem} from "@/models/breadcrumb-model-item";
 import {computed} from 'vue'
 import {useStore} from "vuex";
+import _ from "lodash";
 
 const store = useStore();
 const breadcrumbs = computed(() => store.getters['breadcrumbsModule/breadcrumbs']);
 const orderMax = computed(() => {
-  return Math.max(breadcrumbs.value.map((x: BreadcrumbModelItem) => x.order));
+  return _.maxBy(breadcrumbs.value, (x: BreadcrumbModelItem) => x.order)?.order ?? -1;
 })
 
 function getBreadcrumbOrderMaxClass(order: number) {

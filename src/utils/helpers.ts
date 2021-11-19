@@ -86,3 +86,30 @@ export function decodeHtml(htmlString: string): string {
         return String.fromCharCode(dec);
     });
 }
+
+export function isKeyValid(event: Event): boolean {
+    let keyEvent = event as KeyboardEvent;
+    if (!keyEvent) {
+        keyEvent = window.event as KeyboardEvent;
+    }
+
+    const charCode = (keyEvent?.which) ? keyEvent.which : keyEvent.code;
+    if ((charCode >= 48 && charCode <= 57) ||
+        (charCode >= 65 && charCode <= 90) ||
+        (charCode >= 97 && charCode <= 122) ||
+        charCode === 95 || charCode === 32) {
+        return true;
+    }
+    else {
+        event.preventDefault();
+        return false;
+    }
+}
+
+export function transformKeyInput(event: Event): string {
+    const target = event.target as HTMLInputElement;
+    let input = target.value.toUpperCase();
+    input = input.replace(/ /g, "_");
+
+    return input;
+}

@@ -1,54 +1,49 @@
 <template>
   <div
-    :id="notification.id"
-    ref="toast"
-    :class="`toast align-items-center ${notification.toastClass}`"
+    :id="props.notification.id"
+    ref="toastElement"
+    :class="`toast align-items-center ${props.notification.toastClass}`"
     role="alert"
     aria-live="assertive"
     aria-atomic="true">
     <div class="d-flex">
       <div class="toast-body">
-        {{ notification.message }}
+        {{ props.notification.message }}
       </div>
       <button
         type="button"
-        :class="`btn-close me-2 m-auto ${notification.closeClass}`"
+        :class="`btn-close me-2 m-auto ${props.notification.closeClass}`"
         data-bs-dismiss="toast"
         aria-label="Close" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ToastNotification } from "@/models/notification";
 import { Toast } from "bootstrap"
-import {defineComponent} from "vue"
+import {defineProps, onMounted, ref, Ref} from "vue"
+import {useStore} from "vuex";
 
-export default defineComponent({
-  name: "EmToast",
-  props: {
-    notification: {
-      type: Object as () => ToastNotification,
-      required: true
-    }
-  },
-  data() {
-    return {
-      toast: null as Toast | null,
-    }
-  },
-  computed: {
+const props = defineProps<{
+  notification: ToastNotification
+}>()
 
-  },
-  mounted() {
-    const toastElement = this.$refs.toast as Element;
-    this.toast = new Toast(toastElement);
-    this.toast.show();
-    toastElement.addEventListener('hidden.bs.toast', () => {
-      this.$store.commit('notificationModule/clearNotification', this.notification.id);
+const store = useStore();
+const toastElement: Ref<Element | null> = ref(null);
+const toast: Ref<Toast | null> = ref(null);
+
+onMounted(() => {
+  if (toastElement.value) {
+    toast.value = new Toast(toastElement.value);
+    toast.value.show();
+    toastElement.value.addEventListener('hidden.bs.toast', () => {
+      store.commit('notificationModule/clearNotification', props.notification.id);
     })
   }
+
 })
+
 </script>
 
 <style scoped>

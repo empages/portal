@@ -1,9 +1,9 @@
 <template>
   <div class="card">
     <div
-      v-if="title"
-      :class="`card-header ${headerClasses}`">
-      <h3 :class="`card-title ${titleClasses}`">
+      v-if="props.title"
+      :class="`card-header ${props.headerClasses}`">
+      <h3 :class="`card-title ${props.titleClasses}`">
         {{ title }}
       </h3>
     </div>
@@ -13,26 +13,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
+import {withDefaults, defineProps} from 'vue'
 
-export default defineComponent({
-  name: "EmCard",
-  props: {
-    title: {
-      type: String,
-      default: null
-    },
-    headerClasses: {
-      type: String,
-      default: () => ''
-    },
-    titleClasses: {
-      type: String,
-      default: () => ''
-    }
-  }
+const props = withDefaults(defineProps<{
+  title: string,
+  headerClasses: string,
+  titleClasses: string
+}>(),{
+  headerClasses: '',
+  titleClasses: ''
 })
+
 </script>
 
 <style scoped>

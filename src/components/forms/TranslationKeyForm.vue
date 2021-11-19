@@ -7,8 +7,8 @@
             <EmInput
               v-model="form.key"
               placeholder="Key"
-              :validator="v$.form.key"
-              :input-event="(event: InputEvent) => { form.key = transformKeyInput(event); }"
+              :validator="v$.key"
+              :input-event="onKeyInput"
               @keypress="isKeyValid" />
           </div>
         </div>
@@ -59,81 +59,74 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import useVuelidate from "@vuelidate/core";
 import {helpers, required} from "@vuelidate/validators";
-import {defineComponent} from "vue";
-import {keyMixin} from "@/mixins/keyMixin";
+import {defineProps, defineEmits, reactive, ref, Ref, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import {Language} from "@/models/language";
+import {transformKeyInput, isKeyValid} from "@/utils/helpers";
 
-export default defineComponent({
-  name: "TranslationKeyForm",
-  components: {EmInput, EmConfirmation},
-  mixins: [keyMixin],
-  props: {
-    languages: {
-      type: Array as () => Array<Language>,
-      required: true
-    }
-  },
-  emits: ['form:submit', 'form:reset'],
-  setup () {
-    return {
-      v$: useVuelidate() as any
-    }
-  },
-  data() {
-    return {
-      form: getEmptyForm(this.languages),
-      inputSizeStatuses: [] as Array<boolean>,
-      translationsTextareaItems: [] as Array<any>
-    }
-  },
-  validations (): any {
-    return {
-      form: {
-        key: { required: helpers.withMessage('Translation key is required', required), }
-      }
-    }
-  },
-  watch: {
-    languages(value) {
-      this.form = getEmptyForm(value);
-    }
-  },
-  methods: {
-    async formSubmit() {
-      const isFormCorrect = await this.v$.$validate()
-      if (!isFormCorrect) {
-        return
-      }
+const props = defineProps<{
+  languages: Array<Language>
+}>()
 
-      this.$emit('form:submit', this.form, this.successCallback);
-      this.v$.$reset();
-    },
-    successCallback() {
-      this.resetForm();
-    },
-    getLanguage(languageId: number) {
-      return this.languages.find(x => x.id === languageId);
-    },
-    resetForm() {
-      this.form = getEmptyForm(this.languages);
-      this.$emit('form:reset', this.form);
-      this.v$.$reset();
-    },
-    focusInput(index: number, value: boolean) {
-      this.inputSizeStatuses[index] = value;
-      if (value) {
-        this.$nextTick(() => {
-          (this.translationsTextareaItems[index] as HTMLTextAreaElement).focus();
-        })
-      }
-    },
-  }
+const emit = defineEmits(['form:submit', 'form:reset']);
+
+let form = reactive(getEmptyForm(props.languages))
+const rules = {
+  key: { required: helpers.withMessage('Translation key is required', required), }
+}
+
+const v$ = useVuelidate(rules, form);
+
+const inputSizeStatuses: Ref<Array<boolean>> = ref([]);
+const translationsTextareaItems: Ref<Array<any>> = ref([]);
+
+watch(() => props.languages, (value) => {
+  form = reactive(getEmptyForm(value));
 })
+
+async function formSubmit() {
+  const isFormCorrect = await v$.value.$validate()
+  if (!isFormCorrect) {
+    return
+  }
+
+  emit('form:submit', form, successCallback);
+  v$.value.$reset();
+}
+
+function onKeyInput(event: Event) {
+  form.key = transformKeyInput(event);
+}
+
+function successCallback() {
+  resetForm();
+}
+
+function getLanguage(languageId: number) {
+  return props.languages.find(x => x.id === languageId);
+}
+
+function resetForm() {
+  form.key = '';
+  form.values.forEach(x => {
+    x.value = ''
+  })
+  emit('form:reset', form);
+  v$.value.$reset();
+}
+
+function focusInput(index: number, value: boolean) {
+  inputSizeStatuses.value[index] = value;
+  if (value) {
+    nextTick(() => {
+      (translationsTextareaItems.value[index] as HTMLTextAreaElement).focus();
+    })
+  }
+}
 
 function getEmptyForm(languages: Array<Language>): {key: string, values: Array<{ languageId: number, value: string }>} {
   return {
@@ -146,6 +139,7 @@ function getEmptyForm(languages: Array<Language>): {key: string, values: Array<{
     })
   }
 }
+
 </script>
 
 <style scoped lang="scss">

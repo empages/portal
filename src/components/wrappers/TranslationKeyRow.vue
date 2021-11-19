@@ -7,7 +7,7 @@
           class="form-control"
           @keyup.ctrl.enter="editKey"
           @keypress="isKeyValid"
-          @input="rowData.key = transformKeyInput($event); keyEditedStatus = true;">
+          @input="onKeyInput">
       </div>
     </td>
     <td
@@ -58,72 +58,61 @@
   </tr>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
-import {keyMixin} from "@/mixins/keyMixin";
+<script lang="ts" setup>
+import {defineProps, Ref, ref, defineEmits, computed, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
-import { TranslationKey } from "@/models/translation-key";
+import {TranslationGridItem} from "@/models/translation-grid-item";
+import {isKeyValid, transformKeyInput} from "@/utils/helpers";
 
-export default defineComponent({
-  name: "TranslationKeyRow",
-  components: {EmConfirmation},
-  mixins: [keyMixin],
-  props: {
-    inputData: {
-      type: Object,
-      required: true
-    },
-    changeDetected: {
-      type: Function,
-      required: true
-    }
-  },
-  emits: [
-    'edit:key',
-    'delete:key'
-  ],
-  data() {
-    return {
-      keyEditedStatus: false,
-      inputSizeStatuses: [] as Array<boolean>,
-      translationsTextareaItems: [] as Array<any>,
-      rowData: Object.assign({}, this.inputData)
-    }
-  },
-  computed: {
-    keyId() {
-      return this.rowData.keyId;
-    },
-    key() {
-      return this.rowData.key;
-    }
-  },
-  watch: {
-    inputData(value) {
-      this.rowData = Object.assign({}, value);
-    }
-  },
-  methods: {
-    focusInput(index: number, value: boolean) {
-      this.inputSizeStatuses[index] = value;
-      if (value) {
-        this.$nextTick(() => {
-          (this.translationsTextareaItems[index] as HTMLTextAreaElement).focus();
-        })
-      }
-    },
-    deleteKey() {
-      this.$emit('delete:key', this.keyId);
-    },
-    editKey() {
-      this.$emit('edit:key', {
-        id: this.rowData.keyId,
-        key: this.rowData.key,
-        values: this.rowData.languageValues
-      } as TranslationKey, () => this.keyEditedStatus = false);
-    }
-  }
+const props = defineProps<{
+  inputData: TranslationGridItem,
+  changeDetected: () => void
+}>();
+
+const emit = defineEmits([
+  'edit:key',
+  'delete:key'
+]);
+
+const keyEditedStatus = ref(false);
+const inputSizeStatuses: Ref<Array<boolean>> = ref([]);
+const translationsTextareaItems: Ref<Array<any>> = ref([]);
+const rowData: Ref<TranslationGridItem> = ref(props.inputData);
+
+const keyId = computed(() => {
+  return rowData.value.keyId;
 })
+
+watch(() => props.inputData, (value) => {
+  rowData.value = Object.assign({}, value) as TranslationGridItem;
+})
+
+function focusInput(index: number, value: boolean) {
+  inputSizeStatuses.value[index] = value;
+  if (value) {
+    nextTick(() => {
+      (translationsTextareaItems.value[index] as HTMLTextAreaElement).focus();
+    })
+  }
+}
+
+function onKeyInput(event: Event) {
+  rowData.value.key = transformKeyInput(event);
+  keyEditedStatus.value = true;
+}
+
+function deleteKey() {
+  emit('delete:key', keyId.value);
+}
+
+function editKey() {
+  emit('edit:key', {
+    id: rowData.value.keyId,
+    key: rowData.value.key,
+    values: rowData.value.languageValues
+  }, () => keyEditedStatus.value = false);
+}
+
 </script>
 
 <style scoped lang="scss">
