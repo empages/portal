@@ -18,8 +18,8 @@ import {withDefaults, defineProps} from 'vue'
 
 const props = withDefaults(defineProps<{
   title: string,
-  headerClasses: string,
-  titleClasses: string
+  headerClasses?: string,
+  titleClasses?: string
 }>(),{
   headerClasses: '',
   titleClasses: ''

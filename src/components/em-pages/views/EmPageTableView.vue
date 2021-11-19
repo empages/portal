@@ -42,7 +42,7 @@ import EmTable from "@/components/base/EmTable.vue";
 import {useAdminLayout} from "@/composables/admin-layout-composable";
 
 const props = defineProps<{
-  pageRoute: string
+  pageRoute: string | null
 }>()
 
 const adminLayout = useAdminLayout();
@@ -85,8 +85,8 @@ function getCell(row: EmPageTableRowModel, property: string) {
   return row.cells.find(x => x.property === property)
 }
 
-async function loadViewModel(route: string) {
-  viewModel.value = await adminService.getTableViewModel(route);
+async function loadViewModel(route: string | null) {
+  viewModel.value = await adminService.getTableViewModel(route || '');
   adminLayout.reload({
     breadcrumbs: viewModel.value.context.breadcrumbs,
     navbarActions: viewModel.value.context.navbarActions

@@ -1,70 +1,58 @@
 <template>
   <input
     class="form-control"
-    :class="[validator.$errors.length ? 'is-invalid' : '', classes]"
-    :type="type"
-    :value="modelValue"
-    :disabled="disabled"
-    :placeholder="placeholder"
-    @keypress="($event) => $emit('keypress', $event)"
-    @input="($event) => update($event)">
+    :class="[props.validator.$errors.length ? 'is-invalid' : '', props.classes]"
+    :type="props.type"
+    :value="props.modelValue"
+    :disabled="props.disabled"
+    :placeholder="props.placeholder"
+    @keypress="onKeyPressed"
+    @input="onInput">
   <div
-    v-if="validator && validator.$errors.length"
+    v-if="props.validator && props.validator.$errors.length"
     class="invalid-feedback">
-    {{ validator.$errors[0].$message }}
+    {{ props.validator.$errors[0].$message }}
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script lang="ts" setup>
+import {defineProps, withDefaults, defineEmits} from "vue";
 
-export default defineComponent({
-  name: "EmInput",
-  props: {
-    validator: {
-      type: Object,
-      default() {
-        return null;
-      }
-    },
-    modelValue: {
-      type: String,
-      default() {
-        return '';
-      }
-    },
-    type: {
-      type: String,
-      default: 'text'
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    classes: {
-      type: String,
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    inputEvent: {
-      type: Function,
-      default: () => null
-    }
-  },
-  emits: ['update:modelValue', 'keypress'],
-  methods: {
-    update(event: Event): void {
-      const target = event.target as HTMLInputElement;
-      this.$emit('update:modelValue', target.value);
-      if (this.inputEvent) {
-        this.inputEvent(event);
-      }
-    }
-  }
+const props = withDefaults(defineProps<{
+  validator: any | null | unknown,
+  modelValue?: string,
+  type?: string,
+  placeholder?: string,
+  classes?: string,
+  disabled?: boolean,
+  inputEvent?: (event: Event) => void
+}>(), {
+  modelValue: '',
+  type: 'text',
+  placeholder: '',
+  classes: '',
+  disabled: false,
+  inputEvent: () => null
 })
+
+const emit = defineEmits(['update:modelValue', 'keypress']);
+
+function onKeyPressed(event: Event) {
+   emit('keypress', event);
+}
+
+function onInput(event: Event) {
+  update(event);
+}
+
+function update(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  emit('update:modelValue', target.value);
+  if (props.inputEvent) {
+    props.inputEvent(event);
+  }
+}
+
 </script>
 
 <style scoped>

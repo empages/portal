@@ -1,16 +1,9 @@
 <template>
-  <EmAdminLayout>
-    <p>Manage two factor</p>
-  </EmAdminLayout>
+  <p>Manage two factor</p>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import EmAdminLayout from "@/components/layouts/EmAdminLayout.vue";
-export default defineComponent({
-name: "AdminManageTwoFactorAuthenticationPage",
-  components: {EmAdminLayout}
-})
+<script lang="ts" setup>
+
 </script>
 
 <style scoped>

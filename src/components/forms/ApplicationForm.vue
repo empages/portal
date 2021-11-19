@@ -7,20 +7,20 @@
         <EmInput
           v-model="form.name"
           placeholder="Enter name"
-          :validator="v$.form.name" />
+          :validator="v$.name" />
       </EmFormGroup>
       <EmFormGroup label="URL">
         <EmInput
           v-model="form.url"
           type="url"
           placeholder="Enter URL"
-          :validator="v$.form.url" />
+          :validator="v$.url" />
       </EmFormGroup>
       <EmFormGroup label="Gateway Id">
         <EmInput
           v-model="form.gatewayId"
           placeholder="Enter gateway Id"
-          :validator="v$.form.gatewayId" />
+          :validator="v$.gatewayId" />
       </EmFormGroup>
       <EmFormGroup classes="mb-0 mt-3">
         <button
@@ -45,8 +45,8 @@
   </EmCard>
 </template>
 
-<script lang="ts">
-import {defineComponent, ref, Ref} from 'vue'
+<script lang="ts" setup>
+import {defineEmits, defineProps, ref, watch, getCurrentInstance, Ref} from 'vue'
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import useVuelidate from '@vuelidate/core'
@@ -55,68 +55,52 @@ import { Application } from '@/models/application';
 import EmCard from "@/components/base/EmCard.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 
-export default defineComponent({
-  name: "ApplicationForm",
-  components: {EmConfirmation, EmCard, EmInput, EmFormGroup},
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    application: {
-      type: Object as () => Application,
-      required: true
-    }
-  },
-  emits: ['form:submit', 'form:reset'],
-  setup (props: any) {
-    const form: Ref<Application> = ref<Application>(Object.assign({}, props.application));
-    return {
-      form,
-      v$: useVuelidate() as any
-    }
-  },
-  validations (): any {
-    return {
-      form: {
-        name: { required: helpers.withMessage('Name is required', required), },
-        url: { required: helpers.withMessage('URL is required', required) },
-        gatewayId: { required: helpers.withMessage('Gateway Id is required', required), }
-      }
-    }
-  },
-  watch: {
-    application(value: Application) {
-      this.form = Object.assign({}, value);
-    }
-  },
-  methods: {
-    async formSubmit() {
-      const isFormCorrect = await this.v$.$validate()
-      if (!isFormCorrect) {
-        return;
-      }
+const currentInstance = getCurrentInstance();
 
-      this.$emit('form:submit', this.form, this.successSubmitCallback);
-      this.v$.$reset();
-    },
-    successSubmitCallback():void {
-      this.resetForm();
-    },
-    resetForm() {
-      this.form = {
-        id: '',
-        name: '',
-        url: '',
-        gatewayId: '',
-        environment: ''
-      }
-      this.$emit('form:reset', this.form);
-      this.v$.$reset();
-      this.$forceUpdate();
-    }
-  }
+const props = defineProps<{
+  title: string,
+  application: Application
+}>()
+const emit = defineEmits(['form:submit', 'form:reset'])
+
+const form: Ref<Application> = ref(Object.assign({}, props.application));
+const rules = {
+  name: { required: helpers.withMessage('Name is required', required), },
+  url: { required: helpers.withMessage('URL is required', required) },
+  gatewayId: { required: helpers.withMessage('Gateway Id is required', required), }
+};
+
+const v$ = useVuelidate(rules, form);
+
+watch(() => props.application, (value) => {
+  form.value = Object.assign({}, value)
 })
+
+async function formSubmit() {
+  const isFormCorrect = await v$.value.$validate()
+  if (!isFormCorrect) {
+    return;
+  }
+
+  emit('form:submit', form, successSubmitCallback);
+  v$.value.$reset();
+}
+
+function successSubmitCallback():void {
+  resetForm();
+}
+
+function resetForm() {
+  form.value.id ='';
+  form.value.name = '';
+  form.value.url = '';
+  form.value.gatewayId = '';
+  form.value.environment = '';
+  emit('form:reset', form);
+  v$.value.$reset();
+  currentInstance?.proxy?.$forceUpdate();
+}
+
 </script>
 
 <style scoped>

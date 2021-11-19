@@ -1,14 +1,10 @@
 <template>
-  <EmAdminLayout>
-    <EmPageDetailsView
-      :page-route="route"
-      :identifier="identifier" />
-  </EmAdminLayout>
+  <EmPageDetailsView
+    :page-route="route"
+    :identifier="identifier" />
 </template>
 
 <script lang="ts" setup>
-import EmAdminLayout from "@/components/layouts/EmAdminLayout.vue";
-
 import EmPageDetailsView from "@/components/em-pages/views/EmPageDetailsView.vue";
 import {useEmPageArgs} from "@/composables/em-page-args-composable";
 

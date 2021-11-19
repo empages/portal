@@ -1,60 +1,57 @@
 <template>
   <div class="html-raw-editor">
-    <div ref="editor" />
+    <div ref="editorElement" />
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {EditorState, basicSetup} from "@codemirror/basic-setup"
 import {EditorView, keymap} from "@codemirror/view"
 import {indentWithTab} from "@codemirror/commands"
 import {html} from "@codemirror/lang-html"
-import {defineComponent} from "vue";
+import {defineProps, withDefaults, defineEmits, Ref, ref, onMounted} from "vue";
 
-export default defineComponent({
-  name: "EmHtmlRawEditor",
-  props: {
-    modelValue: {
-      type: String,
-      default: ''
-    },
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return {
-      editorView: null as EditorView | null,
-      value: (this.modelValue?.toString() || '') as string,
-    }
-  },
-  mounted() {
-    this.init()
-  },
-  methods: {
-    updateContent(content: string) {
-      this.$emit('update:modelValue', content);
-    },
-    init() {
-      const initialState = EditorState.create({
-        doc: this.value,
-        extensions: [
-          basicSetup,
-          keymap.of([indentWithTab]),
-          html(),
-          EditorView.updateListener.of((viewUpdate) => {
-            if (viewUpdate.docChanged) {
-              this.updateContent(viewUpdate.state.doc.toString());
-            }
-          }),
-        ]
-      });
+const props = withDefaults(defineProps<{
+  modelValue?: string
+}>(), {
+  modelValue: ''
+});
 
-      this.editorView = new EditorView({
-        state: initialState,
-        parent: this.$refs.editor as Element,
-      })
-    },
-  },
-})
+const emit = defineEmits(['update:modelValue'])
+
+const editorElement: Ref<Element | null> = ref(null)
+const editorView: Ref<EditorView | null> = ref(null);
+const value: Ref<string> = ref(props.modelValue);
+
+function updateContent(content: string) {
+  emit('update:modelValue', content);
+}
+
+function init() {
+  const initialState = EditorState.create({
+    doc: value.value,
+    extensions: [
+      basicSetup,
+      keymap.of([indentWithTab]),
+      html(),
+      EditorView.updateListener.of((viewUpdate) => {
+        if (viewUpdate.docChanged) {
+          updateContent(viewUpdate.state.doc.toString());
+        }
+      }),
+    ]
+  });
+
+  if (editorElement.value) {
+    editorView.value = new EditorView({
+      state: initialState,
+      parent: editorElement.value,
+    })
+  }
+}
+
+onMounted(init)
+
 </script>
 
 <style scoped>

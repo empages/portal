@@ -12,9 +12,7 @@
                   alt="Emeraude">
               </RouterLink>
             </div>
-            <div class="auto-form-wrapper">
-              <slot />
-            </div>
+            <slot />
             <CopyrightText class="d-block mt-2 text-center" />
             <RouterLink
               class="footer-text text-left text-small mt-3 d-block"

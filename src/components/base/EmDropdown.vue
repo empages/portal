@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown">
     <button
-      ref="el"
+      ref="dropdownElement"
       :class="`em-dropdown btn btn-primary ${toggleIcon ? 'dropdown-toggle' : ''} ${buttonClasses}`"
       type="button"
       :title="title"
@@ -20,10 +20,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { newGuid } from '@/utils/helpers';
+<script lang="ts" setup>
 import { Dropdown } from 'bootstrap';
-import {defineComponent} from "vue";
+import {withDefaults, defineProps, defineEmits, Ref, ComputedRef, computed, onMounted, ref} from "vue";
+import {dropdownVisibilities} from "@/utils/elements-props-options";
 
 export interface EmDropdownContext {
   show: () => void;
@@ -32,59 +32,44 @@ export interface EmDropdownContext {
   update: () => void;
 }
 
-export default defineComponent({
-  name: "EmDropdown",
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    buttonClasses: {
-      type: String,
-      default: () => ''
-    },
-    menuClasses: {
-      type: String,
-      default: () => ''
-    },
-    autoClose: {
-      type: [Boolean, String],
-      default: () => true
-    },
-    toggleIcon: {
-      type: Boolean,
-      default: () => true
-    }
-  },
-  data() {
-    return {
-      dropdown: null as Dropdown | null,
-      id: newGuid()
-    }
-  },
-  computed: {
-    context(): EmDropdownContext | null {
-      if (!this.dropdown) {
-        return null
-      }
+const props = withDefaults(defineProps<{
+  title: string,
+  buttonClasses?: string,
+  menuClasses?: string,
+  autoClose?: boolean | string,
+  toggleIcon?: boolean
+}>(), {
+  buttonClasses: '',
+  menuClasses: '',
+  autoClose: true,
+  toggleIcon: true
+})
 
-      return {
-        show: this.dropdown.show.bind(this.dropdown),
-        hide: this.dropdown.hide.bind(this.dropdown),
-        toggle: this.dropdown.toggle.bind(this.dropdown),
-        update: this.dropdown.update.bind(this.dropdown)
-      }
-    }
-  },
-  mounted() {
-    const targetElement: HTMLButtonElement = this.$refs.el as HTMLButtonElement;
-    this.dropdown = new Dropdown(targetElement, {
-      autoClose: this.autoClose as (boolean | 'inside' | 'outside')
+const emit = defineEmits(dropdownVisibilities);
+const dropdown: Ref<Dropdown | null> = ref(null);
+const dropdownElement: Ref<HTMLButtonElement | null> = ref(null);
+const context: ComputedRef<EmDropdownContext | null> = computed(() => {
+  if (!dropdown.value) {
+    return null
+  }
+
+  return {
+    show: dropdown.value.show.bind(dropdown.value),
+    hide: dropdown.value.hide.bind(dropdown.value),
+    toggle: dropdown.value.toggle.bind(dropdown.value),
+    update: dropdown.value.update.bind(dropdown.value)
+  }
+})
+
+onMounted(() => {
+  if (dropdownElement.value) {
+    dropdown.value = new Dropdown(dropdownElement.value, {
+      autoClose: props.autoClose as (boolean | 'inside' | 'outside')
     });
 
-    ['show', 'shown', 'hide', 'hidden'].forEach((e) => {
-      targetElement.addEventListener(`${e}.bs.dropdown`, () => {
-        this.$emit(e);
+    dropdownVisibilities.forEach((e) => {
+      dropdownElement.value?.addEventListener(`${e}.bs.dropdown`, () => {
+        emit(e);
       });
     });
   }

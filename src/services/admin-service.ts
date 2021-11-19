@@ -35,7 +35,7 @@ class AdminService extends EmService {
         return await this.getData<EmPageTableViewModel>(`/admin/em-pages/table/${route}`);
     }
 
-    public async getDetailsViewModel(route: any, modelId: string): Promise<EmPageDetailsViewModel> {
+    public async getDetailsViewModel(route: string, modelId: string): Promise<EmPageDetailsViewModel> {
         return await this.getData<EmPageDetailsViewModel>(`/admin/em-pages/details/${route}/${modelId}`);
     }
 

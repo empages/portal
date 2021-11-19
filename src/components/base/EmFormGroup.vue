@@ -13,8 +13,8 @@
 import {defineProps, withDefaults} from 'vue'
 
 const props = withDefaults(defineProps<{
-  label: string,
-  classes: string;
+  label?: string,
+  classes?: string;
 }>(), {
   label: '',
   classes: 'mb-2'

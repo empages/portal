@@ -1,5 +1,5 @@
 <template>
-  <EmAdminAuthLayout>
+  <div class="auto-form-wrapper">
     <form @submit.prevent="submitForm">
       <div v-if="authenticationState === AuthenticationState.Login">
         <div
@@ -51,17 +51,14 @@
         </button>
       </div>
     </form>
-  </EmAdminAuthLayout>
+  </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
-import EmAdminAuthLayout from "@/components/layouts/EmAdminAuthLayout.vue";
+<script lang="ts" setup>
+import {computed, ComputedRef, reactive, ref} from 'vue'
 import {Application} from "@/models/application";
-import accessService from "@/services/access-service";
 import {LoginRequest} from '@/models/login-request';
 import adminService from '@/services/admin-service';
-import {AxiosError} from "axios";
 import {handleRequestError} from '@/utils/helpers';
 import useVuelidate from '@vuelidate/core'
 import {email, helpers, required, requiredIf} from '@vuelidate/validators'
@@ -70,118 +67,93 @@ import {AuthenticationState} from '@/shared/enums';
 import {LoginWithTwoFactorAuthenticationRequest} from "@/models/login-with-two-factor-authentication-request";
 import {AdminAuthResponse} from '@/models/admin-auth-response';
 import { useNotifications } from '@/composables/notifications-composable';
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
-export default defineComponent({
-name: "AdminAuthPage",
-  components: {EmInput, EmAdminAuthLayout},
-  setup() {
-    const { showWarningToast, showErrorToast } = useNotifications();
-    return {
-      showWarningToast,
-      showErrorToast,
-      v$: useVuelidate() as any
-    }
-  },
-  data() {
-    return {
-      loginForm: {
-        email: '',
-        password: ''
-      } as LoginRequest,
-      loginWithTwoFactor: {
-        email: '',
-        code: ''
-      } as LoginWithTwoFactorAuthenticationRequest,
-      authenticationState: AuthenticationState.Login as AuthenticationState,
-      AuthenticationState,
-      postAuthenticationToken: ''
-    }
-  },
-  validations (): any {
-    return {
-      loginForm: {
-        email: { required: helpers.withMessage('Email is required', required), email },
-        password: { required: helpers.withMessage('Password is required', requiredIf(this.authenticationState === AuthenticationState.Login)) },
-      },
-      loginWithTwoFactor: {
-        code: { required: helpers.withMessage('Code is required', requiredIf(this.authenticationState === AuthenticationState.LoginWithTwoFactor)) }
-      }
-    }
-  },
-  computed: {
-    applications(): Array<Application> {
-      return this.$store.getters['settingsModule/applications'];
+const { showWarningToast, showErrorToast } = useNotifications();
+const store = useStore();
+const router = useRouter();
+const authenticationState = ref(AuthenticationState.Login);
+const postAuthenticationToken = ref('');
+
+const rules = computed(() => {
+  return {
+    loginForm: {
+      email: { required: helpers.withMessage('Email is required', required), email },
+      password: { required: helpers.withMessage('Password is required', requiredIf(authenticationState.value === AuthenticationState.Login)) },
     },
-    application(): Application {
-      return this.$store.getters['settingsModule/selectedApplication'];
-    },
-    isSelectedApplicationConnected(): boolean {
-      return this.$store.getters['settingsModule/isSelectedApplicationConnected'];
-    }
-  },
-  methods: {
-    async submitForm() {
-      const isFormCorrect = await this.v$.$validate()
-      if (!isFormCorrect) {
-        return;
-      }
-
-      try {
-        let authResponse: AdminAuthResponse | null = null;
-        if (this.authenticationState === AuthenticationState.Login) {
-          authResponse = await adminService.login(this.loginForm);
-        }
-        else if (this.authenticationState === AuthenticationState.LoginWithTwoFactor) {
-          this.loginWithTwoFactor.email = this.loginForm.email;
-          authResponse = await adminService.loginWithTwoFactor(this.loginWithTwoFactor, this.postAuthenticationToken);
-        }
-
-        if (authResponse && authResponse.succeeded) {
-          if (authResponse.requiresAdditionalAuthenticationFactor && authResponse.postAuthenticationToken) {
-            this.showWarningToast(authResponse.message);
-            this.authenticationState = AuthenticationState.LoginWithTwoFactor;
-            this.postAuthenticationToken = authResponse.postAuthenticationToken;
-            this.loginForm.password = '';
-            this.v$.$reset();
-            return;
-          }
-
-          this.loginForm.email = '';
-          this.loginWithTwoFactor.email = '';
-          this.loginWithTwoFactor.code = '';
-          this.postAuthenticationToken = '';
-          this.authenticationState = AuthenticationState.Authenticated;
-          this.v$.$reset();
-
-          this.$store.commit('identityModule/storeIdentity', {
-            accessToken: authResponse.accessToken,
-            applicationId: this.application.id
-          });
-          this.$router.go(0);
-        }
-      }
-      catch(e: any) {
-        handleRequestError(e, this.showErrorToast);
-      }
-    },
-    async verifyApplicationAccess(applicationId: string): Promise<boolean> {
-      const application = this.applications.find(x => x.id === applicationId);
-      if (!application) {
-        return false;
-      }
-
-      try {
-        const gatewayResponse = await accessService.verifyPortalAccess(application);
-        return gatewayResponse.verified;
-      }
-      catch (e) {
-        console.log("Portal access has not been verified");
-      }
-
-      return false;
+    loginWithTwoFactor: {
+      code: { required: helpers.withMessage('Code is required', requiredIf(authenticationState.value === AuthenticationState.LoginWithTwoFactor)) }
     }
   }
 })
+
+const loginForm: LoginRequest = reactive({
+  email: '',
+  password: ''
+})
+
+const loginWithTwoFactor: LoginWithTwoFactorAuthenticationRequest = reactive({
+  email: '',
+  code: ''
+})
+
+const v$ = useVuelidate(rules, { loginForm, loginWithTwoFactor })
+
+const application: ComputedRef<Application> = computed(() => {
+  return store.getters['settingsModule/selectedApplication'];
+})
+
+const isSelectedApplicationConnected: ComputedRef<boolean> = computed(() => {
+  return store.getters['settingsModule/isSelectedApplicationConnected'];
+})
+
+async function submitForm() {
+  const isFormCorrect = await v$.value.$validate()
+  if (!isFormCorrect) {
+    return;
+  }
+
+  try {
+    let authResponse: AdminAuthResponse | null = null;
+    if (authenticationState.value === AuthenticationState.Login) {
+      authResponse = await adminService.login(loginForm);
+    }
+    else if (authenticationState.value === AuthenticationState.LoginWithTwoFactor) {
+      loginWithTwoFactor.email = loginForm.email;
+      authResponse = await adminService.loginWithTwoFactor(loginWithTwoFactor, postAuthenticationToken.value);
+    }
+
+    if (authResponse && authResponse.succeeded) {
+      if (authResponse.requiresAdditionalAuthenticationFactor && authResponse.postAuthenticationToken) {
+        showWarningToast(authResponse.message);
+        authenticationState.value = AuthenticationState.LoginWithTwoFactor;
+        postAuthenticationToken.value = authResponse.postAuthenticationToken;
+        loginForm.password = '';
+        v$.value.$reset();
+        return;
+      }
+
+      loginForm.email = '';
+      loginWithTwoFactor.email = '';
+      loginWithTwoFactor.code = '';
+      postAuthenticationToken.value = '';
+      authenticationState.value = AuthenticationState.Authenticated;
+      v$.value.$reset();
+
+      store.commit('identityModule/storeIdentity', {
+        accessToken: authResponse.accessToken,
+        applicationId: application.value.id
+      });
+
+      router.go(0);
+    }
+  }
+  catch(e: any) {
+    handleRequestError(e, showErrorToast);
+  }
+}
+
 </script>
 
 <style scoped>

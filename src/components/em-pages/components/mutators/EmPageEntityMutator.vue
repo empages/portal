@@ -2,12 +2,8 @@
   <h1>EmPageEntityMutator</h1>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 
-export default defineComponent({
-  name: "EmPageEntityMutator"
-})
 </script>
 
 <style scoped>

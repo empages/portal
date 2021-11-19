@@ -1,6 +1,5 @@
 import {EmService} from "@/services/em-service";
 import {SimpleResult} from "@/models/simple-result";
-import {TranslationValue} from "@/models/translation-value";
 import {TranslationKey} from "@/models/translation-key";
 import {NewTranslationKeyWithValues} from "@/models/new-translation-key-with-values";
 import {MutationResult} from "@/models/mutation-result";

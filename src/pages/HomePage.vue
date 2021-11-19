@@ -1,16 +1,9 @@
 <template>
-  <EmBaseLayout>
-    <h1>HomePage</h1>
-  </EmBaseLayout>
+  <h1>HomePage</h1>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import EmBaseLayout from "@/components/layouts/EmBaseLayout.vue";
-export default defineComponent({
-  name: 'HomePage',
-  components: {EmBaseLayout}
-})
+<script lang="ts" setup>
+
 </script>
 
 <style scoped>

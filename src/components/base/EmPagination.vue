@@ -54,86 +54,75 @@
   </nav>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script lang="ts" setup>
+import {computed, ComputedRef, defineEmits, defineProps} from "vue";
 
-export default defineComponent({
-  name: "EmPagination",
-  props: {
-    page: {
-      type: Number,
-      required: true
-    },
-    pagesCount: {
-      type: Number,
-      required: true
+const props = defineProps<{
+  page: number,
+  pagesCount: number
+}>();
+
+const emit = defineEmits(['select:page']);
+
+const model: ComputedRef<EmPaginationModel> = computed(() => {
+  const model =  {
+    currentPage: 0,
+    nextPage: null,
+    previousPage: null,
+    nextPagesCount: 0,
+    previousPagesCount: 0
+  } as EmPaginationModel;
+
+  build(model, props.page, props.pagesCount);
+
+  return model;
+})
+
+const nextPages = computed(() => {
+  const pages = [];
+  for (let i = 1; i <= model.value.nextPagesCount; i++) {
+    pages.push(model.value.currentPage + i);
+  }
+
+  return pages;
+})
+
+const previousPages = computed(() => {
+  const pages = [];
+  for (let i = model.value.previousPagesCount; i >= 1; i--) {
+    pages.push(model.value.currentPage - i);
+  }
+
+  return pages;
+})
+
+function selectPage(page: number | null): void {
+  if (page) {
+    emit('select:page', page);
+  }
+}
+
+function build(model: EmPaginationModel, currentPage: number, pagesCount: number) {
+  model.currentPage = currentPage;
+
+  if (model.currentPage !== 1) {
+    model.previousPage = model.currentPage - 1;
+  }
+
+  if (model.currentPage !== pagesCount) {
+    model.nextPage = model.currentPage + 1;
+  }
+
+  for (let i = 1; i <= 2; i++) {
+    if (model.currentPage - i >= 1) {
+      model.previousPagesCount++;
     }
-  },
-  emits: ['select:page'],
-  data() {
-    return {
-    }
-  },
-  computed: {
-    model() {
-      const model =  {
-        currentPage: 0,
-        nextPage: null,
-        previousPage: null,
-        nextPagesCount: 0,
-        previousPagesCount: 0
-      } as EmPaginationModel;
 
-      this.build(model, this.page, this.pagesCount);
-
-      return model;
-    },
-    nextPages() {
-      const pages = [];
-      for (let i = 1; i <= this.model.nextPagesCount; i++) {
-        pages.push(this.model.currentPage + i);
-      }
-
-      return pages;
-    },
-    previousPages() {
-      const pages = [];
-      for (let i = this.model.previousPagesCount; i >= 1; i--) {
-        pages.push(this.model.currentPage - i);
-      }
-
-      return pages;
-    }
-  },
-  methods: {
-    selectPage(page: number | null): void {
-      if (page) {
-        this.$emit('select:page', page);
-      }
-    },
-    build(model: EmPaginationModel, currentPage: number, pagesCount: number) {
-      model.currentPage = currentPage;
-
-      if (model.currentPage !== 1) {
-        model.previousPage = model.currentPage - 1;
-      }
-
-      if (model.currentPage !== pagesCount) {
-        model.nextPage = model.currentPage + 1;
-      }
-
-      for (let i = 1; i <= 2; i++) {
-        if (model.currentPage - i >= 1) {
-          model.previousPagesCount++;
-        }
-
-        if (model.currentPage + i <= pagesCount) {
-          model.nextPagesCount++;
-        }
-      }
+    if (model.currentPage + i <= pagesCount) {
+      model.nextPagesCount++;
     }
   }
-})
+}
 
 interface EmPaginationModel {
   currentPage: number;

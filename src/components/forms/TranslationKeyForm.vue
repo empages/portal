@@ -62,11 +62,12 @@
 <script lang="ts" setup>
 import useVuelidate from "@vuelidate/core";
 import {helpers, required} from "@vuelidate/validators";
-import {defineProps, defineEmits, reactive, ref, Ref, watch, nextTick} from "vue";
+import {defineProps, defineEmits, ref, Ref, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import {Language} from "@/models/language";
 import {transformKeyInput, isKeyValid} from "@/utils/helpers";
+import {NewTranslationKeyWithValues} from "@/models/new-translation-key-with-values";
 
 const props = defineProps<{
   languages: Array<Language>
@@ -74,7 +75,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['form:submit', 'form:reset']);
 
-let form = reactive(getEmptyForm(props.languages))
+let form: Ref<NewTranslationKeyWithValues> = ref(getEmptyForm(props.languages))
 const rules = {
   key: { required: helpers.withMessage('Translation key is required', required), }
 }
@@ -85,7 +86,7 @@ const inputSizeStatuses: Ref<Array<boolean>> = ref([]);
 const translationsTextareaItems: Ref<Array<any>> = ref([]);
 
 watch(() => props.languages, (value) => {
-  form = reactive(getEmptyForm(value));
+  form.value = getEmptyForm(value);
 })
 
 async function formSubmit() {
@@ -94,12 +95,12 @@ async function formSubmit() {
     return
   }
 
-  emit('form:submit', form, successCallback);
+  emit('form:submit', form.value, successCallback);
   v$.value.$reset();
 }
 
 function onKeyInput(event: Event) {
-  form.key = transformKeyInput(event);
+  form.value.key = transformKeyInput(event);
 }
 
 function successCallback() {
@@ -111,11 +112,11 @@ function getLanguage(languageId: number) {
 }
 
 function resetForm() {
-  form.key = '';
-  form.values.forEach(x => {
+  form.value.key = '';
+  form.value.values.forEach(x => {
     x.value = ''
   })
-  emit('form:reset', form);
+  emit('form:reset', form.value);
   v$.value.$reset();
 }
 

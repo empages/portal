@@ -2,12 +2,8 @@
   <h1>EmPageFeatureView</h1>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 
-export default defineComponent({
-  name: "EmPageFeatureView"
-})
 </script>
 
 <style scoped>

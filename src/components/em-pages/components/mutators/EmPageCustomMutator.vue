@@ -2,12 +2,8 @@
   <h1>EmPageCustomMutator</h1>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 
-export default defineComponent({
-  name: "EmPageCustomMutator"
-})
 </script>
 
 <style scoped>

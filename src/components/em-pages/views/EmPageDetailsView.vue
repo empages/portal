@@ -30,16 +30,16 @@ import _ from "lodash";
 import {useAdminLayout} from "@/composables/admin-layout-composable";
 
 const props = defineProps<{
-  pageRoute: string,
-  identifier: string
+  pageRoute: string | null,
+  identifier: string | null
 }>()
 
 const adminLayout = useAdminLayout();
 
 const viewModel: Ref<EmPageDetailsViewModel | null> = ref(null);
 
-async function loadViewModel (route: string, identifier: string) {
-  viewModel.value = await adminService.getDetailsViewModel(route, identifier);
+async function loadViewModel (route: string | null, identifier: string | null) {
+  viewModel.value = await adminService.getDetailsViewModel(route || '', identifier || '');
   adminLayout.reload({
     breadcrumbs: viewModel.value.context.breadcrumbs,
     navbarActions: viewModel.value.context.navbarActions

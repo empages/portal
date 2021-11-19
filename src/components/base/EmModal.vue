@@ -3,9 +3,9 @@
     name="trigger"
     :show="show"
     :hide="hide"
-    :modalRef="$refs.modalTarget" />
+    :modalRef="modalElement" />
   <div
-    ref="modalTarget"
+    ref="modalElement"
     class="modal fade modal-target"
     tabindex="-1"
     aria-hidden="true">
@@ -35,9 +35,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Modal } from 'bootstrap'
-import {defineComponent} from "vue";
+import {defineProps, withDefaults, defineEmits, Ref, ref, computed, onMounted} from "vue";
 
 export interface ModalContext {
   modalRef: Element;
@@ -45,63 +45,45 @@ export interface ModalContext {
   hide: () => void;
 }
 
-export default defineComponent({
-  name: "EmModal",
-  props: {
-    hideHeader: {
-      type: Boolean,
-      default: false
-    },
-    hideFooter: {
-      type: Boolean,
-      default: false
-    },
-    size: {
-      type: String,
-      default: ''
-    },
-    headerClass: {
-      type: String,
-      default: ''
-    },
-    bodyClass: {
-      type: String,
-      default: ''
-    },
-    footerClass: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['modal:loaded'],
-  data() {
-    return {
-      modal: null as Modal | null
-    }
-  },
-  computed: {
-    modalSizeClass() {
-      return `modal-${this.size}`;
-    }
-  },
-  mounted() {
-    const modalElement = this.$refs.modalTarget as Element;
-    this.modal = new Modal(modalElement, {});
-    this.$emit('modal:loaded', {
-      modalRef: modalElement,
-      show: this.show,
-      hide: this.hide
-    } as ModalContext);
-  },
-  methods: {
-    show() {
-      this.modal?.show();
-    },
-    hide() {
-      this.modal?.hide();
-    }
-  }
+const props = withDefaults(defineProps<{
+  hideHeader: boolean,
+  hideFooter: boolean,
+  size: string,
+  headerClass: string,
+  bodyClass: string,
+  footerClass: string
+}>(), {
+  hideHeader: false,
+  hideFooter: false,
+  size: '',
+  headerClass: '',
+  bodyClass: '',
+  footerClass: ''
 })
+
+const emit = defineEmits(['modal:loaded']);
+
+const modal: Ref<Modal | null> = ref(null);
+const modalElement: Ref<Element | null> = ref(null);
+const modalSizeClass = computed(() => `modal-${props.size}`)
+
+function show() {
+  modal.value?.show();
+}
+
+function hide() {
+  modal.value?.hide();
+}
+
+onMounted(() => {
+  modal.value = new Modal(modalElement.value as Element, {});
+  emit('modal:loaded', {
+    modalRef: modalElement.value,
+    show: show,
+    hide: hide
+  } as ModalContext);
+})
+
 </script>
 
 <style scoped>

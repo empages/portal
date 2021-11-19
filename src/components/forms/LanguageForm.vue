@@ -6,7 +6,7 @@
           <div class="w-100 position-relative">
             <EmInput
               v-model="form.code"
-              :validator="v$.form.code"
+              :validator="v$.code"
               placeholder="Code" />
           </div>
         </div>
@@ -14,7 +14,7 @@
           <div class="w-100 position-relative">
             <EmInput
               v-model="form.name"
-              :validator="v$.form.name"
+              :validator="v$.name"
               placeholder="Name" />
           </div>
         </div>
@@ -22,7 +22,7 @@
           <div class="w-100 position-relative">
             <EmInput
               v-model="form.nativeName"
-              :validator="v$.form.nativeName"
+              :validator="v$.nativeName"
               placeholder="Native name" />
           </div>
         </div>
@@ -30,7 +30,7 @@
           <button
             class="btn btn-primary w-100 h-100"
             type="submit">
-            {{ submitButtonText }}
+            {{ props.submitButtonText }}
           </button>
         </div>
         <div class="form-group col-12 col-md-2 col-lg-1 px-1">
@@ -52,81 +52,59 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import useVuelidate from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
-import { defineComponent } from "vue"
+import {defineProps, defineEmits, Ref, ref, watch} from "vue"
 import EmInput from "@/components/base/EmInput.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import { useNotifications } from '@/composables/notifications-composable';
+import {Language} from "@/models/language";
 
-export default defineComponent({
-  name: "LanguageForm",
-  components: {EmConfirmation, EmInput},
-  props: {
-    language: {
-      type: Object,
-      required: true
-    },
-    submitButtonText: {
-      type: String,
-      required: true
-    },
-    formTitle: {
-      type: String,
-      required: true
-    }
-  },
-  emits: ['form:submit', 'form:reset'],
-  setup () {
-    return {
-      v$: useVuelidate() as any,
-      ...useNotifications()
-    }
-  },
-  data() {
-    return {
-      form: this.language,
-      confirmationModal: null
-    }
-  },
-  validations (): any {
-    return {
-      form: {
-        code: { required: helpers.withMessage('Language code is required', required), },
-        name: { required: helpers.withMessage('Name is required', required), },
-        nativeName: { required: helpers.withMessage('Native name is required', required), }
-      }
-    }
-  },
-  watch: {
-    language(value) {
-      this.form = Object.assign({}, value);
-    }
-  },
-  methods: {
-    async formSubmit() {
-      const isFormCorrect = await this.v$.$validate()
-      if (!isFormCorrect) {
-        this.showErrorToast("The language cannot be created");
-        return;
-      }
+const notifications = useNotifications();
 
-      this.$emit('form:submit', this.form);
-      this.v$.$reset();
-    },
-    resetForm() {
-      this.form = {
-        code: '',
-        name: '',
-        nativeName: ''
-      }
-      this.$emit('form:reset', this.form);
-      this.v$.$reset();
-      this.showInfoToast("Language form has been reset");
-    }
-  }
+const props = defineProps<{
+  language: Language,
+  submitButtonText: string,
+  formTitle: string
+}>();
+
+const emit = defineEmits(['form:submit', 'form:reset']);
+
+const form: Ref<Language> = ref(Object.assign({}, props.language));
+const rules = {
+  code: { required: helpers.withMessage('Language code is required', required), },
+  name: { required: helpers.withMessage('Name is required', required), },
+  nativeName: { required: helpers.withMessage('Native name is required', required), }
+}
+
+const v$ = useVuelidate(rules, form);
+
+watch(() => props.language, (value) => {
+  form.value = Object.assign({}, value);
 })
+
+async function formSubmit() {
+  const isFormCorrect = await v$.value.$validate()
+  if (!isFormCorrect) {
+    return;
+  }
+
+  emit('form:submit', form.value);
+  v$.value.$reset();
+}
+
+function resetForm() {
+  form.value.code = '';
+  form.value.name = '';
+  form.value.nativeName = '';
+
+  emit('form:reset', form.value);
+
+  v$.value.$reset();
+  notifications.showInfoToast("Language form has been reset");
+}
+
 </script>
 
 <style scoped lang="scss">

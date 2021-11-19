@@ -14,14 +14,14 @@
       <template #body>
         <div class="confirmation-body">
           <p class="m-0 message">
-            {{ message }}
+            {{ props.message }}
           </p>
           <div class="mt-2 disable-select">
             <label
-              v-if="confirmationWord"
+              v-if="props.confirmationWord"
               class="d-block w-100">
               <span class="mb-2 confirmation-word-message">
-                Type '{{ confirmationWord }}' to confirm!
+                Type '{{ props.confirmationWord }}' to confirm!
               </span>
               <input
                 v-model="userConfirmationWord"
@@ -37,82 +37,62 @@
           :disabled="!confirmationAllowed"
           class="btn btn-danger me-1"
           @click="clickYes">
-          {{ yesText }}
+          {{ props.yesText }}
         </button>
         <button
           type="button"
           class="btn btn-primary"
           @click="clickNo">
-          {{ noText }}
+          {{ props.noText }}
         </button>
       </template>
     </EmModal>
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
+<script lang="ts" setup>
+import {computed, defineProps, ref, Ref, withDefaults} from "vue";
 import EmModal, {ModalContext} from "@/components/base/EmModal.vue";
 
-export default defineComponent({
-  name: "EmConfirmation",
-  components: {EmModal},
-  props: {
-    callback: {
-      type: Function,
-      required: true
-    },
-    message: {
-      type: String,
-      required: true
-    },
-    confirmationWord: {
-      type: String,
-      default: ''
-    },
-    yesText: {
-      type: String,
-      default: 'Yes'
-    },
-    noText: {
-      type: String,
-      default: 'No'
-    }
-  },
-  data() {
-    return {
-      modalContext: null as ModalContext | null,
-      userConfirmationWord: ''
-    }
-  },
-  computed: {
-    confirmationAllowed() {
-      if (!this.confirmationWord) {
-        return true;
-      }
+const props = withDefaults(defineProps<{
+  callback: () => void,
+  message: string,
+  confirmationWord?: string,
+  yesText?: string,
+  noText?: string
+}>(), {
+  confirmationWord: '',
+  yesText: 'Yes',
+  noText: 'No'
+});
 
-      return this.confirmationWord === this.userConfirmationWord;
-    }
-  },
-  methods: {
-    confirm() {
-      this.callback();
-    },
-    clickYes() {
-      this.callback();
-      this.modalContext?.hide();
-      this.userConfirmationWord = '';
-    },
-    clickNo() {
-      this.modalContext?.hide();
-      this.userConfirmationWord = '';
-    },
-    modalLoaded(modalContext: ModalContext): void {
-      this.modalContext = modalContext;
-      this.userConfirmationWord = '';
-    }
+const modalContext: Ref<ModalContext | null> = ref(null);
+const userConfirmationWord: Ref<string> = ref('');
+
+const confirmationAllowed = computed(() => {
+  if (!props.confirmationWord) {
+    return true;
   }
+
+  return props.confirmationWord === userConfirmationWord.value;
 })
+
+function clickYes() {
+  props.callback();
+  modalContext.value?.hide();
+  userConfirmationWord.value = '';
+}
+
+function clickNo() {
+  modalContext.value?.hide();
+  userConfirmationWord.value = '';
+}
+
+function modalLoaded(context: ModalContext): void {
+  modalContext.value = context;
+  userConfirmationWord.value = '';
+}
+
 </script>
 
 <style scoped lang="scss">
