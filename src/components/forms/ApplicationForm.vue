@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import {defineEmits, defineProps, ref, watch, getCurrentInstance, Ref} from 'vue'
+import {defineEmits, defineProps, ref, watch, Ref} from 'vue'
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import useVuelidate from '@vuelidate/core'
@@ -54,8 +54,6 @@ import { required, helpers } from '@vuelidate/validators'
 import { Application } from '@/models/application';
 import EmCard from "@/components/base/EmCard.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
-
-const currentInstance = getCurrentInstance();
 
 const props = defineProps<{
   title: string,
@@ -82,7 +80,7 @@ async function formSubmit() {
     return;
   }
 
-  emit('form:submit', form, successSubmitCallback);
+  emit('form:submit', form.value, successSubmitCallback);
   v$.value.$reset();
 }
 
@@ -98,7 +96,6 @@ function resetForm() {
   form.value.environment = '';
   emit('form:reset', form);
   v$.value.$reset();
-  currentInstance?.proxy?.$forceUpdate();
 }
 
 </script>

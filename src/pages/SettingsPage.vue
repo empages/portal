@@ -101,6 +101,7 @@ async function saveApplication(application: Application, successCallback: () => 
 
       showSuccessToast('Application has been saved');
       successCallback();
+      store.commit('settingsModule/reload');
       return;
     }
   }
