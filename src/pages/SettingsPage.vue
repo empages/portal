@@ -21,6 +21,7 @@
   </EmRow>
   <EmCard title="List of all registered applications">
     <EmTable
+      v-if="!hideTable"
       :columns="applicationsTableColumns"
       :data="applications">
       <template #actions="{ data }">
@@ -33,7 +34,7 @@
           v-slot="{ context }"
           class="d-inline-block"
           :confirmation-word="data.name"
-          :message="`Are you sure you want to remove ${data.name} (${data.url}) from the application list?`"
+          :message="`Are you sure you want to remove it from the application list?`"
           :callback="() => removeApplication(data.id)">
           <button
             class="btn btn-primary px-2 py-1 mx-2px"
@@ -60,9 +61,11 @@ import accessService from "@/services/access-service";
 import {useNotifications} from "@/composables/notifications-composable";
 import {applicationsTableColumns} from "@/shared/tables-columns/applications-table-columns";
 import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
 const { showSuccessToast, showErrorToast } = useNotifications();
 const store = useStore();
+const router = useRouter();
 const emptyApplication: Ref<Application> = ref({
   id: '',
   name: '',
@@ -70,7 +73,8 @@ const emptyApplication: Ref<Application> = ref({
   environment: '',
   gatewayId: ''
 });
-let applicationForEdit: Ref<Application | null> = ref(null);
+const applicationForEdit: Ref<Application | null> = ref(null);
+const hideTable = ref(false);
 const selectedApplication = computed(() => {
   return applicationForEdit.value ? applicationForEdit.value : emptyApplication.value;
 })
@@ -91,6 +95,8 @@ async function saveApplication(application: Application, successCallback: () => 
   try {
     const gatewayResponse = await accessService.verifyPortalAccess(application);
     if (gatewayResponse.verified) {
+      hideTable.value = true;
+
       application.environment = gatewayResponse.environment;
       if (editMode.value) {
         store.commit('settingsModule/editApplication', application);
@@ -101,7 +107,7 @@ async function saveApplication(application: Application, successCallback: () => 
 
       showSuccessToast('Application has been saved');
       successCallback();
-      store.commit('settingsModule/reload');
+      router.go(0);
       return;
     }
   }
@@ -115,6 +121,7 @@ async function saveApplication(application: Application, successCallback: () => 
 function removeApplication(id: string): void {
   store.commit('settingsModule/removeApplication', id);
   showSuccessToast('Application has been removed');
+  router.go(0);
 }
 
 function selectApplicationForEdit(application: Application) {

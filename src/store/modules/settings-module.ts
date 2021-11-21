@@ -43,10 +43,6 @@ export default {
                 state.applications.splice(indexForRemove, 1);
                 saveSettings(state);
             }
-        },
-        reload(state: SettingsModuleState) {
-            const settings = buildInitialSettings();
-            state.applications = settings.applications;
         }
     },
     getters: {
