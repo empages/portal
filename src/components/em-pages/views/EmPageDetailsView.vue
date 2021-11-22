@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import adminService from "@/services/admin-service";
-import {ref, Ref, defineProps, watch, onMounted, computed} from "vue";
+import {ref, Ref, watch, onMounted, computed} from "vue";
 import {EmPageDetailsViewModel} from "@/models/em-page-details-view-model";
 import _ from "lodash";
 import {useAdminLayout} from "@/composables/admin-layout-composable";

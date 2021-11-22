@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ComputedRef, defineProps} from "vue";
+import {computed, ComputedRef} from "vue";
 
 const breakpointCol = {
   sm: {type: [String, Number], default: null},

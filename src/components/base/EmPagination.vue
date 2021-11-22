@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ComputedRef, defineEmits, defineProps} from "vue";
+import {computed, ComputedRef} from "vue";
 
 const props = defineProps<{
   page: number,

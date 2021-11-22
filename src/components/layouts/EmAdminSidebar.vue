@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { SidebarSchema } from '@/models/sidebar-schema'
-import {computed, ComputedRef, defineEmits, onMounted, ref, watch} from 'vue'
+import {computed, ComputedRef, onMounted, ref, watch} from 'vue'
 import EmAdminSidebarSection from "@/components/layouts/EmAdminSidebarSection.vue";
 import EmAdminSidebarShortcutsSection from "@/components/layouts/EmAdminSidebarShortcutsSection.vue";
 import {useRoute} from "vue-router";

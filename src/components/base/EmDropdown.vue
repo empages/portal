@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import { Dropdown } from 'bootstrap';
-import {withDefaults, defineProps, defineEmits, Ref, ComputedRef, computed, onMounted, ref} from "vue";
+import {withDefaults, Ref, ComputedRef, computed, onMounted, ref} from "vue";
 
 const dropdownVisibilities = ['show', 'shown', 'hide', 'hidden'];
 

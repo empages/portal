@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { ToastNotification } from "@/models/notification";
 import { Toast } from "bootstrap"
-import {defineProps, onMounted, ref, Ref} from "vue"
+import {onMounted, ref, Ref} from "vue"
 import {useStore} from "vuex";
 
 const props = defineProps<{

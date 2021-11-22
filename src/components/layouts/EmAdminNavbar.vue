@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts" setup>
-import {defineEmits} from 'vue'
 import logo from '@/assets/images/logo_white.svg'
 import logoText from '@/assets/images/logo_text_white.svg'
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";

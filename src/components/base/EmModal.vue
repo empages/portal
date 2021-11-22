@@ -37,21 +37,16 @@
 
 <script lang="ts" setup>
 import { Modal } from 'bootstrap'
-import {defineProps, withDefaults, defineEmits, Ref, ref, computed, onMounted} from "vue";
-
-export interface ModalContext {
-  modalRef: Element;
-  show: () => void;
-  hide: () => void;
-}
+import {withDefaults, Ref, ref, computed, onMounted} from "vue";
+import {EmModalContext} from "@/shared/types/em-modal-context";
 
 const props = withDefaults(defineProps<{
-  hideHeader: boolean,
-  hideFooter: boolean,
-  size: string,
-  headerClass: string,
-  bodyClass: string,
-  footerClass: string
+  hideHeader?: boolean,
+  hideFooter?: boolean,
+  size?: string,
+  headerClass?: string,
+  bodyClass?: string,
+  footerClass?: string
 }>(), {
   hideHeader: false,
   hideFooter: false,
@@ -81,7 +76,7 @@ onMounted(() => {
     modalRef: modalElement.value,
     show: show,
     hide: hide
-  } as ModalContext);
+  } as EmModalContext);
 })
 
 </script>

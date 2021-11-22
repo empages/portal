@@ -62,7 +62,7 @@
 <script lang="ts" setup>
 import useVuelidate from "@vuelidate/core";
 import {helpers, required} from "@vuelidate/validators";
-import {defineProps, defineEmits, ref, Ref, watch, nextTick} from "vue";
+import {ref, Ref, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import {Language} from "@/models/language";

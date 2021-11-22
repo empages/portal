@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, defineProps} from 'vue'
+import {computed} from 'vue'
 import {EmPageViewModel} from "@/models/em-page-view-model";
 import {EmPageComponent} from "@/models/em-page-component";
 

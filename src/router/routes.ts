@@ -20,11 +20,11 @@ function getAdminRoutes(): Array<RouteRecordRaw> {
         { name: 'admin-manage-2fa', path: '/admin/manage/2fa', component: () => import('@/pages/AdminManageTwoFactorAuthenticationPage.vue'), meta: { layout } },
         { name: 'admin-manage-email', path: '/admin/manage/email', component: () => import('@/pages/AdminManageEmailPage.vue'), beforeEnter, meta: { layout } },
         { name: 'admin-manage-password', path: '/admin/manage/password', component: () => import('@/pages/AdminManagePasswordPage.vue'), beforeEnter, meta: { layout } },
-        { name: 'admin-table-view-em-page', path: '/admin/:route', component: () => import('@/pages/AdminTableViewEmPage.vue'), beforeEnter, meta: { layout } },
-        { name: 'admin-details-view-em-page', path: '/admin/:route/:id', component: () => import('@/pages/AdminDetailsViewEmPage.vue'), beforeEnter, meta: { layout } },
-        { name: 'admin-create-form-view-em-page', path: '/admin/:route/create', component: () => import('@/pages/AdminCreateFormViewEmPage.vue'), beforeEnter, meta: { layout } },
-        { name: 'admin-edit-form-view-em-page', path: '/admin/:route/:id/edit', component: () => import('@/pages/AdminEditFormViewEmPage.vue'), beforeEnter, meta: { layout } },
-        { name: 'admin-feature-view-em-page', path: '/admin/:route/:id/:feature', component: () => import('@/pages/AdminFeatureViewEmPage.vue'), beforeEnter, meta: { layout } },
+        { name: 'admin-em-page-index-view', path: '/admin/:route', component: () => import('@/pages/AdminEmPageIndexViewPage.vue'), beforeEnter, meta: { layout } },
+        { name: 'admin-em-page-details-view', path: '/admin/:route/:id', component: () => import('@/pages/AdminEmPageDetailsViewPage.vue'), beforeEnter, meta: { layout } },
+        { name: 'admin-em-page-create-form-view', path: '/admin/:route/create', component: () => import('@/pages/AdminEmPageCreateFormViewPage.vue'), beforeEnter, meta: { layout } },
+        { name: 'admin-em-page-edit-form-view', path: '/admin/:route/:id/edit', component: () => import('@/pages/AdminEmPageEditFormPage.vue'), beforeEnter, meta: { layout } },
+        { name: 'admin-em-page-feature-view', path: '/admin/:route/:id/:feature', component: () => import('@/pages/AdminEmPageFeatureViewPage.vue'), beforeEnter, meta: { layout } },
     ]
 }
 

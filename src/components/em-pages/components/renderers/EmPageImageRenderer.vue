@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, defineProps} from "vue";
+import {computed} from "vue";
 import {EmPageComponent} from "@/models/em-page-component";
 import {isUrlAbsolute} from "@/shared/helpers";
 import {useUrlBuilder} from "@/composables/url-builder-composable";

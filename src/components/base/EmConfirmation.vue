@@ -51,8 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, defineProps, ref, Ref, withDefaults} from "vue";
-import EmModal, {ModalContext} from "@/components/base/EmModal.vue";
+import {computed, ref, Ref, withDefaults} from "vue";
+import EmModal from "@/components/base/EmModal.vue";
+import {EmModalContext} from "@/shared/types/em-modal-context";
 
 const props = withDefaults(defineProps<{
   callback: () => void,
@@ -66,7 +67,7 @@ const props = withDefaults(defineProps<{
   noText: 'No'
 });
 
-const modalContext: Ref<ModalContext | null> = ref(null);
+const modalContext: Ref<EmModalContext | null> = ref(null);
 const userConfirmationWord: Ref<string> = ref('');
 
 const confirmationAllowed = computed(() => {
@@ -88,7 +89,7 @@ function clickNo() {
   userConfirmationWord.value = '';
 }
 
-function modalLoaded(context: ModalContext): void {
+function modalLoaded(context: EmModalContext): void {
   modalContext.value = context;
   userConfirmationWord.value = '';
 }

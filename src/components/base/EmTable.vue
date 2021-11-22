@@ -35,14 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps} from "vue";
-
-export interface EmTableColumn {
-  key: string;
-  title: string;
-  thClass?: string | undefined;
-  tdClass?: string | undefined;
-}
+import {EmTableColumn} from "@/shared/types/em-table-column";
 
 const props = defineProps<{
   columns: Array<EmTableColumn>,

@@ -4,7 +4,7 @@ import {EmPageTableRowModel} from "@/models/em-page-table-row-model";
 import {PaginationModel} from "@/models/pagination-model";
 import {EmPageViewModel} from "@/models/em-page-view-model";
 
-export class EmPageTableViewModel extends EmPageViewModel{
+export class EmPageTableViewModel extends EmPageViewModel {
     headModel: EmPageTableHeadModel;
     hasActions: boolean;
     rowActions: Array<ActionModel>;

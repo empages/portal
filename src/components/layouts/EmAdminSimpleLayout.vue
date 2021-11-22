@@ -7,9 +7,9 @@
             <div class="d-flex brand-form-container">
               <RouterLink :to="{ name: 'home' }">
                 <img
-                  class="brand-logo-form"
                   :src="logo"
-                  alt="Emeraude">
+                  alt="Emeraude"
+                  class="brand-logo-form">
               </RouterLink>
             </div>
             <slot />

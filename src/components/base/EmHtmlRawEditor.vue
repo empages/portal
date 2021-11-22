@@ -9,7 +9,7 @@ import {EditorState, basicSetup} from "@codemirror/basic-setup"
 import {EditorView, keymap} from "@codemirror/view"
 import {indentWithTab} from "@codemirror/commands"
 import {html} from "@codemirror/lang-html"
-import {defineProps, withDefaults, defineEmits, Ref, ref, onMounted} from "vue";
+import {withDefaults, Ref, ref, onMounted} from "vue";
 
 const props = withDefaults(defineProps<{
   modelValue?: string

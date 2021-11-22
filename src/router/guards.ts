@@ -21,6 +21,11 @@ export const adminGuard = async function (to: RouteLocationNormalized, from: Rou
         await adminService.checkAuthorization();
     }
     catch (e) {
+        const currentIdentityRecord = store.getters['identityModule/currentIdentityRecord'];
+        if (currentIdentityRecord) {
+            store.commit('identityModule/removeIdentity', currentIdentityRecord);
+        }
+
         next({ name: 'admin-auth' });
         return;
     }

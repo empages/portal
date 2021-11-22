@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps, withDefaults, defineEmits} from "vue";
+import {withDefaults} from "vue";
 
 const props = withDefaults(defineProps<{
   validator: any | null | unknown,

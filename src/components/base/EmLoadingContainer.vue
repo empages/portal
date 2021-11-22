@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps} from 'vue'
 import EmLoadingSpinner from '@/components/base/EmLoadingSpinner.vue'
 
 const props = defineProps<{

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import EmLoadingContainer from '@/components/base/EmLoadingContainer.vue'
 import { EmPageViewModel } from '@/models/em-page-view-model'
 

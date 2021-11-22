@@ -45,6 +45,15 @@ export default {
 
             state.identityRecords.push(identityRecord);
             saveIdentity(state);
+        },
+        removeIdentity(state: IdentityModuleState, identityRecord: IdentityStorageRecord) {
+            const oldIdentityRecord = state.identityRecords.find(x => x.applicationId === identityRecord.applicationId);
+            if (oldIdentityRecord) {
+                const oldIdentityRecordIndex = state.identityRecords.indexOf(oldIdentityRecord);
+                state.identityRecords.splice(oldIdentityRecordIndex, 1);
+            }
+
+            saveIdentity(state);
         }
     },
     actions: {

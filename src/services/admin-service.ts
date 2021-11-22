@@ -5,6 +5,13 @@ import {LoginWithTwoFactorAuthenticationRequest} from "@/models/login-with-two-f
 import {SidebarSchema} from "@/models/sidebar-schema";
 import {EmPageTableViewModel} from "@/models/em-page-table-view-model";
 import {EmPageDetailsViewModel} from "@/models/em-page-details-view-model";
+import {EmPageIndexViewModel} from "@/models/em-page-index-view-model";
+import {EmPageViewContext} from "@/models/em-page-view-context";
+import {PropertyMap} from "@/models/property-map";
+import {EmPageComponent} from "@/models/em-page-component";
+import {Parameter} from "@/models/parameter";
+import {EnumValueItem} from "@/models/enum-value-item";
+import {EmPageViewModel} from "@/models/em-page-view-model";
 
 class AdminService extends EmService {
     constructor() {
@@ -31,8 +38,26 @@ class AdminService extends EmService {
         return await this.getData<SidebarSchema>('/admin/general/admin-menus');
     }
 
-    public async getTableViewModel(route: string): Promise<EmPageTableViewModel> {
-        return await this.getData<EmPageTableViewModel>(`/admin/em-pages/table/${route}`);
+    public async getIndexViewModel(route: string): Promise<EmPageIndexViewModel> {
+        const viewModel = await this.getData<EmPageIndexViewModel>(`/admin/em-pages/index/${route}`);
+
+        const assignIndexProps = (targetViewModel: EmPageViewModel) => {
+            targetViewModel.context = viewModel?.context;
+            targetViewModel.propertyComponentMap = viewModel?.propertyComponentMap;
+            targetViewModel.propertyParametersMap = viewModel?.propertyParametersMap;
+            targetViewModel.propertyOrderMap = viewModel?.propertyOrderMap;
+            targetViewModel.modelEnumerations = viewModel?.modelEnumerations;
+        }
+
+        if (viewModel?.tableViewModel) {
+            assignIndexProps(viewModel.tableViewModel);
+        }
+
+        if (viewModel?.customViewModel) {
+            assignIndexProps(viewModel.customViewModel);
+        }
+
+        return viewModel;
     }
 
     public async getDetailsViewModel(route: string, modelId: string): Promise<EmPageDetailsViewModel> {

@@ -1,4 +1,8 @@
 module.exports = {
+  globals: {
+    defineProps: "readonly",
+    defineEmits: "readonly"
+  },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',

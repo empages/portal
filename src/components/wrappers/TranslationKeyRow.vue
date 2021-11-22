@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps, Ref, ref, defineEmits, computed, watch, nextTick} from "vue";
+import {Ref, ref, computed, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import {TranslationGridItem} from "@/models/translation-grid-item";
 import {isKeyValid, transformKeyInput} from "@/shared/helpers";
