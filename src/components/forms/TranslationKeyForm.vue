@@ -66,7 +66,7 @@ import {defineProps, defineEmits, ref, Ref, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import {Language} from "@/models/language";
-import {transformKeyInput, isKeyValid} from "@/utils/helpers";
+import {transformKeyInput, isKeyValid} from "@/shared/helpers";
 import {NewTranslationKeyWithValues} from "@/models/new-translation-key-with-values";
 
 const props = defineProps<{

@@ -57,7 +57,7 @@ import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import { useNotifications } from "@/composables/notifications-composable";
 import {Language} from "@/models/language";
 import clientBuilderService from "@/services/client-builder-service";
-import {handleRequestError} from "@/utils/helpers";
+import {handleRequestError} from "@/shared/helpers";
 import { languagesTableColumns } from "@/shared/tables-columns/languages-table-columns";
 import LanguageForm from "@/components/forms/LanguageForm.vue";
 import {strings} from "@/shared/strings";

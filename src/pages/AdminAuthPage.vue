@@ -59,7 +59,7 @@ import {computed, ComputedRef, reactive, ref} from 'vue'
 import {Application} from "@/models/application";
 import {LoginRequest} from '@/models/login-request';
 import adminService from '@/services/admin-service';
-import {handleRequestError} from '@/utils/helpers';
+import {handleRequestError} from '@/shared/helpers';
 import useVuelidate from '@vuelidate/core'
 import {email, helpers, required, requiredIf} from '@vuelidate/validators'
 import EmInput from "@/components/base/EmInput.vue";

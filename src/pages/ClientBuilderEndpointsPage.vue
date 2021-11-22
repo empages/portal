@@ -20,7 +20,7 @@ import EmTable from "@/components/base/EmTable.vue";
 import EmMainCard from "@/components/base/EmMainCard.vue";
 import clientBuilderService from "@/services/client-builder-service";
 import { ApplicationEndpoint } from "@/models/application-endpoint";
-import { handleRequestError } from "@/utils/helpers";
+import { handleRequestError } from "@/shared/helpers";
 import { useNotifications } from "@/composables/notifications-composable";
 import EmFlag from "@/components/base/EmFlag.vue";
 const {showErrorToast} = useNotifications();

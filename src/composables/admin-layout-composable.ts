@@ -9,6 +9,7 @@ export interface AdminLayoutReloadOptions {
 
 export interface AdminLayout {
     reload(options: AdminLayoutReloadOptions): void;
+    reset(): void
 }
 
 export const useAdminLayout = function (): AdminLayout {
@@ -24,7 +25,13 @@ export const useAdminLayout = function (): AdminLayout {
         }
     }
 
+    function reset() {
+        store.commit('navActionsModule/setActions', []);
+        store.commit('breadcrumbsModule/setBreadcrumbs', []);
+    }
+
     return {
-        reload
+        reload,
+        reset
     }
 }

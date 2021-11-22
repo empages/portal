@@ -80,7 +80,7 @@ import EmMainCard from "@/components/base/EmMainCard.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import EmHtmlRawEditor from "@/components/base/EmHtmlRawEditor.vue";
 import clientBuilderService from "@/services/client-builder-service";
-import {handleRequestError, transformKeyInput, isKeyValid} from "@/utils/helpers";
+import {handleRequestError, transformKeyInput, isKeyValid} from "@/shared/helpers";
 import {useNotifications} from "@/composables/notifications-composable";
 import {StaticContentKey} from "@/models/static-content-key";
 import { Language } from "@/models/language";

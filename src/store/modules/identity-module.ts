@@ -1,6 +1,6 @@
 import {IdentityStorageRecord} from "@/models/identity-storage-record";
 import storageService from "@/services/storage-service";
-import {validateAccessTokenExpiration} from "@/utils/helpers";
+import {validateAccessTokenExpiration} from "@/shared/helpers";
 import jwtDecode, {JwtPayload} from "jwt-decode";
 
 interface IdentityModuleState {

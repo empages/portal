@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import { defineProps } from "vue";
-import {isUrlAbsolute} from "@/utils/helpers";
+import {isUrlAbsolute} from "@/shared/helpers";
 import {SidebarShortcutLink} from "@/models/sidebar-shortcut-link";
 
 defineProps<{

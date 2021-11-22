@@ -1,5 +1,5 @@
 import {Application} from "@/models/application";
-import {newGuid} from "@/utils/helpers";
+import {newGuid} from "@/shared/helpers";
 import storageService from "@/services/storage-service";
 
 interface SettingsModuleState {

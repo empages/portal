@@ -23,9 +23,10 @@
 <script lang="ts" setup>
 import { Dropdown } from 'bootstrap';
 import {withDefaults, defineProps, defineEmits, Ref, ComputedRef, computed, onMounted, ref} from "vue";
-import {dropdownVisibilities} from "@/utils/elements-props-options";
 
-export interface EmDropdownContext {
+const dropdownVisibilities = ['show', 'shown', 'hide', 'hidden'];
+
+interface EmDropdownContext {
   show: () => void;
   hide: () => void;
   toggle: () => void;
@@ -45,7 +46,7 @@ const props = withDefaults(defineProps<{
   toggleIcon: true
 })
 
-const emit = defineEmits(dropdownVisibilities);
+const emit = defineEmits(['show', 'shown', 'hide', 'hidden']);
 const dropdown: Ref<Dropdown | null> = ref(null);
 const dropdownElement: Ref<HTMLButtonElement | null> = ref(null);
 const context: ComputedRef<EmDropdownContext | null> = computed(() => {
@@ -67,7 +68,7 @@ onMounted(() => {
       autoClose: props.autoClose as (boolean | 'inside' | 'outside')
     });
 
-    dropdownVisibilities.forEach((e) => {
+    dropdownVisibilities.forEach((e: any) => {
       dropdownElement.value?.addEventListener(`${e}.bs.dropdown`, () => {
         emit(e);
       });

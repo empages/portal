@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import {computed, defineProps} from "vue";
 import {EmPageComponent} from "@/models/em-page-component";
-import {isUrlAbsolute} from "@/utils/helpers";
+import {isUrlAbsolute} from "@/shared/helpers";
 import {useUrlBuilder} from "@/composables/url-builder-composable";
 import {EmPageViewModel} from "@/models/em-page-view-model";
 const urlBuilder = useUrlBuilder();

@@ -20,30 +20,31 @@
     </EmCol>
   </EmRow>
   <EmCard title="List of all registered applications">
-    <EmTable
-      v-if="!hideTable"
-      :columns="applicationsTableColumns"
-      :data="applications">
-      <template #actions="{ data }">
-        <button
-          class="btn btn-primary px-2 py-1 mx-2px me-1"
-          @click="selectApplicationForEdit(data)">
-          Select to edit
-        </button>
-        <EmConfirmation
-          v-slot="{ context }"
-          class="d-inline-block"
-          :confirmation-word="data.name"
-          :message="`Are you sure you want to remove it from the application list?`"
-          :callback="() => removeApplication(data.id)">
+    <EmLoadingContainer :loaded="!detectedChange">
+      <EmTable
+        :columns="applicationsTableColumns"
+        :data="applications">
+        <template #actions="{ data }">
           <button
-            class="btn btn-primary px-2 py-1 mx-2px"
-            @click="context.show">
-            Remove
+            class="btn btn-primary px-2 py-1 mx-2px me-1"
+            @click="selectApplicationForEdit(data)">
+            Select to edit
           </button>
-        </EmConfirmation>
-      </template>
-    </EmTable>
+          <EmConfirmation
+            v-slot="{ context }"
+            class="d-inline-block"
+            :confirmation-word="data.name"
+            :message="`Are you sure you want to remove it from the application list?`"
+            :callback="() => removeApplication(data.id)">
+            <button
+              class="btn btn-primary px-2 py-1 mx-2px"
+              @click="context.show">
+              Remove
+            </button>
+          </EmConfirmation>
+        </template>
+      </EmTable>
+    </EmLoadingContainer>
   </EmCard>
 </template>
 
@@ -62,6 +63,7 @@ import {useNotifications} from "@/composables/notifications-composable";
 import {applicationsTableColumns} from "@/shared/tables-columns/applications-table-columns";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
+import EmLoadingContainer from '@/components/base/EmLoadingContainer.vue'
 
 const { showSuccessToast, showErrorToast } = useNotifications();
 const store = useStore();
@@ -74,7 +76,7 @@ const emptyApplication: Ref<Application> = ref({
   gatewayId: ''
 });
 const applicationForEdit: Ref<Application | null> = ref(null);
-const hideTable = ref(false);
+const detectedChange = ref(false);
 const selectedApplication = computed(() => {
   return applicationForEdit.value ? applicationForEdit.value : emptyApplication.value;
 })
@@ -95,7 +97,7 @@ async function saveApplication(application: Application, successCallback: () => 
   try {
     const gatewayResponse = await accessService.verifyPortalAccess(application);
     if (gatewayResponse.verified) {
-      hideTable.value = true;
+      detectedChange.value = true;
 
       application.environment = gatewayResponse.environment;
       if (editMode.value) {

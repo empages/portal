@@ -1,6 +1,6 @@
 import {Application} from "@/models/application";
 import {IdentityStorageRecord} from "@/models/identity-storage-record";
-import {validateAccessTokenExpiration} from "@/utils/helpers";
+import {validateAccessTokenExpiration} from "@/shared/helpers";
 
 export class StorageService {
     private applicationsListKey = "_em_apps_list";

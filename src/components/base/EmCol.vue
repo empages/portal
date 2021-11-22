@@ -8,16 +8,44 @@
 
 <script lang="ts" setup>
 import {computed, ComputedRef, defineProps} from "vue";
-import {breakpointCol, breakpointOffset, breakpointOrder} from "@/utils/breakpoints";
+
+const breakpointCol = {
+  sm: {type: [String, Number], default: null},
+  md: {type: [String, Number], default: null},
+  lg: {type: [String, Number], default: null},
+  xl: {type: [String, Number], default: null}
+};
+
+const breakpointOffset = {
+  offsetSm: {type: [String, Number], default: null},
+  offsetMd: {type: [String, Number], default: null},
+  offsetLg: {type: [String, Number], default: null},
+  offsetXl: {type: [String, Number], default: null}
+}
+const breakpointOrder = {
+  orderSm: {type: [String, Number], default: null},
+  orderMd: {type: [String, Number], default: null},
+  orderLg: {type: [String, Number], default: null},
+  orderXl: {type: [String, Number], default: null}
+}
 
 const props = defineProps({
   col: {type: Boolean, default: false},
   cols: {type: [String, Number], default: null},
-  ...breakpointCol,
+  sm: {type: [String, Number], default: null},
+  md: {type: [String, Number], default: null},
+  lg: {type: [String, Number], default: null},
+  xl: {type: [String, Number], default: null},
   offset: {type: [String, Number], default: null},
-  ...breakpointOffset,
+  offsetSm: {type: [String, Number], default: null},
+  offsetMd: {type: [String, Number], default: null},
+  offsetLg: {type: [String, Number], default: null},
+  offsetXl: {type: [String, Number], default: null},
   order: {type: [String, Number], default: null},
-  ...breakpointOrder,
+  orderSm: {type: [String, Number], default: null},
+  orderMd: {type: [String, Number], default: null},
+  orderLg: {type: [String, Number], default: null},
+  orderXl: {type: [String, Number], default: null},
   alignSelf: {type: String, default: null},
   tag: {type: String, default: 'div'},
 });

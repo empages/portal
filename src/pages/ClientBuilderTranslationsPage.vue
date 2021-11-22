@@ -68,7 +68,7 @@ import TranslationKeyForm from "@/components/forms/TranslationKeyForm.vue";
 import TranslationKeyRow from "@/components/wrappers/TranslationKeyRow.vue";
 import clientBuilderService from '@/services/client-builder-service';
 import { useNotifications } from '@/composables/notifications-composable';
-import {handleRequestError} from "@/utils/helpers";
+import {handleRequestError} from "@/shared/helpers";
 import {TranslationKey} from "@/models/translation-key";
 import {Language} from "@/models/language";
 import {TranslationGridData} from "@/models/translation-grid-data";

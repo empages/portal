@@ -1,34 +1,36 @@
 <template>
-  <EmTable
-    :columns="[...tableColumns, ...actionColumns]"
-    :data="tableData">
-    <template
-      v-for="(item, itemIndex) in tableColumns"
-      :key="`table-item-key-${itemIndex}-${item.key}`"
-      #[item.key]="{data}">
-      <Component
-        :is="getCell(data, item.key)?.component?.sourceName"
-        :view-model="viewModel"
-        :component="getCell(data, item.key)?.component"
-        :renderer-value="getCell(data, item.key)?.value"
-        v-bind="getCell(data, item.key)?.parameters" />
-    </template>
-    <template #actions="{ data, value }">
-      <div class="d-flex">
-        <div
-          v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"
-          :key="`row-${data.identifier}-action-${actionIndex}`"
-          class="row-action-container">
-          <RouterLink
-            class="btn btn-primary px-2 py-1"
-            :title="action.title"
-            :to="action.actionUrl">
-            {{ action.title }}
-          </RouterLink>
+  <EmPageView :view-model="viewModel">
+    <EmTable
+      :columns="[...tableColumns, ...actionColumns]"
+      :data="tableData">
+      <template
+        v-for="(item, itemIndex) in tableColumns"
+        :key="`table-item-key-${itemIndex}-${item.key}`"
+        #[item.key]="{data}">
+        <Component
+          :is="getCell(data, item.key)?.component?.sourceName"
+          :view-model="viewModel"
+          :component="getCell(data, item.key)?.component"
+          :renderer-value="getCell(data, item.key)?.value"
+          v-bind="getCell(data, item.key)?.parameters" />
+      </template>
+      <template #actions="{ data, value }">
+        <div class="d-flex">
+          <div
+            v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"
+            :key="`row-${data.identifier}-action-${actionIndex}`"
+            class="row-action-container">
+            <RouterLink
+              class="btn btn-primary px-2 py-1"
+              :title="action.title"
+              :to="action.actionUrl">
+              {{ action.title }}
+            </RouterLink>
+          </div>
         </div>
-      </div>
-    </template>
-  </EmTable>
+      </template>
+    </EmTable>
+  </EmPageView>
 </template>
 
 <script lang="ts" setup>
@@ -40,6 +42,7 @@ import {EmPageTableViewModel} from "@/models/em-page-table-view-model";
 import {EmPageTableHeadCellModel} from "@/models/em-page-table-head-cell-model";
 import EmTable from "@/components/base/EmTable.vue";
 import {useAdminLayout} from "@/composables/admin-layout-composable";
+import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 
 const props = defineProps<{
   pageRoute: string | null
@@ -86,6 +89,9 @@ function getCell(row: EmPageTableRowModel, property: string) {
 }
 
 async function loadViewModel(route: string | null) {
+  viewModel.value = null;
+  adminLayout.reset();
+
   viewModel.value = await adminService.getTableViewModel(route || '');
   adminLayout.reload({
     breadcrumbs: viewModel.value.context.breadcrumbs,

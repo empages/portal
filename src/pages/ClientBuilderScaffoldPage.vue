@@ -117,7 +117,7 @@
 import {computed, ComputedRef, onMounted, Ref, ref} from "vue";
 import { useUrlBuilder } from "@/composables/url-builder-composable";
 import { useNotifications } from "@/composables/notifications-composable";
-import {handleRequestError} from "@/utils/helpers";
+import {handleRequestError} from "@/shared/helpers";
 import {ApplicationInstanceType} from "@/shared/enums";
 import { ScaffoldModule } from "@/models/scaffold-module";
 import {

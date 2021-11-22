@@ -8,7 +8,7 @@
 import {computed, defineProps} from "vue";
 import {EmPageComponent} from "@/models/em-page-component";
 import {EmPageViewModel} from "@/models/em-page-view-model";
-import {decodeHtml} from "@/utils/helpers";
+import {decodeHtml} from "@/shared/helpers";
 
 const props = defineProps<{
   rendererValue?: string,

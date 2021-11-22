@@ -62,7 +62,7 @@
 import {defineProps, Ref, ref, defineEmits, computed, watch, nextTick} from "vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import {TranslationGridItem} from "@/models/translation-grid-item";
-import {isKeyValid, transformKeyInput} from "@/utils/helpers";
+import {isKeyValid, transformKeyInput} from "@/shared/helpers";
 
 const props = defineProps<{
   inputData: TranslationGridItem,
