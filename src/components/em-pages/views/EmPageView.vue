@@ -1,6 +1,6 @@
 <template>
   <EmLoadingContainer :loaded="loaded">
-    <EmCard :title="props.viewModel?.context?.title">
+    <EmCard :title="props.viewModel?.context?.title || ''">
       <slot />
     </EmCard>
   </EmLoadingContainer>
