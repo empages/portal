@@ -1,6 +1,8 @@
 <template>
   <EmLoadingContainer :loaded="loaded">
-    <slot />
+    <EmCard :title="props.viewModel.context.title">
+      <slot />
+    </EmCard>
   </EmLoadingContainer>
 </template>
 
@@ -8,6 +10,7 @@
 import { computed } from 'vue'
 import EmLoadingContainer from '@/components/base/EmLoadingContainer.vue'
 import { EmPageViewModel } from '@/models/em-page-view-model'
+import EmCard from '@/components/base/EmCard.vue'
 
 const props = defineProps<{
   viewModel: EmPageViewModel | null

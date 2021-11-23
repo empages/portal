@@ -1,4 +1,4 @@
-export interface MutationResult {
+export class MutationResult {
     succeeded: boolean;
     mutatedEntityId: string;
 }

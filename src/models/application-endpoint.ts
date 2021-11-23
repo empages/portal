@@ -1,4 +1,4 @@
-export interface ApplicationEndpoint {
+export class ApplicationEndpoint {
     id: string;
     controllerName: string;
     actionName: string;

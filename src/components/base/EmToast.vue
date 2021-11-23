@@ -20,13 +20,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ToastNotification } from "@/models/notification";
 import { Toast } from "bootstrap"
 import {onMounted, ref, Ref} from "vue"
 import {useStore} from "vuex";
+import { EmToastNotification } from '@/shared/types/em-toast-notification'
 
 const props = defineProps<{
-  notification: ToastNotification
+  notification: EmToastNotification
 }>()
 
 const store = useStore();

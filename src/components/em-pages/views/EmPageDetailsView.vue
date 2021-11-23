@@ -1,25 +1,27 @@
 <template>
-  <table
-    v-if="viewModel"
-    class="table table-striped">
-    <tbody>
-      <tr
-        v-for="(field, fieldIndex) in _.sortBy(fields, x => x.order)"
-        :key="`details-field-${fieldIndex}`">
-        <td>
-          <strong>{{ field.title }}:</strong>
-        </td>
-        <td class="white-space-normal">
-          <Component
-            :is="field?.component.sourceName"
-            :view-model="viewModel"
-            :component="field?.component"
-            :renderer-value="field?.value"
-            v-bind="field?.parameters" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <EmPageView :view-model="viewModel">
+    <table
+      v-if="viewModel"
+      class="table table-striped">
+      <tbody>
+        <tr
+          v-for="(field, fieldIndex) in _.sortBy(fields, x => x.order)"
+          :key="`details-field-${fieldIndex}`">
+          <td>
+            <strong>{{ field.title }}:</strong>
+          </td>
+          <td class="white-space-normal">
+            <Component
+              :is="field?.component.sourceName"
+              :view-model="viewModel"
+              :component="field?.component"
+              :renderer-value="field?.value"
+              v-bind="field?.parameters" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </EmPageView>
 </template>
 
 <script lang="ts" setup>
@@ -28,6 +30,7 @@ import {ref, Ref, watch, onMounted, computed} from "vue";
 import {EmPageDetailsViewModel} from "@/models/em-page-details-view-model";
 import _ from "lodash";
 import {useAdminLayout} from "@/composables/admin-layout-composable";
+import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 
 const props = defineProps<{
   pageRoute: string | null,

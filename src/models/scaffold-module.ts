@@ -2,7 +2,7 @@ import {ApplicationInstanceType} from "@/shared/enums";
 import {ScaffoldModuleFile} from "@/models/scaffold-module-file";
 import {ScaffoldModuleFolder} from "@/models/scaffold-module-folder";
 
-export interface ScaffoldModule {
+export class ScaffoldModule {
     id: string;
     order: number;
     name: string;

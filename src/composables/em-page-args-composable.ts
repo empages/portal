@@ -4,6 +4,7 @@ import {computed, ComputedRef} from "vue";
 export interface EmPageArgs {
     route: ComputedRef<string | null>;
     identifier: ComputedRef<string | null>;
+    feature: ComputedRef<string | null>;
 }
 
 export const useEmPageArgs = function (): EmPageArgs {
@@ -25,8 +26,17 @@ export const useEmPageArgs = function (): EmPageArgs {
         return routeInstance.params.id.toString();
     });
 
+    const feature = computed(() => {
+        if (!routeInstance.params || !routeInstance.params.feature) {
+            return null;
+        }
+
+        return routeInstance.params.feature.toString();
+    })
+
     return {
         route,
-        identifier
+        identifier,
+        feature
     }
 }

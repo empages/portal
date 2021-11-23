@@ -1,8 +1,8 @@
 import { useStore } from "vuex";
-import {ToastNotification} from "@/models/notification";
+import {EmToastNotification} from "@/shared/types/em-toast-notification"
 
 export interface NotificationProvider {
-    showToast: (notification: ToastNotification) => void;
+    showToast: (notification: EmToastNotification) => void;
     showSuccessToast: (message: string) => void;
     showErrorToast: (message: string) => void;
     showWarningToast: (message: string) => void;
@@ -12,7 +12,7 @@ export interface NotificationProvider {
 export const useNotifications = function (): NotificationProvider {
     const store = useStore();
 
-    const showToast = (notification: ToastNotification): void => {
+    const showToast = (notification: EmToastNotification): void => {
         store.commit('notificationModule/addNotification', notification);
     }
 
@@ -21,7 +21,7 @@ export const useNotifications = function (): NotificationProvider {
             message,
             toastClass: 'bg-success bg-gradient text-white',
             closeClass: 'btn-close-white'
-        } as ToastNotification)
+        } as EmToastNotification)
     }
 
     const showErrorToast = (message: string): void => {
@@ -29,7 +29,7 @@ export const useNotifications = function (): NotificationProvider {
             message,
             toastClass: 'bg-danger bg-gradient text-white',
             closeClass: 'btn-close-white'
-        } as ToastNotification)
+        } as EmToastNotification)
     }
 
     const showInfoToast = (message: string): void => {
@@ -37,7 +37,7 @@ export const useNotifications = function (): NotificationProvider {
             message,
             toastClass: 'bg-info bg-gradient text-white',
             closeClass: 'btn-close-white'
-        } as ToastNotification)
+        } as EmToastNotification)
     }
 
     const showWarningToast = (message: string): void => {
@@ -45,7 +45,7 @@ export const useNotifications = function (): NotificationProvider {
             message,
             toastClass: 'bg-warning bg-gradient text-white',
             closeClass: 'btn-close-white'
-        } as ToastNotification)
+        } as EmToastNotification)
     }
 
     return {

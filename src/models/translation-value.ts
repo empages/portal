@@ -1,4 +1,4 @@
-export interface TranslationValue {
+export class TranslationValue {
     id: number;
     value: string;
 }

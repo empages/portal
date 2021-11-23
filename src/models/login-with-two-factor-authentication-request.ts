@@ -1,4 +1,4 @@
-export interface LoginWithTwoFactorAuthenticationRequest {
+export class LoginWithTwoFactorAuthenticationRequest {
     email: string;
     code: string;
 }

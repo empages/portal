@@ -1,4 +1,4 @@
-export interface Application {
+export class Application {
     id: string;
     name: string;
     url: string;

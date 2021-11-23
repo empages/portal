@@ -1,6 +1,6 @@
 import {ContentKeyContent} from "@/models/content-key-content";
 
-export interface StaticContentKey {
+export class StaticContentKey {
     id: number;
     key: string;
     staticContentList: Array<ContentKeyContent>;

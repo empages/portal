@@ -1,6 +1,6 @@
 import {NewKeyTranslationValue} from "@/models/new-key-translation-value";
 
-export interface NewTranslationKeyWithValues {
+export class NewTranslationKeyWithValues {
     key: string;
     values: Array<NewKeyTranslationValue>
 }

@@ -1,4 +1,4 @@
-export interface ToastNotification {
+export interface EmToastNotification {
     id: string;
     toastClass: string;
     message: string;

@@ -12,6 +12,7 @@ import {EmPageComponent} from "@/models/em-page-component";
 import {Parameter} from "@/models/parameter";
 import {EnumValueItem} from "@/models/enum-value-item";
 import {EmPageViewModel} from "@/models/em-page-view-model";
+import { EmPageFormViewModel } from '@/models/em-page-form-view-model'
 
 class AdminService extends EmService {
     constructor() {
@@ -64,12 +65,12 @@ class AdminService extends EmService {
         return await this.getData<EmPageDetailsViewModel>(`/admin/em-pages/details/${route}/${modelId}`);
     }
 
-    public async getFormViewModel(route: any, modelId: string | null): Promise<any> {
-        return await this.getData<any>(`/admin/em-pages/form/${route}/${modelId}`);
+    public async getFormViewModel(route: any, modelId: string | null): Promise<EmPageFormViewModel> {
+        return await this.getData<EmPageFormViewModel>(`/admin/em-pages/form/${route}/${modelId}`);
     }
 
-    public async getFeatureTableViewModel(route: any, modelId: string, feature: string): Promise<any> {
-        return await this.getData<any>(`/admin/em-pages/feature/${route}/${modelId}/${feature}`);
+    public async getFeatureIndexViewModel(route: any, modelId: string, feature: string): Promise<EmPageIndexViewModel> {
+        return await this.getData<EmPageIndexViewModel>(`/admin/em-pages/feature/${route}/${modelId}/${feature}`);
     }
 }
 

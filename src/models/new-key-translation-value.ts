@@ -1,4 +1,4 @@
-export interface NewKeyTranslationValue {
+export class NewKeyTranslationValue {
     languageId: number;
     value: string;
 }

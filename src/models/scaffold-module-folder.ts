@@ -1,4 +1,4 @@
-export interface ScaffoldModuleFolder {
+export class ScaffoldModuleFolder {
     name: string;
     relativePath: string;
 }

@@ -1,4 +1,4 @@
-export interface AdminAuthResponse {
+export class AdminAuthResponse {
     succeeded: boolean;
     message: string;
     accessToken: string | null;

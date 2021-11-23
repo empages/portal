@@ -1,3 +1,3 @@
-export interface SimpleResult {
+export class SimpleResult {
     succeeded: boolean;
 }

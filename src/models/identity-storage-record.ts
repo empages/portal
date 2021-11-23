@@ -1,4 +1,4 @@
-export interface IdentityStorageRecord {
+export class IdentityStorageRecord {
     accessToken: string;
     applicationId: string;
 }

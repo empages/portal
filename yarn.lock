@@ -427,6 +427,13 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@tinymce/tinymce-vue@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-vue/-/tinymce-vue-4.0.5.tgz#d95e69a1053e60bc537792e5ec4dd9c34399f45e"
+  integrity sha512-PutMhPVgR+NPeu20pvTmFBY+3zKwTJqK0JPDb6QuK8u1g6Av4RaiUVS58Rft6mhoxVE99tIofdr69wOH/X0swA==
+  dependencies:
+    tinymce "^5.5.0"
+
 "@types/bootstrap@^5.1.6":
   version "5.1.6"
   resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-5.1.6.tgz#669a0cd7fb37bca12424e0d68f1f4704cfcdb780"
@@ -2462,6 +2469,11 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+tinymce@^5.5.0:
+  version "5.10.2"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.10.2.tgz#cf1ff01025909be26c64348509e6de8e70d58e1d"
+  integrity sha512-5QhnZ6c8F28fYucLLc00MM37fZoAZ4g7QCYzwIl38i5TwJR5xGqzOv6YMideyLM4tytCzLCRwJoQen2LI66p5A==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
