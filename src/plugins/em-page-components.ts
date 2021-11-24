@@ -7,6 +7,7 @@ import EmPageImageRenderer from "@/components/em-pages/components/renderers/EmPa
 import EmPageTextMutator from "@/components/em-pages/components/mutators/EmPageTextMutator.vue";
 import EmPageDateMutator from "@/components/em-pages/components/mutators/EmPageDateMutator.vue";
 import EmPageTimeMutator from "@/components/em-pages/components/mutators/EmPageTimeMutator.vue";
+import EmPageDateTimeMutator from "@/components/em-pages/components/mutators/EmPageDateTimeMutator.vue";
 import EmPageEnumMutator from "@/components/em-pages/components/mutators/EmPageEnumMutator.vue";
 import EmPageFlagMutator from "@/components/em-pages/components/mutators/EmPageFlagMutator.vue";
 import EmPageHtmlMutator from "@/components/em-pages/components/mutators/EmPageHtmlMutator.vue";
@@ -26,6 +27,7 @@ export default {
         app.component('EmPageTextMutator', EmPageTextMutator);
         app.component('EmPageDateMutator', EmPageDateMutator);
         app.component('EmPageTimeMutator', EmPageTimeMutator);
+        app.component('EmPageDateTimeMutator', EmPageDateTimeMutator);
         app.component('EmPageEnumMutator', EmPageEnumMutator);
         app.component('EmPageFlagMutator', EmPageFlagMutator);
         app.component('EmPageHtmlMutator', EmPageHtmlMutator);

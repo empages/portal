@@ -113,3 +113,23 @@ export function transformKeyInput(event: Event): string {
 
     return input;
 }
+
+export function parseDateModel(dateModel: string | null): Date | null {
+    let parsedDate = null;
+    if (dateModel) {
+        const [year, month, day] = dateModel.split('-').map(x => parseInt(x));
+        parsedDate = new Date(year, (month - 1), day)
+    }
+
+    return parsedDate;
+}
+
+export function parseTimeSpan(timeSpan: string | null): { hours: number, minutes: number } | null {
+    let parsedTime = null;
+    if (timeSpan) {
+        const time = timeSpan.split(':').map(x => parseInt(x));
+        parsedTime = { hours: time[0], minutes: time[1] }
+    }
+
+    return parsedTime;
+}

@@ -4,8 +4,8 @@
       <div
         v-for="(input, inputIndex) in inputs"
         :key="`em-page-form-input-${inputIndex}`"
-        class="form-group">
-        <label class="form-label">
+        class="form-group mb-2">
+        <label class="form-label mb-0">
           {{ input.label }}
         </label>
         <Component

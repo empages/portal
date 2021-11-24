@@ -1,7 +1,5 @@
 <template>
-  <Datepicker
-    v-model="dateModel"
-    :enable-time-picker="false" />
+  <Datepicker v-model="dateTimeModel" />
 </template>
 
 <script lang="ts" setup>
@@ -10,7 +8,6 @@ import 'vue3-date-time-picker/dist/main.css'
 import { ref, watch } from 'vue'
 import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
-import { parseDateModel } from '@/shared/helpers'
 import moment from 'moment'
 
 const props = defineProps<{
@@ -21,12 +18,13 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:modelValue']);
 
-const dateModel = ref(parseDateModel(props.mutatorValue));
+const parsedDate = props.mutatorValue ? new Date(props.mutatorValue) : null;
+const dateTimeModel = ref(parsedDate);
 
-watch(dateModel, (value: any) => {
+watch(dateTimeModel, (value: any) => {
   let valueForEmitting = null;
   if (value) {
-    valueForEmitting = moment(value).format('YYYY-MM-DD');
+    valueForEmitting = moment(value).format('YYYY-MM-DDTHH:mm:ss');
   }
 
   emit('update:modelValue', valueForEmitting);
