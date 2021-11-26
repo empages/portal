@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import Editor from "@tinymce/tinymce-vue"
 import {tinyMceApiKey} from '@/shared/config'
-import { ref, watch, withDefaults } from 'vue'
+import {ref, watch, withDefaults} from 'vue'
 
 const props = withDefaults(defineProps<{
   modelValue?: string

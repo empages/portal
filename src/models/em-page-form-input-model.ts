@@ -4,5 +4,6 @@ export class EmPageFormInputModel extends EmPageViewItemContextModel {
   label: string;
   required: boolean;
   readonly: boolean;
+  allowNullValue: boolean;
   validationErrors: Array<string>;
 }

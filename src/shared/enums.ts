@@ -16,3 +16,9 @@ export enum EmPageComponentType {
     Renderer = 1,
     Mutator = 2
 }
+
+export enum MultiChoiceType {
+    Select = 1,
+    CheckboxGroup = 2,
+    RadioGroup = 3
+}

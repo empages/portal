@@ -1,12 +1,14 @@
 <template>
-  <EmHtmlEditor v-model="modelValue" />
+  <div class="em-page-html-mutator">
+    <EmHtmlEditor v-model="modelValue" />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
 import EmHtmlEditor from '@/components/base/EmHtmlEditor.vue'
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 const props = defineProps<{
   mutatorValue: any,

@@ -13,6 +13,7 @@
           :view-model="viewModel"
           :component="input?.component"
           :mutator-value="input?.value"
+          :allow-null-value="input?.allowNullValue"
           v-bind="input?.parameters" />
       </div>
     </form>
