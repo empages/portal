@@ -1,6 +1,7 @@
 import jwtDecode, {JwtPayload} from "jwt-decode";
 import {AxiosError} from "axios";
 import {strings} from "@/shared/strings";
+import {EmPageFormViewModel} from "@/models/em-page-form-view-model";
 
 
 export function newGuid(): string {
@@ -19,6 +20,34 @@ export function randomString(length: number): string {
     }
 
     return result;
+}
+
+export function getPropertyNameFromOrigin(originPropertyName: string): string {
+    if (!originPropertyName) {
+        return '';
+    }
+
+    if (originPropertyName.length === 1) {
+        return originPropertyName.toLowerCase();
+    }
+
+    return originPropertyName.charAt(0).toLowerCase() + originPropertyName.slice(1);
+}
+
+export function getModelFromFormViewModel(viewModel: EmPageFormViewModel | null): any {
+    const model: any = {};
+    if (viewModel) {
+        for (const input of viewModel.inputs) {
+            const propertyName = getPropertyNameFromOrigin(input.property);
+            model[propertyName] = input.value;
+        }
+
+        if (!model.id) {
+            model['id'] = viewModel.identifier;
+        }
+    }
+
+    return model;
 }
 
 export function decodeAccessToken(token: string): JwtPayload {

@@ -65,12 +65,17 @@ const identity = computed(() => {
   return store.getters['identityModule/decodedIdentity'];
 })
 
+const identityRecord = computed(() => {
+  return store.getters['identityModule/currentIdentityRecord'];
+})
+
 const expiration = computed(() => {
   const expirationDate = new Date(((identity.value.exp || 0) * 1000));
   return moment(expirationDate).format('YYYY-MM-DD HH:mm');
 })
 
 function logout() {
+  store.commit('identityModule/removeIdentity', identityRecord.value);
   router.go(0);
 }
 

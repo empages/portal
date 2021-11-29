@@ -3,12 +3,12 @@
     <div v-if="!props.largeText">
       <input
         v-model="value"
-        class="form-control">
+        :class="[{ 'is-invalid': props.hasError }, 'form-control']">
     </div>
     <div v-else>
       <textarea
         v-model="value"
-        class="form-control"
+        :class="[{ 'is-invalid': props.hasError }, 'form-control']"
         rows="5" />
     </div>
   </div>
@@ -18,12 +18,12 @@
 import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
 import {ref, watch} from "vue";
-import moment from "moment";
 
 const props = defineProps<{
   mutatorValue: any,
   component: EmPageComponent,
   viewModel: EmPageViewModel,
+  hasError: boolean,
   largeText: boolean
 }>()
 

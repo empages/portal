@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import EmSelect from "@/components/base/EmSelect.vue";
 import {MultiChoiceType} from "@/shared/enums";
 import EmRadioGroup from "@/components/base/EmRadioGroup.vue";
@@ -42,6 +42,8 @@ const enumValueItems = computed(() => {
   return props.viewModel.modelEnumerations[props.component.sourceTypeName];
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 const value = ref(props.mutatorValue);
 
 const options = computed(() => {
@@ -52,6 +54,11 @@ const options = computed(() => {
     }
   })
 })
+
+watch(value, (newValue: any) => {
+  emit('update:modelValue', newValue);
+})
+
 </script>
 
 <style scoped>

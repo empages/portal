@@ -22,3 +22,8 @@ export enum MultiChoiceType {
     CheckboxGroup = 2,
     RadioGroup = 3
 }
+
+export enum EmPageFormType {
+    CreateForm = 1,
+    EditForm = 2
+}

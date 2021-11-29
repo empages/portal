@@ -55,16 +55,26 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ComputedRef} from "vue";
+import {computed, ComputedRef, withDefaults} from "vue";
+import {EmPaginationModel} from "@/shared/types/em-pagination-model";
 
-const props = defineProps<{
-  page: number,
-  pagesCount: number
-}>();
+const props = withDefaults(defineProps<{
+  page?: number,
+  pagesCount?: number,
+  model?: EmPaginationModel | null
+}>(), {
+  page: 1,
+  pagesCount: 0,
+  model: () => null
+});
 
 const emit = defineEmits(['select:page']);
 
 const model: ComputedRef<EmPaginationModel> = computed(() => {
+  if (props.model) {
+    return props.model;
+  }
+
   const model =  {
     currentPage: 0,
     nextPage: null,
@@ -122,14 +132,6 @@ function build(model: EmPaginationModel, currentPage: number, pagesCount: number
       model.nextPagesCount++;
     }
   }
-}
-
-interface EmPaginationModel {
-  currentPage: number;
-  nextPage: number | null;
-  previousPage: number | null;
-  nextPagesCount: number;
-  previousPagesCount: number;
 }
 
 </script>

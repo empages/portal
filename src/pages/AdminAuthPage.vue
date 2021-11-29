@@ -37,7 +37,11 @@
         </div>
       </div>
       <div v-else-if="authenticationState === AuthenticationState.Authenticated">
-        <p>Authenticated.</p>
+        <div class="w-100 d-flex">
+          <div class="mx-auto my-3">
+            <EmLoadingSpinner />
+          </div>
+        </div>
       </div>
       <div
         v-if="authenticationState === AuthenticationState.Login || authenticationState === AuthenticationState.LoginWithTwoFactor"
@@ -69,6 +73,7 @@ import {AdminAuthResponse} from '@/models/admin-auth-response';
 import { useNotifications } from '@/composables/notifications-composable';
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
+import EmLoadingSpinner from "@/components/base/EmLoadingSpinner.vue";
 
 const { showWarningToast, showErrorToast } = useNotifications();
 const store = useStore();
