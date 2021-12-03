@@ -15,17 +15,11 @@
     </template>
     <template #actions="{ data, value }">
       <div class="d-flex">
-        <div
+        <EmAction
           v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"
           :key="`row-${data.identifier}-action-${actionIndex}`"
-          class="row-action-container">
-          <RouterLink
-            class="btn btn-primary px-2 py-1"
-            :title="action.title"
-            :to="action.actionUrl">
-            {{ action.title }}
-          </RouterLink>
-        </div>
+          :action="action"
+          class="row-action-container" />
       </div>
     </template>
   </EmTable>
@@ -38,6 +32,7 @@ import _ from 'lodash';
 import {EmPageTableViewModel} from "@/models/em-page-table-view-model";
 import {EmPageTableHeadCellModel} from "@/models/em-page-table-head-cell-model";
 import EmTable from "@/components/base/EmTable.vue";
+import EmAction from "@/components/base/EmAction.vue";
 
 const props = defineProps<{
   viewModel: EmPageTableViewModel | null

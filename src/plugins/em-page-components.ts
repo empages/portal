@@ -11,8 +11,8 @@ import EmPageDateTimeMutator from "@/components/em-pages/components/mutators/EmP
 import EmPageEnumMutator from "@/components/em-pages/components/mutators/EmPageEnumMutator.vue";
 import EmPageFlagMutator from "@/components/em-pages/components/mutators/EmPageFlagMutator.vue";
 import EmPageHtmlMutator from "@/components/em-pages/components/mutators/EmPageHtmlMutator.vue";
-import EmPageEntityMutator from "@/components/em-pages/components/mutators/EmPageEntityMutator.vue";
-import EmPageCustomMutator from "@/components/em-pages/components/mutators/EmPageCustomMutator.vue";
+import EmPageCustomDataMutator from "@/components/em-pages/components/mutators/EmPageCustomDataMutator.vue";
+import EmPageFileMutator from "@/components/em-pages/components/mutators/EmPageFileMutator.vue";
 
 export default {
     install: (app: any) => {
@@ -31,7 +31,7 @@ export default {
         app.component('EmPageEnumMutator', EmPageEnumMutator);
         app.component('EmPageFlagMutator', EmPageFlagMutator);
         app.component('EmPageHtmlMutator', EmPageHtmlMutator);
-        app.component('EmPageEntityMutator', EmPageEntityMutator);
-        app.component('EmPageCustomMutator', EmPageCustomMutator);
+        app.component('EmPageCustomDataMutator', EmPageCustomDataMutator);
+        app.component('EmPageFileMutator', EmPageFileMutator);
     }
 }

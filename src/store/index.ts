@@ -1,5 +1,6 @@
 import {createStore, Store} from "vuex";
 import settingsModule from "@/store/modules/settings-module";
+import generalModule from "@/store/modules/general-module";
 import notificationModule from "@/store/modules/notification-module";
 import identityModule from "@/store/modules/identity-module";
 import sidebarModule from "@/store/modules/sidebar-module";
@@ -17,6 +18,7 @@ const store: Store<MainState> = createStore({
     actions: {},
     modules: {
         settingsModule,
+        generalModule,
         notificationModule,
         identityModule,
         sidebarModule,

@@ -1,5 +1,5 @@
 <template>
-  <h1>EmPageCustomMutator</h1>
+  <h1>PrivacyPage</h1>
 </template>
 
 <script lang="ts" setup>

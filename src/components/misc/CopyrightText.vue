@@ -1,7 +1,7 @@
 <template>
   <span class="text-muted text-small">
     <span class="footer-text text-center">
-      Copyright © {{ year }} <a
+      Apache License 2.0 | Copyright © {{ year }} <a
         href="https://georgi.karagogov.com/"
         target="_blank">Georgi Karagogov</a>. All rights reserved.
     </span>

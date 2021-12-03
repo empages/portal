@@ -42,12 +42,15 @@ import EmPageTableView from "@/components/em-pages/views/EmPageTableView.vue";
 import EmPageView from "@/components/em-pages/views/EmPageView.vue";
 import {useRoute, useRouter} from "vue-router";
 import EmPagination from "@/components/base/EmPagination.vue";
+import {usePageSettings} from "@/composables/page-settings-composables";
+import {getPluralFormat} from "@/shared/helpers";
 
 const props = defineProps<{
   pageRoute: string | null
 }>();
 
 const adminLayout = useAdminLayout();
+const pageSettings = usePageSettings();
 const route = useRoute();
 const router = useRouter();
 
@@ -56,13 +59,19 @@ const page = ref(1);
 const searchQuery = ref('');
 
 async function loadViewModel(route: string | null) {
-  viewModel.value = null;
-  adminLayout.reset();
-  viewModel.value = await adminService.getIndexViewModel(route || '', page.value, searchQuery.value);
-  adminLayout.reload({
-    breadcrumbs: viewModel.value.context.breadcrumbs,
-    navbarActions: viewModel.value.context.navbarActions
-  })
+  try {
+    viewModel.value = null;
+    adminLayout.reset();
+    viewModel.value = await adminService.getIndexViewModel(route || '', page.value, searchQuery.value);
+    pageSettings.setTitle(getPluralFormat(viewModel.value?.context?.title), 'Admin');
+    adminLayout.reload({
+      breadcrumbs: viewModel.value.context.breadcrumbs,
+      navbarActions: viewModel.value.context.navbarActions
+    })
+  }
+  catch (e: any) {
+   await pageSettings.throwEmPageRequestError(e);
+  }
 }
 
 watch(() => props.pageRoute, async (value) => {

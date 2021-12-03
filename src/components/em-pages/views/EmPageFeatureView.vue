@@ -15,6 +15,8 @@ import { useAdminLayout } from '@/composables/admin-layout-composable'
 import { onMounted, ref, Ref, watch } from 'vue'
 import adminService from '@/services/admin-service'
 import { EmPageIndexViewModel } from '@/models/em-page-index-view-model'
+import {usePageSettings} from "@/composables/page-settings-composables";
+import {getPluralFormat} from "@/shared/helpers";
 
 const props = defineProps<{
   pageRoute: string | null,
@@ -23,15 +25,21 @@ const props = defineProps<{
 }>()
 
 const adminLayout = useAdminLayout();
-
+const pageSettings = usePageSettings();
 const viewModel: Ref<EmPageIndexViewModel | null> = ref(null);
 
 async function loadViewModel (route: string | null, identifier: string | null, feature: string | null) {
-  viewModel.value = await adminService.getFeatureIndexViewModel(route || '', identifier || '', feature || '');
-  adminLayout.reload({
-    breadcrumbs: viewModel.value.context.breadcrumbs,
-    navbarActions: viewModel.value.context.navbarActions
-  })
+  try {
+    viewModel.value = await adminService.getFeatureIndexViewModel(route || '', identifier || '', feature || '');
+    pageSettings.setTitle(getPluralFormat(viewModel.value?.context?.title), 'Admin');
+    adminLayout.reload({
+      breadcrumbs: viewModel.value.context.breadcrumbs,
+      navbarActions: viewModel.value.context.navbarActions
+    })
+  }
+  catch (e: any) {
+    await pageSettings.throwEmPageRequestError(e);
+  }
 }
 
 watch(() => props.pageRoute, async (value) => {

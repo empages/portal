@@ -1,5 +1,6 @@
 <template>
   <nav
+    v-if="breadcrumbs && breadcrumbs.length"
     aria-label="breadcrumb"
     class="float-left d-inline-block p-2 w-100 ms-2 mt-2">
     <ol class="breadcrumb border-0 m-0 border-radius-0 pt-0 pb-0 ps-0">
@@ -74,6 +75,8 @@ function getBreadcrumbListItemAttrs(breadcrumb: BreadcrumbModelItem) {
 
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .breadcrumb {
+    text-transform: capitalize;
+  }
 </style>

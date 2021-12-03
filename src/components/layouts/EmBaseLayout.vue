@@ -7,6 +7,7 @@
           <div class="card-body h-100 pt-1 px-0">
             <slot />
           </div>
+          <EmBaseFooter />
         </div>
       </div>
     </div>
@@ -15,9 +16,11 @@
 
 <script lang="ts" setup>
 import EmBaseNavbar from "@/components/layouts/EmBaseNavbar.vue";
+import EmBaseFooter from "@/components/layouts/EmBaseFooter.vue";
 </script>
 
 <style scoped lang="scss">
   .main-panel-full {
+    box-shadow: none !important;
   }
 </style>

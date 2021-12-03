@@ -3,11 +3,13 @@
     <div v-if="!props.largeText">
       <input
         v-model="value"
+        :placeholder="`Enter ${props.label}..`"
         :class="[{ 'is-invalid': props.hasError }, 'form-control']">
     </div>
     <div v-else>
       <textarea
         v-model="value"
+        :placeholder="`Enter ${props.label}..`"
         :class="[{ 'is-invalid': props.hasError }, 'form-control']"
         rows="5" />
     </div>
@@ -15,15 +17,16 @@
 </template>
 
 <script lang="ts" setup>
-import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
 import {ref, watch} from "vue";
+import {EmPageComponent} from "@/models/em-page-component";
 
 const props = defineProps<{
   mutatorValue: any,
   component: EmPageComponent,
   viewModel: EmPageViewModel,
   hasError: boolean,
+  label: string,
   largeText: boolean
 }>()
 

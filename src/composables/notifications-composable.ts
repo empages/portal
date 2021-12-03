@@ -7,6 +7,7 @@ export interface NotificationProvider {
     showErrorToast: (message: string) => void;
     showWarningToast: (message: string) => void;
     showInfoToast: (message: string) => void;
+    showExecutionToast: (succeeded: boolean, message: string) => void;
 }
 
 export const useNotifications = function (): NotificationProvider {
@@ -48,11 +49,21 @@ export const useNotifications = function (): NotificationProvider {
         } as EmToastNotification)
     }
 
+    const showExecutionToast = (succeeded: boolean, message: string): void => {
+        if (succeeded) {
+            showSuccessToast(message);
+        }
+        else {
+            showErrorToast(message);
+        }
+    }
+
     return {
         showToast,
         showSuccessToast,
         showErrorToast,
         showWarningToast,
-        showInfoToast
+        showInfoToast,
+        showExecutionToast
     }
 }

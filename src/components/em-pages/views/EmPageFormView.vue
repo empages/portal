@@ -4,7 +4,7 @@
       <div
         v-for="(input, inputIndex) in inputs"
         :key="`em-page-form-input-${inputIndex}`"
-        class="form-group mb-2">
+        class="form-group mb-3">
         <label class="form-label mb-0">
           {{ input.label }} <span
             v-if="input.required"
@@ -16,6 +16,7 @@
           :view-model="viewModel"
           :component="input?.component"
           :mutator-value="input?.value"
+          :label="input.label"
           :allow-null-value="input?.allowNullValue"
           :has-error="input?.validationErrors && input?.validationErrors.length"
           v-bind="input?.parameters" />
@@ -37,12 +38,12 @@
           </p>
         </div>
       </div>
-      <div class="my-2">
-        <hr>
+      <div class="">
+        <br>
         <button
           class="btn btn-primary"
           type="submit">
-          Save
+          Save Changes
         </button>
       </div>
     </form>
@@ -58,9 +59,10 @@ import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 import {EmPageFormType} from "@/shared/enums";
 import {EmPageFormSubmissionResponse} from "@/models/em-page-form-submission-response";
 import useVuelidate from "@vuelidate/core";
-import {getModelFromFormViewModel, getPropertyNameFromOrigin} from "@/shared/helpers";
+import {getModelFromFormViewModel, getPluralFormat, getPropertyNameFromOrigin} from "@/shared/helpers";
 import {required} from "@vuelidate/validators";
 import {useNotifications} from "@/composables/notifications-composable";
+import {usePageSettings} from "@/composables/page-settings-composables";
 
 const props = defineProps<{
   pageRoute: string | null,
@@ -69,7 +71,7 @@ const props = defineProps<{
 }>()
 
 const adminLayout = useAdminLayout();
-
+const pageSettings = usePageSettings();
 const notifications = useNotifications();
 
 const viewModel: Ref<EmPageFormViewModel | null> = ref(null);
@@ -92,13 +94,18 @@ const modelValidationRules = computed(() => {
 const v$ = useVuelidate(modelValidationRules, model);
 
 async function loadViewModel (route: string | null, identifier: string | null) {
-  viewModel.value = await adminService.getFormViewModel(route || '', identifier || '');
-  model.value = getModelFromFormViewModel(viewModel.value);
-  console.log(model.value);
-  adminLayout.reload({
-    breadcrumbs: viewModel.value.context.breadcrumbs,
-    navbarActions: viewModel.value.context.navbarActions
-  })
+  try {
+    viewModel.value = await adminService.getFormViewModel(route || '', identifier || '');
+    model.value = getModelFromFormViewModel(viewModel.value);
+    pageSettings.setTitle(`${identifier ? 'Edit' : 'Create a new'} ${viewModel.value?.context?.title?.toLowerCase()}`, 'Admin');
+    adminLayout.reload({
+      breadcrumbs: viewModel.value.context.breadcrumbs,
+      navbarActions: viewModel.value.context.navbarActions
+    })
+  }
+  catch (e: any) {
+    await pageSettings.throwEmPageRequestError(e);
+  }
 }
 
 watch(() => props.pageRoute, async (value) => {

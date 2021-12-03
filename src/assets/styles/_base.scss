@@ -1,4 +1,4 @@
-html, body, #app, #emeraude {
+html, body, #app {
   height: 100%;
   background: $content-bg-main;
 }
@@ -8,8 +8,6 @@ html {
   padding-right: 0 !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
-
-
 
 ::selection {
   background: $base-dark;

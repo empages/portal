@@ -84,6 +84,19 @@
                 width: auto;
             }
 
+            .side-buttons {
+                .btn-primary {
+                    color: $white !important;
+                    background: $sidebar-color-2;
+                    border: none !important;
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        @extend .btn-secondary;
+                    }
+                }
+            }
+
             .navbar-toggler {
                 border: 0;
                 color: inherit;

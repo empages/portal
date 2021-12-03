@@ -46,12 +46,15 @@ import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 
 <style scoped lang="scss">
   @import "src/assets/styles/variables";
-  .side-buttons :deep .btn {
+  .side-buttons :deep .btn-primary {
     margin-left: 4px;
+    background: $primary;
+    color: $white;
+    border: none;
 
     &:hover {
-      background: $lighter-gray;
-      color: $black;
+      background: $light !important;
+      color: $dark !important;
     }
   }
 </style>

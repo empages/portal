@@ -1,5 +1,5 @@
 <template>
-  <h1>EmPageEntityMutator</h1>
+  <h1>TermsPage</h1>
 </template>
 
 <script lang="ts" setup>

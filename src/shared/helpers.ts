@@ -2,13 +2,23 @@ import jwtDecode, {JwtPayload} from "jwt-decode";
 import {AxiosError} from "axios";
 import {strings} from "@/shared/strings";
 import {EmPageFormViewModel} from "@/models/em-page-form-view-model";
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import pluralize from "pluralize"
 
 export function newGuid(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0; const v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+
+export function isValueDefaultId(value: string) {
+    return value === null || value.trim() === '' || value === '00000000-0000-0000-0000-000000000000';
+}
+
+export function getPluralFormat(text: string) {
+    return pluralize.plural(text);
 }
 
 export function randomString(length: number): string {

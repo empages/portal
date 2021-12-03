@@ -31,6 +31,7 @@ import {EmPageDetailsViewModel} from "@/models/em-page-details-view-model";
 import _ from "lodash";
 import {useAdminLayout} from "@/composables/admin-layout-composable";
 import EmPageView from '@/components/em-pages/views/EmPageView.vue'
+import {usePageSettings} from "@/composables/page-settings-composables";
 
 const props = defineProps<{
   pageRoute: string | null,
@@ -38,15 +39,21 @@ const props = defineProps<{
 }>()
 
 const adminLayout = useAdminLayout();
-
+const pageSettings = usePageSettings();
 const viewModel: Ref<EmPageDetailsViewModel | null> = ref(null);
 
 async function loadViewModel (route: string | null, identifier: string | null) {
-  viewModel.value = await adminService.getDetailsViewModel(route || '', identifier || '');
-  adminLayout.reload({
-    breadcrumbs: viewModel.value.context.breadcrumbs,
-    navbarActions: viewModel.value.context.navbarActions
-  })
+  try {
+    viewModel.value = await adminService.getDetailsViewModel(route || '', identifier || '');
+    pageSettings.setTitle(`${viewModel.value?.context?.title} details`, 'Admin');
+    adminLayout.reload({
+      breadcrumbs: viewModel.value.context.breadcrumbs,
+      navbarActions: viewModel.value.context.navbarActions
+    })
+  }
+  catch (e: any) {
+    await pageSettings.throwEmPageRequestError(e);
+  }
 }
 
 watch(() => props.pageRoute, async (value) => {

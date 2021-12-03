@@ -9,7 +9,9 @@ import {EmPageViewModel} from "@/models/em-page-view-model";
 import { EmPageFormViewModel } from '@/models/em-page-form-view-model'
 import {EmPageFormType} from "@/shared/enums";
 import {EmPageFormSubmissionResponse} from "@/models/em-page-form-submission-response";
-import {getModelFromFormViewModel, getPropertyNameFromOrigin} from "@/shared/helpers";
+import {EmPageSimpleModel} from "@/models/em-page-simple-model";
+import {HttpMethod, HttpMethods} from "@/models/http-method";
+import {ActionResponse} from "@/models/action-response";
 
 class AdminService extends EmService {
     constructor() {
@@ -34,6 +36,20 @@ class AdminService extends EmService {
 
     public async getAdminMenus(): Promise<SidebarSchema> {
         return await this.getData<SidebarSchema>('/admin/general/admin-menus');
+    }
+
+    public async uploadFile(file: any): Promise<{ tempFileId: string }> {
+        const formData = new FormData();
+        formData.append("file", file);
+        return await this.postData<{ tempFileId: string }>('/admin/general/files/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
+
+    public async getEmPagesList(): Promise<Array<EmPageSimpleModel>> {
+        return await this.getData<Array<EmPageSimpleModel>>('/admin/em-pages');
     }
 
     public async getIndexViewModel(route: string, page: number, searchQuery: string): Promise<EmPageIndexViewModel> {
@@ -72,6 +88,26 @@ class AdminService extends EmService {
 
     public async getFeatureIndexViewModel(route: any, modelId: string, feature: string): Promise<EmPageIndexViewModel> {
         return await this.getData<EmPageIndexViewModel>(`/admin/em-pages/feature/${route}/${modelId}/${feature}`);
+    }
+
+    public async executeAction(method: HttpMethod, actionUrl: string): Promise<ActionResponse> {
+        this.serviceGuard();
+        let response = null;
+
+        if (method.method === HttpMethods.POST) {
+            response = await this.httpClient?.post(actionUrl,{});
+        }
+        else if (method.method === HttpMethods.PUT) {
+            response = await this.httpClient?.put(actionUrl, {});
+        }
+        else if (method.method === HttpMethods.DELETE) {
+            response = await this.httpClient?.delete(actionUrl);
+        }
+
+        return response?.data as ActionResponse || {
+            succeeded: false,
+            message: "Action execution failed"
+        };
     }
 }
 
