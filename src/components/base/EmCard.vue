@@ -4,7 +4,11 @@
       v-if="props.title"
       :class="`card-header ${props.headerClasses}`">
       <h3 :class="`card-title ${props.titleClasses}`">
-        {{ title }}
+        <slot
+          name="title"
+          :cardTitle="title">
+          {{ title }}
+        </slot>
       </h3>
     </div>
     <div class="card-body">

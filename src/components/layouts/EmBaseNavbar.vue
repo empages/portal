@@ -73,7 +73,6 @@ import logo from "@/assets/images/logo_text.svg";
 
 const menuButton: Ref<Collapse | null> = ref(null);
 const menus = [
-    { name: 'Home', route: 'home' },
     { name: 'Settings', route: 'settings' },
     { name: 'Admin', route: 'admin-dashboard' },
     { name: 'Client Builder', route: 'client-builder' }
@@ -101,7 +100,11 @@ function menuToggle() {
 
     .navbar-brand {
       img {
-        height: 34px;
+        height: 40px;
+
+        @include respond-below(sm) {
+          height: 30px;
+        }
       }
     }
   }
@@ -173,7 +176,7 @@ function menuToggle() {
       }
       > .nav-item {
         > .nav-link {
-          font-size: 16px;
+          font-size: 18px;
           padding: 1.2rem 14px;
           font-weight: 600;
           color: $black;

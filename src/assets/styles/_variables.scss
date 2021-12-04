@@ -4,11 +4,12 @@ $light-gray: #bebebe;
 $lighter-gray: #ddd;
 $dark-gray: #999;
 $darker-gray: #6a6a6a;
+$darkest-gray: #555555;
 
 $primary: $base;
 $secondary: $base;
 $success: #309700;
-$info: #00aeef;
+$info: #1689ff;
 $warning: #cf9411;
 $danger: #ff6258;
 $light: #e3e3e3;
@@ -35,6 +36,8 @@ $light-gray: #bebebe;
 $lighter-gray: #e4e5e8;
 
 $csharp-warning-bg: #fefcc8;
+
+$safe-blue: #1c5a85;
 
 $primary-gray: #5f5f5f;
 $blue-teal-gradient-light: linear-gradient(120deg, rgba(0, 228, 208, 0.7), rgba(89, 131, 232, 0.7));
@@ -190,7 +193,6 @@ $button-main-gray-color: #ececec;
 $button-secondary-gray-color: #f4f4f4;
 $button-border-gray-color: #d4d4d4;
 $button-text-gray-color: #333333;
-$primary-gradient: linear-gradient(120deg, $base, $base-dark);
 
 $content-bg:#f3f4fa;
 $footer-bg: $content-bg;

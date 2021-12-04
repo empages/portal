@@ -1,51 +1,64 @@
 <template>
   <EmRow>
     <EmCol
-      sm="5"
+      sm="8"
       class="mb-4">
-      <ApplicationForm
-        :title="formTitle"
-        :application="selectedApplication"
-        @form:submit="saveApplication"
-        @form:reset="applicationForEdit = null" />
+      <div>
+        <ApplicationForm
+          class="mb-4"
+          :title="formTitle"
+          :application="selectedApplication"
+          @form:submit="saveApplication"
+          @form:reset="applicationForEdit = null" />
+        <EmCard title="List of all registered applications">
+          <EmLoadingContainer :loaded="!detectedChange">
+            <EmTable
+              :columns="applicationsTableColumns"
+              :data="applications">
+              <template #actions="{ data }">
+                <button
+                  class="btn btn-primary px-2 py-1 mx-2px me-1"
+                  @click="selectApplicationForEdit(data)">
+                  Select to edit
+                </button>
+                <EmConfirmation
+                  v-slot="{ context }"
+                  class="d-inline-block"
+                  :confirmation-word="data.name"
+                  :message="`Are you sure you want to remove it from the application list?`"
+                  :callback="() => removeApplication(data.id)">
+                  <button
+                    class="btn btn-primary px-2 py-1 mx-2px"
+                    @click="context.show">
+                    Remove
+                  </button>
+                </EmConfirmation>
+              </template>
+            </EmTable>
+          </EmLoadingContainer>
+        </EmCard>
+      </div>
     </EmCol>
     <EmCol
-      sm="7"
+      sm="4"
       class="mb-4">
       <EmCard
         class="h-100"
         title="What you need to know?">
+        <template #title="{ cardTitle }">
+          <div class="d-flex">
+            <span class="info-icon my-auto">
+              <i class="mdi mdi-information" />
+            </span>
+            <span class="info-title my-auto ms-2">
+              {{ cardTitle }}
+            </span>
+          </div>
+        </template>
         <SettingsHelp />
       </EmCard>
     </EmCol>
   </EmRow>
-  <EmCard title="List of all registered applications">
-    <EmLoadingContainer :loaded="!detectedChange">
-      <EmTable
-        :columns="applicationsTableColumns"
-        :data="applications">
-        <template #actions="{ data }">
-          <button
-            class="btn btn-primary px-2 py-1 mx-2px me-1"
-            @click="selectApplicationForEdit(data)">
-            Select to edit
-          </button>
-          <EmConfirmation
-            v-slot="{ context }"
-            class="d-inline-block"
-            :confirmation-word="data.name"
-            :message="`Are you sure you want to remove it from the application list?`"
-            :callback="() => removeApplication(data.id)">
-            <button
-              class="btn btn-primary px-2 py-1 mx-2px"
-              @click="context.show">
-              Remove
-            </button>
-          </EmConfirmation>
-        </template>
-      </EmTable>
-    </EmLoadingContainer>
-  </EmCard>
 </template>
 
 <script lang="ts" setup>
@@ -86,7 +99,7 @@ const editMode = computed(() => {
 });
 
 const formTitle = computed(() => {
-  return editMode.value ? `Edit ${applicationForEdit.value?.name}` : 'Add new application';
+  return editMode.value ? `Edit ${applicationForEdit.value?.name}` : 'Add a new application';
 })
 
 const applications = computed(() => {
@@ -132,6 +145,10 @@ function selectApplicationForEdit(application: Application) {
 
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  @import "src/assets/styles/variables";
+  .info-icon {
+    color: $info;
+    font-size: 26px;
+  }
 </style>

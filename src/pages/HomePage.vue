@@ -37,19 +37,33 @@ import HomePageDonationSection from "@/components/content/HomePageDonationSectio
 
 <style scoped lang="scss">
   @import "src/assets/styles/variables";
+  @import "src/assets/styles/mixins";
   #main {
     padding-top: 50px;
     padding-bottom: 50px;
     text-align: center;
 
+    @include respond-below(sm) {
+      padding-top: 36px;
+      padding-bottom: 36px;
+    }
+
     .title {
       font-size: 50px;
       font-weight: bold;
+
+      @include respond-below(sm) {
+        font-size: 36px;
+      }
     }
 
     .sub-title {
       font-size: 24px;
       color: $darker-gray;
+
+      @include respond-below(sm) {
+        font-size: 18px;
+      }
 
       strong {
         color: $base-dark;
@@ -63,6 +77,12 @@ import HomePageDonationSection from "@/components/content/HomePageDonationSectio
       font-size: 20px;
       margin-top: 20px;
       padding: 10px 20px;
+
+      @include respond-below(sm) {
+        font-size: 18px;
+        margin-top: 18px;
+        padding: 8px 16px;
+      }
     }
   }
 </style>

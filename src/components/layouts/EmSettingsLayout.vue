@@ -1,13 +1,11 @@
 <template>
-  <div
-    id="cb"
-    ref="app">
+  <div>
     <div class="p-0">
-      <nav class="navbar navbar-light bg-main-gradient px-3">
+      <nav class="navbar navbar-light bg-darkest-gray px-3">
         <div class="container-fluid">
-          <a
+          <RouterLink
             class="navbar-brand"
-            href="#">
+            :to="{ name: 'home' }">
             <span class="d-flex position-relative">
               <img
                 :src="logo"
@@ -15,22 +13,15 @@
                 height="36"
                 class="d-inline-block ms-0 me-1 my-auto">
             </span>
-          </a>
+          </RouterLink>
           <div class="d-flex side-buttons">
             <EmHomePageButton />
-            <EmConfigurationDropdown />
           </div>
         </div>
       </nav>
       <div
-        id="cb-main"
         class="container-fluid p-3">
-        <div class="card">
-          <div class="card-body">
-            <EmClientBuilderNavigation />
-            <slot />
-          </div>
-        </div>
+        <slot />
       </div>
       <EmBaseFooter />
     </div>
@@ -38,25 +29,19 @@
 </template>
 
 <script lang="ts" setup>
-import EmClientBuilderNavigation from "@/components/layouts/EmClientBuilderNavigation.vue";
-import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
 import logo from "@/assets/images/logo_text_white.svg";
 import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 import EmBaseFooter from "@/components/layouts/EmBaseFooter.vue";
-
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/styles/variables";
-  .side-buttons :deep .btn-primary {
-    margin-left: 4px;
-    background: $primary;
-    color: $white;
-    border: none;
+@import "src/assets/styles/variables";
+.side-buttons :deep .btn-primary {
+  margin-left: 4px;
+  border: none;
 
-    &:hover {
-      background: $light !important;
-      color: $dark !important;
-    }
+  &:hover {
+    background: $darker-gray !important;
   }
+}
 </style>

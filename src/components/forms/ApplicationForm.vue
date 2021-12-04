@@ -22,24 +22,23 @@
           placeholder="Enter gateway Id"
           :validator="v$.gatewayId" />
       </EmFormGroup>
-      <EmFormGroup classes="mb-0 mt-3">
-        <button
-          class="btn btn-primary w-100 btn-submit mb-2"
-          type="submit">
-          Save
-        </button>
+      <EmFormGroup classes="mb-0 mt-3 d-flex">
         <EmConfirmation
           v-slot="{ context }"
-          class="w-100"
           message="Are you sure you want to reset that form?"
           :callback="resetForm">
           <button
             type="button"
-            class="btn btn-light w-100 btn-submit"
+            class="btn btn-light"
             @click="context.show">
             Reset
           </button>
         </EmConfirmation>
+        <button
+          class="btn btn-primary ms-2 mb-2"
+          type="submit">
+          Save
+        </button>
       </EmFormGroup>
     </form>
   </EmCard>

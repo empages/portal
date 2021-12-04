@@ -4,6 +4,14 @@
   }
 }
 
+.bg-darkest-gray {
+  background: $darkest-gray;
+}
+
 .bg-main-gradient {
   background: linear-gradient(45deg, $base, $base-dark);
+}
+
+.bg-gray-gradient {
+  background: linear-gradient(120deg, $darkest-gray, $darker-gray);
 }

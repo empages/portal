@@ -23,7 +23,8 @@
         </div>
       </div>
     </div>
-    <div class="btn-settings">
+    <div class="btn-settings d-flex">
+      <EmHomePageButton class="me-1" />
       <EmConfigurationDropdown />
     </div>
   </div>
@@ -33,6 +34,7 @@
 import logo from '@/assets/images/logo_text.svg'
 import CopyrightText from "@/components/misc/CopyrightText.vue";
 import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
+import EmHomePageButton from "@/components/layouts/EmHomePageButton.vue";
 
 </script>
 
