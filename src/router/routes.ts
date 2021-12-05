@@ -6,7 +6,6 @@ const routes: Array<RouteRecordRaw> = [
     { name: 'home', path: '/', component: () => import('@/pages/HomePage.vue'), meta: { layout: layouts.base, title: 'Outstanding Management Experience' } },
     { name: 'settings', path: '/settings', component: () => import('@/pages/SettingsPage.vue'), meta: { layout: layouts.settings, title: 'Settings' } },
     { name: 'terms', path: '/terms', component: () => import('@/pages/TermsPage.vue'), meta: { layout: layouts.base, title: 'Terms' } },
-    { name: 'privacy', path: '/privacy', component: () => import('@/pages/PrivacyPage.vue'), meta: { layout: layouts.base, title: 'Privacy' } },
     ...getAdminRoutes(),
     ...getClientBuilderRoutes(),
     { name: 'not-found', path: '/:pathMatch(.*)*', component: () => import('@/pages/NotFoundPage.vue'), meta: { layout: layouts.base, title: 'Page Not Found' } },

@@ -13,8 +13,10 @@ const props = defineProps<{
 </script>
 
 <style scoped lang="scss">
-:deep .card-title {
-  font-weight: bold;
-  font-size: 30px;
+:deep {
+  .card-title {
+    font-weight: bold;
+    font-size: 1.875rem;
+  }
 }
 </style>

@@ -22,7 +22,8 @@
     <HomePageTechnologiesSection />
     <HomePageSecuritySection />
     <HomePageCustomizationSection />
-    <HomePageDonationSection class="mb-0" />
+    <HomePageDonationSection />
+    <HomePageAttribution class="mb-0" />
   </div>
 </template>
 
@@ -33,6 +34,7 @@ import HomePageTechnologiesSection from "@/components/content/HomePageTechnologi
 import HomePageSecuritySection from "@/components/content/HomePageSecuritySection.vue";
 import HomePageCustomizationSection from "@/components/content/HomePageCustomizationSection.vue";
 import HomePageDonationSection from "@/components/content/HomePageDonationSection.vue";
+import HomePageAttribution from "@/components/content/HomePageAttribution.vue";
 </script>
 
 <style scoped lang="scss">

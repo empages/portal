@@ -17,6 +17,7 @@
 <script lang="ts" setup>
 import EmBaseNavbar from "@/components/layouts/EmBaseNavbar.vue";
 import EmBaseFooter from "@/components/layouts/EmBaseFooter.vue";
+import EmAttributions from "@/components/content/EmAttributions.vue";
 </script>
 
 <style scoped lang="scss">
