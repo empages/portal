@@ -72,13 +72,12 @@ import EmCard from "@/components/base/EmCard.vue";
 import SettingsHelp from "@/components/content/SettingsHelp.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import accessService from "@/services/access-service";
-import {useNotifications} from "@/composables/notifications-composable";
 import {applicationsTableColumns} from "@/shared/tables-columns/applications-table-columns";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import EmLoadingContainer from '@/components/base/EmLoadingContainer.vue'
+import {notificationProvider} from "@/services/notification-provider";
 
-const { showSuccessToast, showErrorToast } = useNotifications();
 const store = useStore();
 const router = useRouter();
 const emptyApplication: Ref<Application> = ref({
@@ -86,7 +85,9 @@ const emptyApplication: Ref<Application> = ref({
   name: '',
   url: '',
   environment: '',
-  gatewayId: ''
+  gatewayId: '',
+  isDevelopment: false,
+  version: ''
 });
 const applicationForEdit: Ref<Application | null> = ref(null);
 const detectedChange = ref(false);
@@ -113,6 +114,9 @@ async function saveApplication(application: Application, successCallback: () => 
       detectedChange.value = true;
 
       application.environment = gatewayResponse.environment;
+      application.isDevelopment = gatewayResponse.isDevelopment;
+      application.version = gatewayResponse.frameworkVersion;
+
       if (editMode.value) {
         store.commit('settingsModule/editApplication', application);
       }
@@ -120,7 +124,7 @@ async function saveApplication(application: Application, successCallback: () => 
         store.commit('settingsModule/addApplication', application);
       }
 
-      showSuccessToast('Application has been saved');
+      notificationProvider.showSuccessToast('Application has been saved');
       successCallback();
       router.go(0);
       return;
@@ -130,12 +134,12 @@ async function saveApplication(application: Application, successCallback: () => 
     console.log("Portal access has not been verified");
   }
 
-  showErrorToast(`We cannot initialize a valid connection with '${application.name}'`);
+  notificationProvider.showErrorToast(`We cannot initialize a valid connection with '${application.name}'`);
 }
 
 function removeApplication(id: string): void {
   store.commit('settingsModule/removeApplication', id);
-  showSuccessToast('Application has been removed');
+  notificationProvider.showSuccessToast('Application has been removed');
   router.go(0);
 }
 

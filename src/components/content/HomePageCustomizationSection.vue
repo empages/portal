@@ -15,7 +15,7 @@
           check the documentation of <a
             title="Emeraude Framework"
             target="_blank"
-            href="https://emeraude.dev">Emeraude Framework</a>.
+            :href="emeraudeFrameworkWebsite">Emeraude Framework</a>.
         </EmCard>
       </EmCol>
       <EmCol sm="6">
@@ -27,7 +27,7 @@
           to clone/fork the existing git repository, customize and extend the application, and deploy
           the new instance of the portal on any environment you want. If you are considering that kind of customization - <a
             title="Emeraude Portal Repository"
-            href="https://github.com/emeraudeframework/portal"
+            :href="portalRepository"
             target="_blank">check the GitHub repository</a>.
         </EmCard>
       </EmCol>
@@ -41,6 +41,7 @@ import HomePageSection from "@/components/wrappers/HomePageSection.vue";
 import EmRow from "@/components/base/EmRow.vue";
 import EmCol from "@/components/base/EmCol.vue";
 import EmCard from "@/components/base/EmCard.vue";
+import {emeraudeFrameworkWebsite, portalRepository} from "@/shared/config";
 </script>
 
 <style scoped lang="scss">

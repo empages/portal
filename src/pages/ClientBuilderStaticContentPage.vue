@@ -43,12 +43,14 @@
               {{ submitButtonText }}
             </button>
           </div>
-          <div class="form-group col-12 col-md-2 col-lg-1 px-1">
+          <div
+            v-if="selectedKey !== 0"
+            class="form-group col-12 col-md-2 col-lg-1 px-1">
             <EmConfirmation
               v-slot="{ context }"
               :callback="deleteContentKey"
               message="Are you sure you want to delete this static content instance?"
-              class="w-100">
+              class="w-100 h-100">
               <button
                 class="btn btn-primary w-100 h-100"
                 type="button"
@@ -81,13 +83,11 @@ import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import EmHtmlRawEditor from "@/components/base/EmHtmlRawEditor.vue";
 import clientBuilderService from "@/services/client-builder-service";
 import {handleRequestError, transformKeyInput, isKeyValid} from "@/shared/helpers";
-import {useNotifications} from "@/composables/notifications-composable";
 import {StaticContentKey} from "@/models/static-content-key";
 import { Language } from "@/models/language";
 import {ContentKeyContent} from "@/models/content-key-content";
 import { strings } from "@/shared/strings";
-
-const {showErrorToast} = useNotifications();
+import {notificationProvider} from "@/services/notification-provider";
 
 const languages: Ref<Array<Language>> = ref([]);
 const contentKeys: Ref<Array<StaticContentKey>> = ref([]);
@@ -105,7 +105,7 @@ async function loadLanguages() {
     languages.value = await clientBuilderService.getLanguages();
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -114,7 +114,7 @@ async function loadContentKeys() {
     contentKeys.value = await clientBuilderService.getStaticContentKeys();
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -124,6 +124,10 @@ function createContentKey() {
 
 function editContentKey() {
   console.log('edit');
+}
+
+function deleteContentKey() {
+  console.log('delete');
 }
 
 function submitContentKey() {
@@ -159,7 +163,7 @@ async function loadStaticContent(keyId: number) {
     currentContentEntity.value = await clientBuilderService.getStaticContent(keyId);
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -170,10 +174,6 @@ function selectContentKey() {
   else {
     initEmptyEntity();
   }
-}
-
-function deleteContentKey() {
-  console.log('delete');
 }
 
 function onKeyInput(event: Event) {

@@ -12,6 +12,9 @@ import {EmPageFormSubmissionResponse} from "@/models/em-page-form-submission-res
 import {EmPageSimpleModel} from "@/models/em-page-simple-model";
 import {HttpMethod, HttpMethods} from "@/models/http-method";
 import {ActionResponse} from "@/models/action-response";
+import {AdminTwoFactorDescriptionModel} from "@/models/admin-two-factor-description-model";
+import {SimpleResult} from "@/models/simple-result";
+import {AxiosRequestConfig} from "axios";
 
 class AdminService extends EmService {
     constructor() {
@@ -19,19 +22,43 @@ class AdminService extends EmService {
     }
 
     public async checkAuthorization(): Promise<void> {
-        return await this.postData<void>('/admin/auth/check', {});
+        return await this.postData<void>('/admin/identity/check', {});
     }
 
     public async login(loginRequest: LoginRequest): Promise<AdminAuthResponse> {
-        return await this.postData<AdminAuthResponse>('/admin/auth/login', loginRequest);
+        return await this.postData<AdminAuthResponse>('/admin/identity/auth/login', loginRequest);
     }
 
     public async loginWithTwoFactor(loginRequest: LoginWithTwoFactorAuthenticationRequest, postAuthenticationToken: string): Promise<AdminAuthResponse> {
-        return await this.postData<AdminAuthResponse>('/admin/auth/login-2fa', loginRequest, {
+        return await this.postData<AdminAuthResponse>('/admin/identity/auth/login-2fa', loginRequest, {
             headers: {
                 'Post-Authentication-Token': postAuthenticationToken,
             }
         });
+    }
+
+    public async requestTwoFactorAuthenticationDescription(): Promise<AdminTwoFactorDescriptionModel> {
+        return await this.getData<AdminTwoFactorDescriptionModel>('/admin/identity/manage/request-2fa-description');
+    }
+
+    public async resetTwoFactorAuthenticator(): Promise<SimpleResult> {
+        return await this.postData<SimpleResult>('/admin/identity/manage/reset-2fa-authenticator', {});
+    }
+
+    public async activateTwoFactorAuthentication(code: string): Promise<SimpleResult> {
+        return await this.postData<SimpleResult>('/admin/identity/manage/activate-2fa', { code });
+    }
+
+    public async changeEmail(newEmail: string): Promise<SimpleResult> {
+        return await this.postData<SimpleResult>('/admin/identity/manage/change-email', { newEmail });
+    }
+
+    public async changePassword(currentPassword: string, newPassword: string, confirmedPassword: string): Promise<SimpleResult> {
+        return await this.postData<SimpleResult>('/admin/identity/manage/change-password', {
+            currentPassword,
+            newPassword,
+            confirmedPassword
+        })
     }
 
     public async getAdminMenus(): Promise<SidebarSchema> {
@@ -52,8 +79,8 @@ class AdminService extends EmService {
         return await this.getData<Array<EmPageSimpleModel>>('/admin/em-pages');
     }
 
-    public async getIndexViewModel(route: string, page: number, searchQuery: string): Promise<EmPageIndexViewModel> {
-        const viewModel = await this.getData<EmPageIndexViewModel>(`/admin/em-pages/index/${route}?page=${page}&searchQuery=${searchQuery}`);
+    public async getIndexViewModel(route: string, page: number, searchQuery: string, orderBy: string, orderType: string): Promise<EmPageIndexViewModel> {
+        const viewModel = await this.getData<EmPageIndexViewModel>(`/admin/em-pages/index/${route}?page=${page}&searchQuery=${searchQuery}&orderBy=${orderBy}&orderType=${orderType}`);
 
         const assignIndexProps = (targetViewModel: EmPageViewModel) => {
             targetViewModel.context = viewModel?.context;

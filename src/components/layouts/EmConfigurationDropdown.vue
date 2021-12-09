@@ -68,11 +68,10 @@ import {Application} from "@/models/application";
 import accessService from '@/services/access-service';
 import clientBuilderService from '@/services/client-builder-service';
 import adminService from '@/services/admin-service';
-import { useNotifications } from '@/composables/notifications-composable';
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
+import {notificationProvider} from "@/services/notification-provider";
 
-const notifications = useNotifications();
 const store = useStore();
 const router = useRouter();
 
@@ -94,12 +93,12 @@ async function refreshApplicationState(ignoreSuccessMessage = false) {
     const application = store.getters["settingsModule/selectedApplication"];
     const response = await accessService.verifyPortalAccess(application);
     if (!response.verified) {
-      notifications.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
+      notificationProvider.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
       isSelectedApplicationConnected = false;
     }
     else {
       if (!ignoreSuccessMessage) {
-        notifications.showSuccessToast(`Emeraude Portal has been connected with '${application.name}'`);
+        notificationProvider.showSuccessToast(`Emeraude Portal has been connected with '${application.name}'`);
       }
 
       isSelectedApplicationConnected = true;
@@ -108,7 +107,7 @@ async function refreshApplicationState(ignoreSuccessMessage = false) {
     }
   }
   catch (e) {
-    notifications.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
+    notificationProvider.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
     isSelectedApplicationConnected = false;
   }
 

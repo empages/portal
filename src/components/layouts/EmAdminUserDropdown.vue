@@ -5,7 +5,8 @@
     auto-close="outside"
     menu-classes="dropdown-menu-end"
     :toggle-icon="false"
-    title="Manage">
+    title="Manage"
+    @dropdown:loaded="loadedDropdown">
     <template #title>
       <i class="mdi mdi-account" />
     </template>
@@ -46,20 +47,24 @@
 </template>
 
 <script lang="ts" setup>
-import {computed} from 'vue'
+import {computed, ref, Ref, watch} from 'vue'
 import EmDropdown from "@/components/base/EmDropdown.vue";
 import moment from 'moment';
 import {useStore} from "vuex";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {EmDropdownContext} from "@/shared/types/em-dropdown-context";
 
 const menuItems = [
-  { title: 'Two Factor Authentication', route: 'admin-manage-2fa', icon: 'mdi-qrcode-edit' },
+  { title: 'Manage 2FA', route: 'admin-manage-2fa', icon: 'mdi-qrcode-edit' },
   { title: 'Manage Email', route: 'admin-manage-email', icon: 'mdi-email-edit-outline' },
   { title: 'Manage Password', route: 'admin-manage-password', icon: 'mdi-form-textbox-password' }
 ]
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
+
+const dropdownContext: Ref<EmDropdownContext | null> = ref(null);
 
 const identity = computed(() => {
   return store.getters['identityModule/decodedIdentity'];
@@ -73,6 +78,17 @@ const expiration = computed(() => {
   const expirationDate = new Date(((identity.value.exp || 0) * 1000));
   return moment(expirationDate).format('YYYY-MM-DD HH:mm');
 })
+
+const currentRoute = computed(() => route.fullPath);
+
+watch(currentRoute, () => {
+  dropdownContext.value?.hide();
+})
+
+function loadedDropdown(context: EmDropdownContext): void {
+  dropdownContext.value = context;
+
+}
 
 function logout() {
   store.commit('identityModule/removeIdentity', identityRecord.value);

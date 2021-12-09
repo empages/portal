@@ -116,7 +116,6 @@
 <script lang="ts" setup>
 import {computed, ComputedRef, onMounted, Ref, ref} from "vue";
 import { useUrlBuilder } from "@/composables/url-builder-composable";
-import { useNotifications } from "@/composables/notifications-composable";
 import {handleRequestError} from "@/shared/helpers";
 import {ApplicationInstanceType} from "@/shared/enums";
 import { ScaffoldModule } from "@/models/scaffold-module";
@@ -132,9 +131,9 @@ import EmMainCard from "@/components/base/EmMainCard.vue";
 import {strings} from "@/shared/strings";
 import {scaffoldModulesTableColumns} from "@/shared/tables-columns/scaffold-modules-table-columns";
 import EmFlag from "@/components/base/EmFlag.vue";
+import {notificationProvider} from "@/services/notification-provider";
 
 const {getApplicationUrl} = useUrlBuilder();
-const {showErrorToast, showSuccessToast} = useNotifications();
 
 const modules: Ref<Array<ScaffoldModule>> = ref([]);
 
@@ -177,7 +176,7 @@ async function loadModules() {
     modules.value = await clientBuilderService.getScaffoldModules();
   }
   catch(e: any) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -185,10 +184,10 @@ async function generateModuleById(moduleId: string) {
   try {
     await clientBuilderService.generateModuleById(moduleId);
     await loadModules();
-    showSuccessToast(strings.clientBuilder.moduleGenerationSucceededMessage);
+    notificationProvider.showSuccessToast(strings.clientBuilder.moduleGenerationSucceededMessage);
   }
   catch(e: any) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -196,10 +195,10 @@ async function generateModulesByClientId(clientId: string) {
   try {
     await clientBuilderService.generateModulesByClientId(clientId);
     await loadModules();
-    showSuccessToast(strings.clientBuilder.modulesGenerationSucceededMessage);
+    notificationProvider.showSuccessToast(strings.clientBuilder.modulesGenerationSucceededMessage);
   }
   catch(e: any) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -207,10 +206,10 @@ async function generateModulesByInstanceType(instanceType: ApplicationInstanceTy
   try {
     await clientBuilderService.generateModulesByInstanceType(instanceType);
     await loadModules();
-    showSuccessToast(strings.clientBuilder.modulesGenerationSucceededMessage);
+    notificationProvider.showSuccessToast(strings.clientBuilder.modulesGenerationSucceededMessage);
   }
   catch(e: any) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 

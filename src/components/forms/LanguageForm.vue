@@ -58,10 +58,8 @@ import { required, helpers } from '@vuelidate/validators'
 import {Ref, ref, watch} from "vue"
 import EmInput from "@/components/base/EmInput.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
-import { useNotifications } from '@/composables/notifications-composable';
 import {Language} from "@/models/language";
-
-const notifications = useNotifications();
+import {notificationProvider} from "@/services/notification-provider";
 
 const props = defineProps<{
   language: Language,
@@ -102,7 +100,7 @@ function resetForm() {
   emit('form:reset', form.value);
 
   v$.value.$reset();
-  notifications.showInfoToast("Language form has been reset");
+  notificationProvider.showInfoToast("Language form has been reset");
 }
 
 </script>

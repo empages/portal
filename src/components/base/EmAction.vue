@@ -41,27 +41,26 @@ import {defineProps} from "vue";
 import {ActionModel} from "@/models/action-model";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import adminService from "@/services/admin-service";
-import {useNotifications} from "@/composables/notifications-composable";
 import {useRouter} from "vue-router";
 import {HttpMethods} from "@/models/http-method";
+import {notificationProvider} from "@/services/notification-provider";
 
 const props = defineProps<{
   action: ActionModel
 }>();
 
-const notifications = useNotifications();
 const router = useRouter();
 
 async function executeAction() {
   try {
     const result = await adminService.executeAction(props.action.actionHttpMethod, props.action.actionUrl);
-    notifications.showExecutionToast(result.succeeded, result.message);
+    notificationProvider.showExecutionToast(result.succeeded, result.message);
     if (result.succeeded) {
       router.go(0);
     }
   }
   catch (e) {
-    notifications.showErrorToast("An unexpected error occurred during action execution");
+    notificationProvider.showErrorToast("An unexpected error occurred during action execution");
   }
 }
 </script>

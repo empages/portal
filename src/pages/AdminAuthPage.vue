@@ -70,12 +70,11 @@ import EmInput from "@/components/base/EmInput.vue";
 import {AuthenticationState} from '@/shared/enums';
 import {LoginWithTwoFactorAuthenticationRequest} from "@/models/login-with-two-factor-authentication-request";
 import {AdminAuthResponse} from '@/models/admin-auth-response';
-import { useNotifications } from '@/composables/notifications-composable';
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import EmLoadingSpinner from "@/components/base/EmLoadingSpinner.vue";
+import {notificationProvider} from "@/services/notification-provider";
 
-const { showWarningToast, showErrorToast } = useNotifications();
 const store = useStore();
 const router = useRouter();
 const authenticationState = ref(AuthenticationState.Login);
@@ -131,7 +130,7 @@ async function submitForm() {
 
     if (authResponse && authResponse.succeeded) {
       if (authResponse.requiresAdditionalAuthenticationFactor && authResponse.postAuthenticationToken) {
-        showWarningToast(authResponse.message);
+        notificationProvider.showWarningToast(authResponse.message);
         authenticationState.value = AuthenticationState.LoginWithTwoFactor;
         postAuthenticationToken.value = authResponse.postAuthenticationToken;
         loginForm.password = '';
@@ -155,7 +154,7 @@ async function submitForm() {
     }
   }
   catch(e: any) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 

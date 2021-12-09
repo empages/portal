@@ -23,15 +23,9 @@
 <script lang="ts" setup>
 import { Dropdown } from 'bootstrap';
 import {withDefaults, Ref, ComputedRef, computed, onMounted, ref} from "vue";
+import {EmDropdownContext} from "@/shared/types/em-dropdown-context";
 
 const dropdownVisibilities = ['show', 'shown', 'hide', 'hidden'];
-
-interface EmDropdownContext {
-  show: () => void;
-  hide: () => void;
-  toggle: () => void;
-  update: () => void;
-}
 
 const props = withDefaults(defineProps<{
   title: string,
@@ -46,7 +40,7 @@ const props = withDefaults(defineProps<{
   toggleIcon: true
 })
 
-const emit = defineEmits(['show', 'shown', 'hide', 'hidden']);
+const emit = defineEmits(['show', 'shown', 'hide', 'hidden', 'dropdown:loaded']);
 const dropdown: Ref<Dropdown | null> = ref(null);
 const dropdownElement: Ref<HTMLButtonElement | null> = ref(null);
 const context: ComputedRef<EmDropdownContext | null> = computed(() => {
@@ -73,6 +67,8 @@ onMounted(() => {
         emit(e);
       });
     });
+
+    emit('dropdown:loaded', context.value);
   }
 })
 </script>

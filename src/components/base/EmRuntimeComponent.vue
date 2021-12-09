@@ -1,5 +1,6 @@
 <template>
-  <div class="em-runtime-component">
+  <div
+    class="em-runtime-component">
     <Component
       :is="props.name"
       v-bind="props.args" />
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<{
 }>(),{
   args: {}
 });
+
 </script>
 
 <style scoped>

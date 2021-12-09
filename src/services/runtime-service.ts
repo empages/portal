@@ -2,6 +2,9 @@
 // @ts-ignore
 import {getRuntimeInjectionFunction, RUNTIME_INJECTION_STYLE_FILE_NAME, RUNTIME_INJECTION_BUNDLE_FILE_NAME} from "@emeraude-framework/portal-runtime-injection";
 import {EmService} from "@/services/em-service";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import * as vueBundler from 'vue/dist/vue.esm-bundler.js';
 
 class RuntimeService extends EmService {
     constructor() {
@@ -45,7 +48,7 @@ class RuntimeService extends EmService {
                 delete: this.httpClient?.delete.bind(this)
             };
 
-            runtimeInjectionFunction(app);
+            runtimeInjectionFunction(app, vueBundler);
             app.provide('$httpClient', httpClient);
 
             console.info('Emeraude Runtime Injection has been executed');

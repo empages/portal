@@ -67,7 +67,6 @@ import EmMainCard from "@/components/base/EmMainCard.vue";
 import TranslationKeyForm from "@/components/forms/TranslationKeyForm.vue";
 import TranslationKeyRow from "@/components/wrappers/TranslationKeyRow.vue";
 import clientBuilderService from '@/services/client-builder-service';
-import { useNotifications } from '@/composables/notifications-composable';
 import {handleRequestError} from "@/shared/helpers";
 import {TranslationKey} from "@/models/translation-key";
 import {Language} from "@/models/language";
@@ -75,8 +74,8 @@ import {TranslationGridData} from "@/models/translation-grid-data";
 import {NewTranslationKeyWithValues} from "@/models/new-translation-key-with-values";
 import { strings } from '@/shared/strings';
 import {useRoute, useRouter} from "vue-router";
+import {notificationProvider} from "@/services/notification-provider";
 
-const {showErrorToast, showSuccessToast} = useNotifications();
 const route = useRoute();
 const router = useRouter();
 const changeDetected = ref(false);
@@ -100,7 +99,7 @@ async function loadLanguages() {
     languages.value = await clientBuilderService.getLanguages();
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -122,10 +121,10 @@ async function deleteKey(keyId: number) {
   try {
     await clientBuilderService.deleteTranslationKey(keyId);
     await loadGridData();
-    showSuccessToast('Translation key has been deleted.');
+    notificationProvider.showSuccessToast('Translation key has been deleted.');
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -143,18 +142,18 @@ async function loadGridData() {
     page.value = gridData.value.currentPage;
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
 async function submitForm(key: NewTranslationKeyWithValues, successCallback: () => void) {
   try {
     await clientBuilderService.createTranslationKey(key);
-    showSuccessToast('Translation key has been created.');
+    notificationProvider.showSuccessToast('Translation key has been created.');
     successCallback();
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -162,10 +161,10 @@ async function editKey(key: TranslationKey, successCallback: () => void) {
   try {
     await clientBuilderService.editTranslationKey(key);
     successCallback();
-    showSuccessToast('Translation key has been edited');
+    notificationProvider.showSuccessToast('Translation key has been edited');
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 

@@ -17,7 +17,8 @@
             <div class="social-media">
               <p class="mb-0 d-flex">
                 <a
-                  href="#"
+                  :href="portalRepository"
+                  target="_blank"
                   class="d-flex align-items-center justify-content-center">
                   <span class="mdi mdi-github" />
                 </a>
@@ -70,6 +71,7 @@
 import {onMounted, ref, Ref} from 'vue'
 import { Collapse } from 'bootstrap'
 import logo from "@/assets/images/logo_text.svg";
+import {portalRepository} from "@/shared/config";
 
 const menuButton: Ref<Collapse | null> = ref(null);
 const menus = [

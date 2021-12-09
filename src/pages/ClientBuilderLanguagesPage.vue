@@ -54,15 +54,13 @@ import EmMainCard from "@/components/base/EmMainCard.vue";
 import EmTable from "@/components/base/EmTable.vue";
 import EmFlag from "@/components/base/EmFlag.vue";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
-import { useNotifications } from "@/composables/notifications-composable";
 import {Language} from "@/models/language";
 import clientBuilderService from "@/services/client-builder-service";
 import {handleRequestError} from "@/shared/helpers";
 import { languagesTableColumns } from "@/shared/tables-columns/languages-table-columns";
 import LanguageForm from "@/components/forms/LanguageForm.vue";
 import {strings} from "@/shared/strings";
-
-const {showErrorToast, showSuccessToast} = useNotifications();
+import {notificationProvider} from "@/services/notification-provider";
 
 const editMode = ref(false);
 
@@ -88,10 +86,10 @@ async function submitForm(submittedLanguage: Language) {
     language.value.nativeName = ''
     language.value.code = ''
 
-    showSuccessToast('Language has been saved.');
+    notificationProvider.showSuccessToast('Language has been saved.');
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -105,7 +103,7 @@ async function loadLanguages() {
     languages.value = await clientBuilderService.getLanguages();
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -118,10 +116,10 @@ async function setAsDefault(languageId: number) {
   try {
     await clientBuilderService.setLanguageAsDefault(languageId);
     await loadLanguages();
-    showSuccessToast('Language has been set as default.');
+    notificationProvider.showSuccessToast('Language has been set as default.');
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
@@ -129,10 +127,10 @@ async function deleteLanguage(languageId: number) {
   try {
     await clientBuilderService.deleteLanguage(languageId);
     await loadLanguages();
-    showSuccessToast('Language has been deleted.');
+    notificationProvider.showSuccessToast('Language has been deleted.');
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 

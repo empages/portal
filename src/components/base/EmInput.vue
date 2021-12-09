@@ -6,6 +6,7 @@
     :value="props.modelValue"
     :disabled="props.disabled"
     :placeholder="props.placeholder"
+    autocomplete="props.autocomplete"
     @keypress="onKeyPressed"
     @input="onInput">
   <div
@@ -25,6 +26,7 @@ const props = withDefaults(defineProps<{
   placeholder?: string,
   classes?: string,
   disabled?: boolean,
+  autocomplete?: string,
   inputEvent?: (event: Event) => void
 }>(), {
   modelValue: '',
@@ -32,6 +34,7 @@ const props = withDefaults(defineProps<{
   placeholder: '',
   classes: '',
   disabled: false,
+  autocomplete: '',
   inputEvent: () => null
 })
 

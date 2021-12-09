@@ -21,9 +21,8 @@ import EmMainCard from "@/components/base/EmMainCard.vue";
 import clientBuilderService from "@/services/client-builder-service";
 import { ApplicationEndpoint } from "@/models/application-endpoint";
 import { handleRequestError } from "@/shared/helpers";
-import { useNotifications } from "@/composables/notifications-composable";
 import EmFlag from "@/components/base/EmFlag.vue";
-const {showErrorToast} = useNotifications();
+import {notificationProvider} from "@/services/notification-provider";
 
 const endpoints: Ref<ApplicationEndpoint[]> = ref([]);
 
@@ -32,7 +31,7 @@ async function loadEndpoints() {
     endpoints.value = await clientBuilderService.getEndpoints();
   }
   catch (e) {
-    handleRequestError(e, showErrorToast);
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 

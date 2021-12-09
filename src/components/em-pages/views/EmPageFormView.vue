@@ -59,10 +59,10 @@ import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 import {EmPageFormType} from "@/shared/enums";
 import {EmPageFormSubmissionResponse} from "@/models/em-page-form-submission-response";
 import useVuelidate from "@vuelidate/core";
-import {getModelFromFormViewModel, getPluralFormat, getPropertyNameFromOrigin} from "@/shared/helpers";
+import {getModelFromFormViewModel, getPropertyNameFromOrigin} from "@/shared/helpers";
 import {required} from "@vuelidate/validators";
-import {useNotifications} from "@/composables/notifications-composable";
 import {usePageSettings} from "@/composables/page-settings-composables";
+import {notificationProvider} from "@/services/notification-provider";
 
 const props = defineProps<{
   pageRoute: string | null,
@@ -72,7 +72,6 @@ const props = defineProps<{
 
 const adminLayout = useAdminLayout();
 const pageSettings = usePageSettings();
-const notifications = useNotifications();
 
 const viewModel: Ref<EmPageFormViewModel | null> = ref(null);
 
@@ -133,11 +132,11 @@ async function submitForm() {
   if (isFormValid) {
     const response = await adminService.submitFormModel(viewModel.value?.context?.route ?? '', props.type, model.value);
     if (response && !response.succeeded && viewModel.value) {
-      notifications.showErrorToast(response.operationError ?? 'Form submission has been invalid');
+      notificationProvider.showErrorToast(response.operationError ?? 'Form submission has been invalid');
       mapErrorsFromResponse(viewModel.value, response);
     }
     else {
-      notifications.showSuccessToast('Form submission has been successful');
+      notificationProvider.showSuccessToast('Form submission has been successful');
     }
   }
 }

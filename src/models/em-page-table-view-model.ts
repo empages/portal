@@ -9,5 +9,6 @@ export class EmPageTableViewModel extends EmPageViewModel {
     hasActions: boolean;
     rowActions: Array<ActionModel>;
     rows: Array<EmPageTableRowModel>;
+    orderProperties: { [property: string] : string };
     paginationModel: PaginationModel;
 }

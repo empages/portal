@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
-import {adminAuthenticatedGuard, adminGuard, settingsGuard} from "@/router/guards";
+import {adminAuthenticatedGuard, adminGuard, clientBuilderGuard} from "@/router/guards";
 import {layouts} from "@/plugins/layouts";
 
 const routes: Array<RouteRecordRaw> = [
@@ -19,7 +19,7 @@ function getAdminRoutes(): Array<RouteRecordRaw> {
     return [
         { name: 'admin-dashboard', path: '/admin', component: () => import('@/pages/AdminDashboardPage.vue'), beforeEnter, meta: { layout, title: 'Dashboard', parentTitle } },
         { name: 'admin-auth', path: '/admin/auth', component: () => import('@/pages/AdminAuthPage.vue'), beforeEnter: adminAuthenticatedGuard, meta: { layout: layouts.adminSimple, title: 'Authentication', parentTitle } },
-        { name: 'admin-manage-2fa', path: '/admin/manage/2fa', component: () => import('@/pages/AdminManageTwoFactorAuthenticationPage.vue'), beforeEnter, meta: { layout, title: 'Manage Two Factor Authentication', parentTitle } },
+        { name: 'admin-manage-2fa', path: '/admin/manage/2fa', component: () => import('@/pages/AdminManageTwoFactorAuthenticatorPage.vue'), beforeEnter, meta: { layout, title: 'Manage Two Factor Authenticator', parentTitle } },
         { name: 'admin-manage-email', path: '/admin/manage/email', component: () => import('@/pages/AdminManageEmailPage.vue'), beforeEnter, meta: { layout, title: 'Manage Email', parentTitle } },
         { name: 'admin-manage-password', path: '/admin/manage/password', component: () => import('@/pages/AdminManagePasswordPage.vue'), beforeEnter, meta: { layout, title: 'Manage Password', parentTitle } },
         { name: 'admin-em-page-error', path: '/admin/error', component: () => import('@/pages/AdminEmPageErrorPage.vue'), beforeEnter, meta: { layout: layouts.admin, title: 'Error', parentTitle } },
@@ -32,7 +32,7 @@ function getAdminRoutes(): Array<RouteRecordRaw> {
 }
 
 function getClientBuilderRoutes(): Array<RouteRecordRaw> {
-    const beforeEnter = settingsGuard;
+    const beforeEnter = clientBuilderGuard;
     const layout = layouts.clientBuilder;
     const parentTitle = 'Client Builder';
     return [
