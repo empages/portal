@@ -6,7 +6,7 @@ import {notificationProvider} from "@/services/notification-provider";
 export const clientBuilderGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     if (!store.getters['settingsModule/applications'].length) {
         next({ name: 'settings' });
-        notificationProvider.showWarningToast('Client Builder requires registration of application');
+        notificationProvider.showWarningToast('Client Builder module requires registration of a at least one application');
         return;
     }
 
@@ -22,7 +22,7 @@ export const adminGuard = async function (to: RouteLocationNormalized, from: Rou
     try {
         if (!store.getters['settingsModule/applications'].length) {
             next({ name: 'settings' });
-            notificationProvider.showWarningToast('Admin requires registration of application');
+            notificationProvider.showWarningToast('Admin module requires registration of a at least one application');
             return;
         }
 
