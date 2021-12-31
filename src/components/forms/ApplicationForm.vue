@@ -19,6 +19,7 @@
       <EmFormGroup label="Gateway Id">
         <EmInput
           v-model="form.gatewayId"
+          type="password"
           placeholder="Enter gateway Id"
           :validator="v$.gatewayId" />
       </EmFormGroup>

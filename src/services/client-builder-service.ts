@@ -87,6 +87,18 @@ class ClientBuilderService extends EmService {
     public async getStaticContent(keyId: number): Promise<StaticContentKey> {
         return await this.getData<StaticContentKey>(`/client-builder/languages/content-keys/${keyId}`);
     }
+
+    public async createContentKeyWithValues(keyWithValues: StaticContentKey): Promise<MutationResult> {
+        return await this.postData<MutationResult>(`/client-builder/languages/content-keys`, keyWithValues);
+    }
+
+    public async editContentKey(keyId: number, keyWithValues: StaticContentKey): Promise<MutationResult> {
+        return await this.putData<MutationResult>(`/client-builder/languages/content-keys/${keyId}`, keyWithValues);
+    }
+
+    public async deleteContentKey(keyId: number): Promise<SimpleResult> {
+        return await this.deleteData<SimpleResult>(`/client-builder/languages/content-keys/${keyId}`);
+    }
 }
 
 const clientBuilderService = new ClientBuilderService();

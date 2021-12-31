@@ -91,10 +91,7 @@ import {notificationProvider} from "@/services/notification-provider";
 
 const languages: Ref<Array<Language>> = ref([]);
 const contentKeys: Ref<Array<StaticContentKey>> = ref([]);
-const currentContentEntity: Ref<StaticContentKey | null> = ref({
-  key: '',
-  staticContentList: [] as Array<ContentKeyContent>
-} as StaticContentKey);
+const currentContentEntity: Ref<StaticContentKey | null> = ref(null);
 const selectedKey = ref(0);
 
 const editMode = computed(() => selectedKey.value !== 0)
@@ -103,6 +100,7 @@ const submitButtonText = computed(() => editMode.value ? 'Edit' : 'Create')
 async function loadLanguages() {
   try {
     languages.value = await clientBuilderService.getLanguages();
+    initEmptyEntity();
   }
   catch (e) {
     handleRequestError(e, notificationProvider.handlers.showErrorToast);
@@ -112,22 +110,57 @@ async function loadLanguages() {
 async function loadContentKeys() {
   try {
     contentKeys.value = await clientBuilderService.getStaticContentKeys();
+    selectedKey.value = 0;
   }
   catch (e) {
     handleRequestError(e, notificationProvider.handlers.showErrorToast);
   }
 }
 
-function createContentKey() {
-  console.log('create');
+async function createContentKey() {
+  try {
+    if (currentContentEntity.value) {
+      await clientBuilderService.createContentKeyWithValues(currentContentEntity.value);
+      await loadLanguages();
+      await loadContentKeys();
+      notificationProvider.showSuccessToast('Static Content key has been created');
+    }
+    else {
+      notificationProvider.showWarningToast('Static Content key is not initialized');
+    }
+  }
+  catch (e) {
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  }
 }
 
-function editContentKey() {
-  console.log('edit');
+async function editContentKey() {
+  try {
+    if (currentContentEntity.value) {
+      await clientBuilderService.editContentKey(selectedKey.value, currentContentEntity.value);
+      await loadLanguages();
+      await loadContentKeys();
+      notificationProvider.showSuccessToast('Static Content key has been edited');
+    }
+    else {
+      notificationProvider.showWarningToast('Static Content key is not initialized');
+    }
+  }
+  catch (e) {
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  }
 }
 
-function deleteContentKey() {
-  console.log('delete');
+async function deleteContentKey() {
+  try {
+    await clientBuilderService.deleteContentKey(selectedKey.value);
+    await loadLanguages();
+    await loadContentKeys();
+    notificationProvider.showSuccessToast('Static Content key has been deleted');
+  }
+  catch (e) {
+    handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  }
 }
 
 function submitContentKey() {
@@ -140,6 +173,7 @@ function submitContentKey() {
 }
 
 function initEmptyEntity() {
+  currentContentEntity.value = null;
   currentContentEntity.value = {
     key: '',
     staticContentList: [] as Array<ContentKeyContent>
@@ -182,9 +216,9 @@ function onKeyInput(event: Event) {
   }
 }
 
-onMounted(() => {
-  loadLanguages();
-  loadContentKeys();
+onMounted(async () => {
+  await loadLanguages();
+  await loadContentKeys();
 })
 
 </script>
