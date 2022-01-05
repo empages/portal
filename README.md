@@ -1,27 +1,43 @@
-# Vue 3 + Typescript + Vite
+<img align="left" width="300px" style="background-color:white;" title="Emeraude" alt="Emeraude" src="https://raw.githubusercontent.com/emeraudeframework/emeraude/master/art/logo_text.svg" />
 
-This template should help get you started developing with Vue 3 and Typescript in Vite.
+<br/>
 
-## Recommended IDE Setup
+# Emeraude Portal
 
-[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
+ - Is a web application client
+ - Is a single page application
+ - Is a multi-application manager
+ - Is a web API consumer
+ - Is the Emeraude Framework management portal
+ - Is free and open-source
+ - Is not a software as a service
+ - Is not a NPM package
+ - Is not consuming internal back-end
+ - Is not tracking activity
+ - Is not dependent on any server-side technology
+ - Is not paid
 
-### If Using `<script setup>`
+## Sponsors
 
-[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
+<div class="sponsors-list-item" style="background: white">
+    <a class="feature-list-item m-3" style="display: inline-block;" title="JetBrains" target="_blank" href="https://www.jetbrains.com/?from=Emeraude" data-v-94bffd70="">
+        <img src="https://emeraude.dev/_assets/images/sponsors/jetbrains.svg" alt="JetBrains" data-v-94bffd70="">
+    </a>
+    <a class="feature-list-item m-3" style="display: inline-block;" title="Netlify" target="_blank" href="https://www.netlify.com/?reference=emeraude.dev" data-v-94bffd70="">
+        <img src="https://emeraude.dev/_assets/images/sponsors/netlify.svg" alt="Netlify" data-v-94bffd70="">
+    </a>
+</div>
 
-## Type Support For `.vue` Imports in TS
+## Support Us
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
+<div id="support" data-v-6ad604c2="" data-v-3cfc6c66="">
+    <div class="donate-section" data-v-3cfc6c66="">
+        <a href="https://www.paypal.com/donate?hosted_button_id=4FEAXAP5TL3EG" class="btn btn-lg btn-outline-light mx-1"
+            target="_blank" data-v-3cfc6c66="">Donate via PayPal</a>
+        <br />
+        <a href="https://www.patreon.com/gsk567" class="btn btn-lg btn-outline-light mx-1" target="_blank"
+            data-v-3cfc6c66="">Become a backer or sponsor via Patreon</a>
+    </div>
+</div>
 
-### If Using Volar
-
-Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-### If Using Vetur
-
-1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
-2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
-3. Open `src/main.ts` in VSCode
-4. Open the VSCode command palette
-5. Search and run "Select TypeScript version" -> "Use workspace version"
+<p class="my-4 px-2"> Apache License 2.0 • Copyright © 2022 <a href="https://georgi.karagogov.com/" target="_blank">Georgi Karagogov</a></p>
