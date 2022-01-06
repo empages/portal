@@ -63,6 +63,7 @@ import {getModelFromFormViewModel, getPropertyNameFromOrigin} from "@/shared/hel
 import {required} from "@vuelidate/validators";
 import {usePageSettings} from "@/composables/page-settings-composables";
 import {notificationProvider} from "@/services/notification-provider";
+import {useRouter} from "vue-router";
 
 const props = defineProps<{
   pageRoute: string | null,
@@ -72,6 +73,7 @@ const props = defineProps<{
 
 const adminLayout = useAdminLayout();
 const pageSettings = usePageSettings();
+const router = useRouter();
 
 const viewModel: Ref<EmPageFormViewModel | null> = ref(null);
 
@@ -137,6 +139,7 @@ async function submitForm() {
     }
     else {
       notificationProvider.showSuccessToast('Form submission has been successful');
+      await router.push(`/admin/${props.pageRoute}`);
     }
   }
 }
