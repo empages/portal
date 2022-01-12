@@ -13,6 +13,7 @@ import EmPageFlagMutator from "@/components/em-pages/components/mutators/EmPageF
 import EmPageHtmlMutator from "@/components/em-pages/components/mutators/EmPageHtmlMutator.vue";
 import EmPageCustomDataMutator from "@/components/em-pages/components/mutators/EmPageCustomDataMutator.vue";
 import EmPageFileMutator from "@/components/em-pages/components/mutators/EmPageFileMutator.vue";
+import EmPageHiddenQueryMutator from "@/components/em-pages/components/mutators/EmPageHiddenQueryMutator.vue";
 
 export default {
     install: (app: any) => {
@@ -33,5 +34,6 @@ export default {
         app.component('EmPageHtmlMutator', EmPageHtmlMutator);
         app.component('EmPageCustomDataMutator', EmPageCustomDataMutator);
         app.component('EmPageFileMutator', EmPageFileMutator);
+        app.component('EmPageHiddenQueryMutator', EmPageHiddenQueryMutator);
     }
 }

@@ -3,39 +3,42 @@
     <form @submit.prevent="submitForm">
       <div
         v-for="(input, inputIndex) in inputs"
-        :key="`em-page-form-input-${inputIndex}`"
-        class="form-group mb-3">
-        <label class="form-label mb-0">
-          {{ input.label }} <span
-            v-if="input.required"
-            class="required-indicator">*</span>
-        </label>
-        <Component
-          :is="input?.component.sourceName"
-          v-model="model[getPropertyNameFromOrigin(input?.property)]"
-          :view-model="viewModel"
-          :component="input?.component"
-          :mutator-value="input?.value"
-          :label="input.label"
-          :allow-null-value="input?.allowNullValue"
-          :has-error="input?.validationErrors && input?.validationErrors.length"
-          v-bind="input?.parameters" />
+        :key="`em-page-form-input-${inputIndex}`">
         <div
-          v-if="input?.validationErrors && input?.validationErrors.length"
-          class="invalid-feedback d-block">
-          <p
-            v-for="(validationError, validationErrorIndex) in input.validationErrors"
-            :key="`input-${input?.property}-error-${validationErrorIndex}`"
-            class="m-0">
-            {{ validationError }}
-          </p>
-        </div>
-        <div
-          v-if="hasErrorOnClient(input?.property)"
-          class="invalid-feedback d-block">
-          <p class="m-0">
-            {{ getOriginPropertyValidator(input?.property).$errors[0].$message }}
-          </p>
+          v-show="!input.hidden"
+          class="form-group mb-3">
+          <label class="form-label mb-0">
+            {{ input.label }} <span
+              v-if="input.required"
+              class="required-indicator">*</span>
+          </label>
+          <Component
+            :is="input?.component.sourceName"
+            v-model="model[getPropertyNameFromOrigin(input?.property)]"
+            :view-model="viewModel"
+            :component="input?.component"
+            :mutator-value="input?.value"
+            :label="input.label"
+            :allow-null-value="input?.allowNullValue"
+            :has-error="input?.validationErrors && input?.validationErrors.length"
+            v-bind="input?.parameters" />
+          <div
+            v-if="input?.validationErrors && input?.validationErrors.length"
+            class="invalid-feedback d-block">
+            <p
+              v-for="(validationError, validationErrorIndex) in input.validationErrors"
+              :key="`input-${input?.property}-error-${validationErrorIndex}`"
+              class="m-0">
+              {{ validationError }}
+            </p>
+          </div>
+          <div
+            v-if="hasErrorOnClient(input?.property)"
+            class="invalid-feedback d-block">
+            <p class="m-0">
+              {{ getOriginPropertyValidator(input?.property).$errors[0].$message }}
+            </p>
+          </div>
         </div>
       </div>
       <div class="">

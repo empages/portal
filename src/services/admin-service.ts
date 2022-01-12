@@ -14,7 +14,6 @@ import {HttpMethod, HttpMethods} from "@/models/http-method";
 import {ActionResponse} from "@/models/action-response";
 import {AdminTwoFactorDescriptionModel} from "@/models/admin-two-factor-description-model";
 import {SimpleResult} from "@/models/simple-result";
-import {AxiosRequestConfig} from "axios";
 
 class AdminService extends EmService {
     constructor() {
