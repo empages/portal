@@ -5,6 +5,7 @@ import {EmPageFormViewModel} from "@/models/em-page-form-view-model";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import pluralize from "pluralize"
+import {RouteLocationNormalizedLoaded} from "vue-router";
 
 export function newGuid(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -182,4 +183,18 @@ export function parseTimeSpan(timeSpan: string | null): { hours: number, minutes
     }
 
     return parsedTime;
+}
+
+export function getQueryStringFromRoute(route: RouteLocationNormalizedLoaded): string {
+    if (!route || !route.query) {
+        return '';
+    }
+
+    const queryKeys = Object.keys(route.query);
+    let queryString = '?';
+    for (const queryKey of queryKeys) {
+        queryString += `${queryKey}=${route.query[queryKey]}&`
+    }
+
+    return encodeURI(queryString);
 }

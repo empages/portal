@@ -104,8 +104,8 @@ class AdminService extends EmService {
         return await this.getData<EmPageDetailsViewModel>(`/admin/em-pages/details/${route}/${modelId}`);
     }
 
-    public async getFormViewModel(route: any, modelId: string | null): Promise<EmPageFormViewModel> {
-        return await this.getData<EmPageFormViewModel>(`/admin/em-pages/form/${route}/${modelId}`);
+    public async getFormViewModel(route: any, modelId: string | null, queryString: string): Promise<EmPageFormViewModel> {
+        return await this.getData<EmPageFormViewModel>(`/admin/em-pages/form/${route}/${modelId}${queryString}`);
     }
 
     public async submitFormModel(route: string, type: EmPageFormType, model: any | null) {
@@ -113,7 +113,7 @@ class AdminService extends EmService {
     }
 
     public async getFeatureIndexViewModel(route: any, modelId: string, feature: string): Promise<EmPageIndexViewModel> {
-        return await this.getData<EmPageIndexViewModel>(`/admin/em-pages/feature/${route}/${modelId}/${feature}`);
+        return await this.getData<EmPageIndexViewModel>(`/admin/em-pages/feature/${route}/${modelId}/${feature}?em_parent_id=${modelId}`);
     }
 
     public async executeAction(method: HttpMethod, actionUrl: string): Promise<ActionResponse> {

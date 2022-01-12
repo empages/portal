@@ -62,11 +62,11 @@ import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 import {EmPageFormType} from "@/shared/enums";
 import {EmPageFormSubmissionResponse} from "@/models/em-page-form-submission-response";
 import useVuelidate from "@vuelidate/core";
-import {getModelFromFormViewModel, getPropertyNameFromOrigin} from "@/shared/helpers";
+import {getModelFromFormViewModel, getPropertyNameFromOrigin, getQueryStringFromRoute} from "@/shared/helpers";
 import {required} from "@vuelidate/validators";
 import {usePageSettings} from "@/composables/page-settings-composables";
 import {notificationProvider} from "@/services/notification-provider";
-import {useRouter} from "vue-router";
+import {RouteLocationNormalizedLoaded, useRoute, useRouter} from "vue-router";
 
 const props = defineProps<{
   pageRoute: string | null,
@@ -77,6 +77,7 @@ const props = defineProps<{
 const adminLayout = useAdminLayout();
 const pageSettings = usePageSettings();
 const router = useRouter();
+const routeInstance = useRoute();
 
 const viewModel: Ref<EmPageFormViewModel | null> = ref(null);
 
@@ -99,7 +100,8 @@ const v$ = useVuelidate(modelValidationRules, model);
 
 async function loadViewModel (route: string | null, identifier: string | null) {
   try {
-    viewModel.value = await adminService.getFormViewModel(route || '', identifier || '');
+    const queryString = getQueryStringFromRoute(routeInstance);
+    viewModel.value = await adminService.getFormViewModel(route || '', identifier || '', queryString);
     model.value = getModelFromFormViewModel(viewModel.value);
     pageSettings.setTitle(`${identifier ? 'Edit' : 'Create a new'} ${viewModel.value?.context?.title?.toLowerCase()}`, 'Admin');
     adminLayout.reload({
