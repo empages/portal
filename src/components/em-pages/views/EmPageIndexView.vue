@@ -16,7 +16,7 @@
               <option
                 v-for="(orderByProperty, orderByPropertyIndex) in orderByProperties"
                 :key="`${viewModel?.context.route}-order-by-${orderByPropertyIndex}`"
-                :value="orderByProperty.value">
+                :value="orderByProperty.key">
                 {{ orderByProperty.value }}
               </option>
             </select>
