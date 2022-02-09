@@ -11,7 +11,6 @@
           <div class="row">
             <div class="col-12 grid-margin mb-0">
               <div class="content-wrapper">
-                <EmBreadcrumbs />
                 <div class="col-12 grid-margin p-3 main-content-wrapper-content">
                   <slot />
                 </div>
@@ -30,7 +29,6 @@ import {computed, ref, watch} from 'vue'
 import EmAdminFooter from "@/components/layouts/EmAdminFooter.vue";
 import EmAdminNavbar from "@/components/layouts/EmAdminNavbar.vue";
 import EmAdminSidebar from "@/components/layouts/EmAdminSidebar.vue";
-import EmBreadcrumbs from "@/components/layouts/EmBreadcrumbs.vue";
 import {useRoute} from "vue-router";
 
 const routeInstance = useRoute();

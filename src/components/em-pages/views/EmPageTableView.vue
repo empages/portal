@@ -15,27 +15,45 @@
     </template>
     <template #actions="{ data, value }">
       <div class="d-flex">
-        <EmAction
-          v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"
-          :key="`row-${data.identifier}-action-${actionIndex}`"
-          :action="action"
-          class="row-action-container" />
+        <div class="btn-group">
+          <button
+            class="btn btn-primary px-2 py-1 dropdown-toggle border-0"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Actions
+          </button>
+          <ul class="dropdown-menu">
+            <li
+              v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"
+              :key="`row-${data.identifier}-action-${actionIndex}`">
+              <div class="dropdown-item dropdown-action-item">
+                <EmAction
+                    :action="action"
+                    class="row-action-container" />
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </template>
   </EmTable>
 </template>
 
 <script lang="ts" setup>
-import {computed} from "vue";
+import {computed, ComputedRef} from "vue";
 import {EmPageTableRowModel} from "@/models/em-page-table-row-model";
 import _ from 'lodash';
 import {EmPageTableViewModel} from "@/models/em-page-table-view-model";
 import {EmPageTableHeadCellModel} from "@/models/em-page-table-head-cell-model";
 import EmTable from "@/components/base/EmTable.vue";
 import EmAction from "@/components/base/EmAction.vue";
+import {PropertyMap} from "@/models/property-map";
+import {EmPageComponent} from "@/models/em-page-component";
 
 const props = defineProps<{
-  viewModel: EmPageTableViewModel | null
+  viewModel: EmPageTableViewModel | null,
+  propertyComponentMap: Array<PropertyMap<EmPageComponent>>
 }>()
 
 const tableData = computed(() => {
@@ -43,7 +61,11 @@ const tableData = computed(() => {
     return [];
   }
 
-  return props.viewModel?.rows;
+  return props.viewModel?.rows.filter(x => x.cells.some(y => y.component.sourceName !== null));
+})
+
+const columnsWithoutComponent: ComputedRef<Array<string>> = computed(() => {
+  return props.propertyComponentMap?.filter(x => x.value === null).map(x => x.property) || [];
 })
 
 const tableColumns = computed(() => {
@@ -51,12 +73,17 @@ const tableColumns = computed(() => {
     return [];
   }
 
-  return props.viewModel.headModel.cells.map((x: EmPageTableHeadCellModel) => {
-    return {
-      key: x.identifier,
-      title: x.name
-    }
-  });
+  return props
+      .viewModel
+      .headModel
+      .cells
+      .filter((x: EmPageTableHeadCellModel) => !columnsWithoutComponent.value.includes(x.identifier))
+      .map((x: EmPageTableHeadCellModel) => {
+          return {
+            key: x.identifier,
+            title: x.name
+          }
+      });
 })
 
 const actionColumns = computed(() => {
@@ -77,6 +104,25 @@ function getCell(row: EmPageTableRowModel, property: string) {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .dropdown-action-item {
+    padding-left: .25rem;
+    padding-right: .25rem;
+    :deep {
+      .btn {
+        padding-right: .5rem !important;
+        padding-left: .5rem !important;
+        width: 100%;
+        background: none !important;
+        color: black !important;
+        text-align: left;
+        text-shadow: none !important;
 
+        &:active,
+        &focus {
+          color: white !important;
+        }
+      }
+    }
+  }
 </style>

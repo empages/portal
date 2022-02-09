@@ -6,7 +6,7 @@
     :modalRef="modalElement" />
   <div
     ref="modalElement"
-    class="modal fade modal-target"
+    :class="`modal fade modal-target ${modalClass}`"
     tabindex="-1"
     aria-hidden="true">
     <div
@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<{
   hideHeader?: boolean,
   hideFooter?: boolean,
   size?: string,
+  modalClass?: string,
   headerClass?: string,
   bodyClass?: string,
   footerClass?: string
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<{
   hideHeader: false,
   hideFooter: false,
   size: '',
+  modalClass: '',
   headerClass: '',
   bodyClass: '',
   footerClass: ''
@@ -71,6 +73,10 @@ function hide() {
 }
 
 onMounted(() => {
+  if (modalElement.value) {
+    document.body.appendChild(modalElement.value);
+  }
+
   modal.value = new Modal(modalElement.value as Element, {});
   emit('modal:loaded', {
     modalRef: modalElement.value,

@@ -112,8 +112,10 @@ class AdminService extends EmService {
         return await this.postData<EmPageFormSubmissionResponse>(`/admin/em-pages/form/${route}/${type}`, model);
     }
 
-    public async getFeatureIndexViewModel(route: any, modelId: string, feature: string): Promise<EmPageIndexViewModel> {
-        return await this.getData<EmPageIndexViewModel>(`/admin/em-pages/feature/${route}/${modelId}/${feature}?em_parent_id=${modelId}`);
+    public async getFeatureIndexViewModel(route: any, modelId: string, feature: string, page: number, searchQuery: string, orderBy: string, orderType: string): Promise<EmPageIndexViewModel> {
+
+        const queryString = `page=${page}&searchQuery=${searchQuery}&orderBy=${orderBy}&orderType=${orderType}`;
+        return await this.getData<EmPageIndexViewModel>(`/admin/em-pages/feature/${route}/${modelId}/${feature}?em_parent_id=${modelId}&${queryString}`);
     }
 
     public async executeAction(method: HttpMethod, actionUrl: string): Promise<ActionResponse> {

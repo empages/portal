@@ -25,7 +25,7 @@
 
 import {EmPageComponent} from "@/models/em-page-component";
 import {MultiChoiceType} from "@/shared/enums";
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {EmPageFormViewModel} from "@/models/em-page-form-view-model";
 import EmRadioGroup from "@/components/base/EmRadioGroup.vue";
 import EmCheckboxGroup from "@/components/base/EmCheckboxGroup.vue";
@@ -46,7 +46,6 @@ const customDataItems = computed(() => {
   return props.viewModel.modelSelectableCustomDataMap[props.component.sourceTypeName];
 });
 
-
 const value = ref(props.mutatorValue);
 
 const options = computed(() => {
@@ -65,6 +64,8 @@ if (isValueDefaultId(value.value) && !props.allowNullValue && options.value.leng
 watch(value, (newValue: any) => {
   emit('update:modelValue', newValue);
 })
+
+onMounted(() => emit('update:modelValue', value))
 
 </script>
 

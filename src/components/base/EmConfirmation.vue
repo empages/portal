@@ -2,6 +2,7 @@
   <div class="confirmation-modal">
     <EmModal
       size="sm"
+      modal-class="confirmation-modal"
       @modal:loaded="modalLoaded">
       <template #trigger="context">
         <slot :context="context" />
@@ -111,22 +112,5 @@ function modalLoaded(context: EmModalContext): void {
     font-weight: bold;
     font-size: 12px;
     display: block;
-  }
-
-  :deep {
-    .modal-header {
-      padding-top: 10px;
-      padding-bottom: 10px;
-
-      h5 {
-        margin: 0;
-        font-size: 18px;
-      }
-    }
-
-    .modal-footer {
-      padding-top: 0;
-      border-top: none;
-    }
   }
 </style>

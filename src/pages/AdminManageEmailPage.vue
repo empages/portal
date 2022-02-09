@@ -58,20 +58,6 @@ const rules = {
 const v$ = useVuelidate(rules, form);
 
 adminLayout.reload({
-  breadcrumbs: [
-    {
-      order: 0,
-      isActive: false,
-      actionUrl: '#',
-      title: 'Manage'
-    },
-    {
-      order: 1,
-      isActive: false,
-      actionUrl: '#',
-      title: 'Email'
-    }
-  ],
   navbarActions: []
 })
 

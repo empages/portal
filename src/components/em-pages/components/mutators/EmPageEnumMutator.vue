@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
-import {computed, ref, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import EmSelect from "@/components/base/EmSelect.vue";
 import {MultiChoiceType} from "@/shared/enums";
 import EmRadioGroup from "@/components/base/EmRadioGroup.vue";
@@ -58,6 +58,8 @@ const options = computed(() => {
 watch(value, (newValue: any) => {
   emit('update:modelValue', newValue);
 })
+
+onMounted(() => emit('update:modelValue', value))
 
 </script>
 

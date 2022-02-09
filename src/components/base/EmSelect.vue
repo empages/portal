@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import {TextValuePair} from "@/shared/types/text-value-pair";
 import {randomString} from "@/shared/helpers";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 
 const props = defineProps<{
   modelValue?: any,
@@ -31,8 +31,8 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue']);
 
 const selectId = randomString(10);
-
 const selectValue = ref(props.modelValue);
+
 watch(selectValue, (value) => {
   emit('update:modelValue', value);
 })

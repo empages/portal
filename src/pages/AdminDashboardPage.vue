@@ -27,13 +27,7 @@ const pages: Ref<Array<EmPageSimpleModel>> = ref([]);
 
 const adminLayout = useAdminLayout();
 adminLayout.reload({
-  navbarActions: [],
-  breadcrumbs: [{
-    title: 'Dashboard',
-    isActive: false,
-    order: 0,
-    actionUrl: ''
-  }]
+  navbarActions: []
 })
 
 onMounted(async () => {

@@ -65,20 +65,6 @@ import {notificationProvider} from "@/services/notification-provider";
 
 const adminLayout = useAdminLayout();
 adminLayout.reload({
-  breadcrumbs: [
-    {
-      order: 0,
-      isActive: false,
-      actionUrl: '#',
-      title: 'Manage'
-    },
-    {
-      order: 1,
-      isActive: false,
-      actionUrl: '#',
-      title: 'Two Factor Authenticator'
-    }
-  ],
   navbarActions: []
 })
 

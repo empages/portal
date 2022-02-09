@@ -47,7 +47,6 @@ async function loadViewModel (route: string | null, identifier: string | null) {
     viewModel.value = await adminService.getDetailsViewModel(route || '', identifier || '');
     pageSettings.setTitle(`${viewModel.value?.context?.title} details`, 'Admin');
     adminLayout.reload({
-      breadcrumbs: viewModel.value.context.breadcrumbs,
       navbarActions: viewModel.value.context.navbarActions
     })
   }

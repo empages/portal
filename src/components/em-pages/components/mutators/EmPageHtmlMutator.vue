@@ -8,7 +8,7 @@
 import { EmPageComponent } from '@/models/em-page-component'
 import { EmPageViewModel } from '@/models/em-page-view-model'
 import EmHtmlEditor from '@/components/base/EmHtmlEditor.vue'
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
 const props = defineProps<{
   mutatorValue: any,
@@ -16,7 +16,14 @@ const props = defineProps<{
   viewModel: EmPageViewModel
 }>()
 
+const emit = defineEmits(['update:modelValue']);
+
 const modelValue = ref(props.mutatorValue);
+console.log(modelValue);
+watch(modelValue, (newValue: any) => {
+  emit('update:modelValue', newValue);
+})
+
 </script>
 
 <style scoped>

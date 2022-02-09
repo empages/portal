@@ -1,6 +1,6 @@
 <template>
   <nav class="d-flex mt-4">
-    <ul class="pagination m-auto">
+    <ul v-if="showPagination" class="pagination m-auto">
       <li
         v-if="model.previousPage !== null && model.previousPagesCount > 0"
         class="page-item mx-0">
@@ -86,6 +86,10 @@ const model: ComputedRef<EmPaginationModel> = computed(() => {
   build(model, props.page, props.pagesCount);
 
   return model;
+})
+
+const showPagination: ComputedRef<boolean> = computed(() => {
+  return model.value.nextPage !== null || model.value.previousPage !== null;
 })
 
 const nextPages = computed(() => {

@@ -105,7 +105,6 @@ async function loadViewModel (route: string | null, identifier: string | null) {
     model.value = getModelFromFormViewModel(viewModel.value);
     pageSettings.setTitle(`${identifier ? 'Edit' : 'Create a new'} ${viewModel.value?.context?.title?.toLowerCase()}`, 'Admin');
     adminLayout.reload({
-      breadcrumbs: viewModel.value.context.breadcrumbs,
       navbarActions: viewModel.value.context.navbarActions
     })
   }
@@ -144,7 +143,12 @@ async function submitForm() {
     }
     else {
       notificationProvider.showSuccessToast('Form submission has been successful');
-      await router.push(`/admin/${props.pageRoute}`);
+      if (routeInstance.query.redirectTo) {
+        await router.push(`${routeInstance.query.redirectTo}`);
+      }
+      else {
+        await router.push(`/admin/${props.pageRoute}`);
+      }
     }
   }
 }

@@ -2,7 +2,8 @@
   <div class="em-html-editor">
     <Editor
       v-model="editorValue"
-      :api-key="tinyMceApiKey" />
+      :api-key="tinyMceApiKey"
+      :init="initConfig" />
   </div>
 </template>
 
@@ -17,11 +18,15 @@ const props = withDefaults(defineProps<{
   modelValue: ''
 });
 
+const initConfig = {
+  height: 300
+}
+
 const emit = defineEmits(['update:modelValue']);
 
 const editorValue = ref(props.modelValue);
 
-watch(() => editorValue, (value) => {
+watch(editorValue, (value) => {
   emit('update:modelValue', value)
 })
 

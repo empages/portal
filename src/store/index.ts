@@ -4,7 +4,6 @@ import generalModule from "@/store/modules/general-module";
 import notificationModule from "@/store/modules/notification-module";
 import identityModule from "@/store/modules/identity-module";
 import sidebarModule from "@/store/modules/sidebar-module";
-import breadcrumbsModule from "@/store/modules/breadcrumbs-module";
 import navActionsModule from "@/store/modules/nav-actions-module";
 
 const store: Store<MainState> = createStore({
@@ -22,7 +21,6 @@ const store: Store<MainState> = createStore({
         notificationModule,
         identityModule,
         sidebarModule,
-        breadcrumbsModule,
         navActionsModule
     }
 })
