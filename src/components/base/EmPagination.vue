@@ -65,7 +65,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   page: 1,
   pagesCount: 0,
-  model: () => null
+  model: null
 });
 
 const emit = defineEmits(['select:page']);

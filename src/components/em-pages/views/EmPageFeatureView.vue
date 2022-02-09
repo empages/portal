@@ -43,13 +43,13 @@ const router = useRouter();
 const route = useRoute();
 const adminLayout = useAdminLayout();
 const pageSettings = usePageSettings();
-const viewModel: Ref<EmPageIndexViewModel | null> = ref(null);
+const viewModel: Ref<EmPageIndexViewModel> = ref({} as EmPageIndexViewModel);
 
 const { page, searchQuery, orderByType, orderBy, orderByProperties, orderByTypes, loadQueryParams, resetQueryStringParams, preventInvalidProperties } = useEmPageFilter(viewModel)
 
 async function loadViewModel (route: string | null, identifier: string | null, feature: string | null) {
   try {
-    viewModel.value = null;
+    viewModel.value = {} as EmPageIndexViewModel;
     adminLayout.reset();
     viewModel.value = await adminService.getFeatureIndexViewModel(
         route || '',

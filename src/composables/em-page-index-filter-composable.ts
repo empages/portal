@@ -7,7 +7,7 @@ export interface EmPageIndexFilter {
     page: Ref<number>;
     searchQuery: Ref<string>;
     orderBy: Ref<string>;
-    orderByType: Ref<string | null>;
+    orderByType: Ref<string>;
     orderByProperties: ComputedRef<Array<{ key: string, value: string }>>;
     orderByTypes: Array<string>;
     loadQueryParams: () => void;
@@ -22,7 +22,7 @@ export const useEmPageFilter = function (viewModel: Ref<EmPageIndexViewModel | n
     const page = ref(1);
     const searchQuery = ref('');
     const orderBy: Ref<string> = ref('');
-    const orderByType: Ref<string | null> = ref(orderByTypes[0]);
+    const orderByType: Ref<string> = ref(orderByTypes[0]);
 
     const orderByProperties = computed(() => {
         const propertyDictionary = viewModel.value?.tableViewModel?.orderProperties;
