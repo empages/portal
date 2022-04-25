@@ -3,10 +3,13 @@
     name="trigger"
     :show="show"
     :hide="hide"
+    :assigner="assignContext"
     :modalRef="modalElement" />
   <div
     ref="modalElement"
     :class="`modal fade modal-target ${modalClass}`"
+    :data-bs-backdrop="props.static ? 'static' : true"
+    :data-bs-keyboard="keyboard"
     tabindex="-1"
     aria-hidden="true">
     <div
@@ -38,7 +41,7 @@
 <script lang="ts" setup>
 import { Modal } from 'bootstrap'
 import {withDefaults, Ref, ref, computed, onMounted} from "vue";
-import {EmModalContext} from "@/shared/types/em-modal-context";
+import {ModalContext} from "@/shared/types/modal-context";
 
 const props = withDefaults(defineProps<{
   hideHeader?: boolean,
@@ -47,7 +50,9 @@ const props = withDefaults(defineProps<{
   modalClass?: string,
   headerClass?: string,
   bodyClass?: string,
-  footerClass?: string
+  footerClass?: string,
+  static?: boolean,
+  keyboard?: boolean
 }>(), {
   hideHeader: false,
   hideFooter: false,
@@ -55,10 +60,12 @@ const props = withDefaults(defineProps<{
   modalClass: '',
   headerClass: '',
   bodyClass: '',
-  footerClass: ''
+  footerClass: '',
+  static: false,
+  keyboard: true
 })
 
-const emit = defineEmits(['modal:loaded']);
+const emit = defineEmits(['modal:loaded', 'modal:opened', 'modal:closed']);
 
 const modal: Ref<Modal | null> = ref(null);
 const modalElement: Ref<Element | null> = ref(null);
@@ -72,17 +79,30 @@ function hide() {
   modal.value?.hide();
 }
 
+const assignContext = (assigner: (context: ModalContext) => void) => {
+  assigner({
+    show,
+    hide,
+    modalRef: modalElement.value
+  });
+}
+
 onMounted(() => {
   if (modalElement.value) {
     document.body.appendChild(modalElement.value);
   }
-
+  modalElement.value?.addEventListener('shown.bs.modal', () => {
+    emit('modal:opened');
+  });
+  modalElement.value?.addEventListener('hidden.bs.modal', () => {
+    emit('modal:closed');
+  });
   modal.value = new Modal(modalElement.value as Element, {});
   emit('modal:loaded', {
     modalRef: modalElement.value,
     show: show,
     hide: hide
-  } as EmModalContext);
+  } as ModalContext);
 })
 
 </script>

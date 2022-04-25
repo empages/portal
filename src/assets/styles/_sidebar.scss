@@ -1,6 +1,7 @@
 .sidebar {
     width: $sidebar-width-lg;
     background: $sidebar-default;
+    border-right: 1px solid $gray-300;
     overflow-y: auto;
     padding: 0;
     z-index: 11;
@@ -20,17 +21,32 @@
         padding-bottom: 50px;
 
         .nav-item {
+            margin-bottom: 0.6rem;
+
             .collapse {
                 z-index: 999;
             }
 
             .collapse.show,
             .collapsing {
-                background: $primary;
+                background: none;
 
                 .nav-link {
-                    color: $unselected-item-gray;
-                    font-weight: normal;
+                    color: $body-color;
+                    font-weight: 600;
+                }
+
+                .sub-menu.active {
+                    .nav-link {
+                        color: darken($primary, 25%);
+                        &.active {
+                            color: white;
+                        }
+
+                        &:hover {
+                            color: $white;
+                        }
+                    }
                 }
             }
 
@@ -39,7 +55,8 @@
                 display: flex;
                 padding: 10px 12px;
                 white-space: nowrap;
-                color: $sidebar-dark-menu-icon-color;
+                border-radius: $border-radius;
+                color: $gray-700;
 
                 &.sidebar-main-menu-item {
                     white-space: pre-line;
@@ -60,15 +77,15 @@
                             line-height: 1;
                             font-style: normal;
                             vertical-align: middle;
-                            color: lighten($sidebar-light-menu-icon-color, 30%);
+                            color: inherit;
                         }
                     }
                 }
 
                 &[aria-expanded="true"] {
                     &:not(.collapsed) {
-                        background: $selected-item-gray;
-                        color: $primary !important;
+                        background: darken($sidebar-light-menu-hover-bg, 5%);
+                        color: darken($primary, 5%);
                     }
 
                     i {
@@ -78,7 +95,7 @@
                     }
 
                     .menu-icon, .menu-arrow:before {
-                        color: $primary;
+                        color: darken($primary, 5%);
                     }
                 }
 
@@ -87,19 +104,14 @@
                     width: $sidebar-icon-size;
                     line-height: 1;
                     font-size: $sidebar-icon-size;
-                    color: lighten($sidebar-light-menu-icon-color, 30%);
-
-                    .rtl & {
-                        margin-right: 0;
-                        margin-left: 1.25rem;
-                    }
+                    color: inherit;
                 }
 
                 .menu-title {
                     color: inherit;
                     display: inline-block;
                     font-size: $sidebar-menu-font-size;
-                    font-weight: normal;
+                    font-weight: 600;
                     line-height: 1;
                     vertical-align: middle;
                 }
@@ -109,7 +121,7 @@
                 }
 
                 &:hover {
-                    color: $unselected-item-gray;
+                    color: inherit;
                 }
             }
 
@@ -129,16 +141,16 @@
 
             &:hover {
                 .menu-title, .menu-icon, .menu-arrow:before {
-                    color: $primary !important;
+                    color: inherit;
                 }
             }
 
             &.active {
                 background: $sidebar-light-menu-active-bg !important;
+                border-radius: $border-radius;
 
                 > .nav-link {
                     background: $sidebar-light-menu-active-bg !important;
-                    font-weight: normal;
                     color: $white !important;
 
                     .menu-title, i, .menu-arrow:before {
@@ -196,12 +208,13 @@
         }
 
         &:not(.sub-menu) {
+            padding: .6rem;
+
             > .nav-item {
                 &:hover {
                     &:not(.nav-profile) {
                         > .nav-link {
-                            background: $selected-item-gray;
-                            font-weight: normal;
+                            background: $sidebar-light-menu-hover-bg;
                         }
                     }
                 }
@@ -210,8 +223,9 @@
 
         &.sub-menu {
             margin-bottom: 0;
+            margin-top: 0.46rem;
             padding: $sidebar-submenu-padding;
-            background: $submenu-gray;
+            background: none;
             padding-left: 5px;
 
             .nav-item {
@@ -220,9 +234,10 @@
                     font-size: $sidebar-submenu-font-size;
                     line-height: 1;
                     height: auto;
-                    color: $unselected-item-gray;
+                    color: $body-color;
                     margin-top: 2px;
                     margin-bottom: 2px;
+                    font-weight: 600 !important;
 
                     .menu-title,
                     i {
@@ -242,7 +257,11 @@
                 &:hover {
                     > .nav-link {
                         background: $sidebar-light-submenu-hover-bg;
-                        color: $white;
+                        color: $primary;
+
+                        &.active {
+                            color: $white;
+                        }
 
                         .menu-title,
                         i {
@@ -281,6 +300,38 @@
 
         &.active {
             right: 0;
+        }
+    }
+}
+
+#project-dropdown {
+    padding: 0.6rem 0.6rem 0;
+
+    .btn {
+        width: 100%;
+        padding: 10px 6px;
+        font-size: 14px;
+        display: flex;
+
+        .mdi {
+            margin: auto 6px auto auto;
+            font-size: 22px;
+        }
+
+        .btn-text {
+            margin: auto auto auto 0;
+        }
+    }
+}
+
+.sidebar-icon-only {
+    #project-dropdown {
+        .mdi {
+            margin: auto;
+        }
+
+        .btn-text {
+            display: none;
         }
     }
 }

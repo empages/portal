@@ -12,21 +12,25 @@
 
 .form-group {
   .form-label {
-    font-size: .8rem;
-    margin-bottom: .25rem;
+    font-size: 1rem;
+    font-weight: 600 !important;
+    margin-bottom: .25rem !important;
   }
 }
 
 .form-control,
 .form-select {
-  font-size: .85rem;
-  line-height: 1.05rem;
-  padding: .56rem .68rem;
+  font-size: 1rem;
+  font-weight: 600 !important;
+  color: $gray-700 !important;
+  line-height: 1.35rem;
+  padding: 0.64rem 0.76rem;
   border-radius: $border-radius;
+  box-shadow: none !important;
 
   &:focus {
     border-color: darken($border-color, 10%);
-    box-shadow: 0 0 0 0.15rem lighten($base-focus-box-shadow, 5%);
+    border-width: 3px;
   }
 
   &.is-valid {
@@ -76,5 +80,6 @@
 }
 
 .invalid-feedback {
-  font-size: 12px;
+  font-size: .8rem;
+  font-weight: bold;
 }

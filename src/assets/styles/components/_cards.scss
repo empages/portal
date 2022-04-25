@@ -1,7 +1,7 @@
 .card {
   border: none;
-  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
-  border-radius: 4px;
+  border-radius: $border-radius;
+  @include box-shadow(0px 0 30px rgba(1, 41, 112, .1));
 
   .card-header {
     background: $white;

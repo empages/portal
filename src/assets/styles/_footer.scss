@@ -6,6 +6,10 @@
     -ms-transition: all $action-transition-duration $action-transition-timing-function;
     font-size: 12px;
 
+    background: $sidebar-default;
+    border-bottom: 1px solid $gray-300;
+    border-top: 1px solid $gray-300;
+
     a {
         color: $primary;
         font-size: inherit;

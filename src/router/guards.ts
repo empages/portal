@@ -3,26 +3,11 @@ import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
 import adminService from "@/services/admin-service";
 import {notificationProvider} from "@/services/notification-provider";
 
-export const clientBuilderGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
-    if (!store.getters['settingsModule/applications'].length) {
-        next({ name: 'settings' });
-        notificationProvider.showWarningToast('Client Builder module requires registration of a at least one application');
-        return;
-    }
-
-    if (!store.getters['settingsModule/selectedApplication'].isDevelopment) {
-        next({ name: 'home' });
-        notificationProvider.showWarningToast('Client Builder can be accessible only in development environment');
-    }
-
-    next();
-}
-
-export const adminGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+export const authenticationGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     try {
         if (!store.getters['settingsModule/applications'].length) {
             next({ name: 'settings' });
-            notificationProvider.showWarningToast('Admin module requires registration of a at least one application');
+            notificationProvider.showWarningToast('Emeraude Portal requires registration of at least one application');
             return;
         }
 
@@ -34,21 +19,21 @@ export const adminGuard = async function (to: RouteLocationNormalized, from: Rou
             store.commit('identityModule/removeIdentity', currentIdentityRecord);
         }
 
-        next({ name: 'admin-auth' });
+        next({ name: 'auth' });
         return;
     }
 
     next();
 }
 
-export const adminAuthenticatedGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+export const authenticatedGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     if (!store.getters['settingsModule/applications'].length) {
         next({ name: 'settings' });
         return;
     }
 
     if (store.getters['identityModule/authenticated']) {
-        next({ name: 'admin-dashboard' });
+        next({ name: 'dashboard' });
         return;
     }
 

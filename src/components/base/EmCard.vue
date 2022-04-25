@@ -3,16 +3,19 @@
     <div
       v-if="props.title"
       :class="`card-header ${props.headerClasses}`">
-      <h3 :class="`card-title ${props.titleClasses}`">
+      <h4 :class="`card-title ${props.titleClasses}`">
         <slot
           name="title"
           :cardTitle="title">
           {{ title }}
         </slot>
-      </h3>
+      </h4>
     </div>
-    <div class="card-body">
+    <div class="card-body py-0">
       <slot />
+    </div>
+    <div class="card-footer">
+      <slot name="footer" />
     </div>
   </div>
 </template>

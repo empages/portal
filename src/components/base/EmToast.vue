@@ -7,7 +7,9 @@
     aria-live="assertive"
     aria-atomic="true">
     <div class="d-flex">
-      <div class="toast-body">
+      <div
+        v-strong
+        class="toast-body">
         {{ props.notification.message }}
       </div>
       <button

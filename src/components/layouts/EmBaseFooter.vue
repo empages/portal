@@ -1,11 +1,7 @@
 <template>
   <footer class="footer">
-    <div class="container-fluid clearfix d-flex">
+    <div class="">
       <CopyrightText class="me-auto ms-0" />
-      <span class="text-muted me-0 ms-auto">
-        <span><RouterLink :to="{ name: 'terms' }">Terms</RouterLink> <span class="mx-2" />
-        </span>
-      </span>
     </div>
   </footer>
 </template>

@@ -2,7 +2,7 @@
   <div class="dropdown">
     <button
       ref="dropdownElement"
-      :class="`em-dropdown btn btn-primary ${toggleIcon ? 'dropdown-toggle' : ''} ${buttonClasses}`"
+      :class="`em-dropdown btn ${toggleIcon ? 'dropdown-toggle' : ''} ${buttonClasses}`"
       type="button"
       :title="title"
       data-bs-toggle="dropdown"
@@ -12,7 +12,7 @@
         {{ title }}
       </slot>
     </button>
-    <ul :class="`dropdown-menu ${menuClasses}`">
+    <ul :class="`dropdown-menu mt-1 ${menuClasses}`">
       <slot
         name="menu"
         :context="context" />

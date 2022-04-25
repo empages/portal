@@ -1,11 +1,11 @@
 <template>
-  <div :class="`form-group ${props.classes}`">
+  <div :class="`form-floating form-group ${props.classes}`">
+    <slot />
     <label
       v-if="props.label"
       class="form-label">
       {{ props.label }}
     </label>
-    <slot />
   </div>
 </template>
 
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
   classes?: string;
 }>(), {
   label: '',
-  classes: 'mb-2'
+  classes: 'mb-4'
 });
 
 </script>

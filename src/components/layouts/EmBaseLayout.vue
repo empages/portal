@@ -1,13 +1,24 @@
 <template>
-  <div class="h-100">
-    <div class="container-fluid h-100">
-      <div class="card main-panel-full h-100">
-        <EmBaseNavbar />
-        <div class="container">
-          <div class="card-body h-100 pt-1 px-0">
-            <slot />
-          </div>
-          <EmBaseFooter />
+  <div class="px-5 py-5 p-lg-0 min-h-screen bg-surface-secondary d-flex flex-column justify-content-center">
+    <div class="d-flex justify-content-center">
+      <div class="m-auto text-center layout-container">
+        <div class="mx-auto">
+          <slot />
+        </div>
+        <EmBaseFooter class="mt-4 mx-auto" />
+      </div>
+    </div>
+    <div class="d-flex position-fixed top-0 end-0">
+      <div class="me-0 ms-auto p-2 d-flex">
+        <div class="me-1 ms-auto">
+          <RouterLink
+            :to="{ name: 'dashboard' }"
+            class="btn btn-neutral btn-icon">
+            <i class="mdi mdi-diamond-stone button-icon" />
+          </RouterLink>
+        </div>
+        <div class="me-1 ms-auto">
+          <EmConfigurationDropdown />
         </div>
       </div>
     </div>
@@ -15,13 +26,14 @@
 </template>
 
 <script lang="ts" setup>
-import EmBaseNavbar from "@/components/layouts/EmBaseNavbar.vue";
+
+import EmConfigurationDropdown from "@/components/layouts/EmConfigurationDropdown.vue";
 import EmBaseFooter from "@/components/layouts/EmBaseFooter.vue";
-import EmAttributions from "@/components/content/EmAttributions.vue";
 </script>
 
 <style scoped lang="scss">
-  .main-panel-full {
-    box-shadow: none !important;
-  }
+.layout-container {
+  width: 100%;
+  max-width: 680px;
+}
 </style>

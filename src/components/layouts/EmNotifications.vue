@@ -9,8 +9,8 @@
 
 <script lang="ts" setup>
 import {computed} from "vue";
-import EmToast from "@/components/base/EmToast.vue";
 import {useStore} from "vuex";
+import EmToast from "@/components/base/EmToast.vue";
 
 const store = useStore();
 const notifications = computed(() => {

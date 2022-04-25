@@ -4,6 +4,5 @@ export class Application {
     url: string;
     environment: string;
     version: string;
-    isDevelopment: boolean;
     gatewayId: string;
 }

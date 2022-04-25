@@ -3,11 +3,11 @@
     <EmDropdown
       v-if="selectedApplication"
       auto-close="outside"
-      button-classes="d-flex btn-icon"
+      button-classes="d-flex btn-neutral btn-icon"
       menu-classes="dropdown-menu-end"
       :title="`${selectedApplication.name} (${selectedApplication.url})`">
       <template #title>
-        <i class="mdi mdi-dots-grid button-icon" />
+        <i class="mdi mdi-dots-grid" />
       </template>
       <template #menu="{ context }">
         <li
@@ -87,31 +87,37 @@ const isSelectedApplicationConnected = computed(() => {
   return store.getters['settingsModule/isSelectedApplicationConnected'];
 })
 
-async function refreshApplicationState(ignoreSuccessMessage = false) {
-  let isSelectedApplicationConnected = false;
-  try {
-    const application = store.getters["settingsModule/selectedApplication"];
-    const response = await accessService.verifyPortalAccess(application);
-    if (!response.verified) {
-      notificationProvider.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
-      isSelectedApplicationConnected = false;
-    }
-    else {
-      if (!ignoreSuccessMessage) {
-        notificationProvider.showSuccessToast(`Emeraude Portal has been connected with '${application.name}'`);
-      }
+async function refreshApplicationState() {
 
-      isSelectedApplicationConnected = true;
-      adminService.setApplication(application);
-      clientBuilderService.setApplication(application);
-    }
-  }
-  catch (e) {
-    notificationProvider.showErrorToast('Emeraude Portal cannot initialize a connection with the selected application');
-    isSelectedApplicationConnected = false;
+  const application = store.getters["settingsModule/selectedApplication"];
+  if (!application) {
+    notificationProvider.showWarningToast('There is no registered application to connect with');
+    store.commit('settingsModule/setIsSelectedApplicationConnected', false);
+    return;
   }
 
-  store.commit('settingsModule/setIsSelectedApplicationConnected', isSelectedApplicationConnected);
+  notificationProvider.showInfoToast(`Initializing a connection with **${application.name}**`);
+  await accessService.verifyPortalAccess(application)
+      .then(response => {
+        let isSelectedApplicationConnected = false;
+        if (!response.verified) {
+          isSelectedApplicationConnected = false;
+          notificationProvider.showErrorToast(`Emeraude Portal cannot initialize a connection with **${application.name}**`);
+        }
+        else {
+          isSelectedApplicationConnected = true;
+          adminService.setApplication(application);
+          notificationProvider.showSuccessToast(`Emeraude Portal has been connected with **${application.name}**`);
+        }
+
+        store.commit('settingsModule/setIsSelectedApplicationConnected', isSelectedApplicationConnected);
+      })
+      .catch(() => {
+        notificationProvider.showErrorToast(`Emeraude Portal cannot initialize a connection with **${application.name}**`);
+        store.commit('settingsModule/setIsSelectedApplicationConnected', false);
+      })
+
+
 }
 
 async function selectApplication(applicationId: string): Promise<void> {
@@ -124,21 +130,21 @@ async function selectApplication(applicationId: string): Promise<void> {
 }
 
 onMounted(async () => {
-  await refreshApplicationState(true);
+  await refreshApplicationState();
 })
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/styles/variables";
-  .button-icon {
-    display: flex;
-    padding: 3px;
-  }
+  @import "src/assets/styles/theme/core/variables/base-colors";
 
   .dropdown-item {
     width: 100%;
     font-size: 14px;
     cursor: pointer;
+
+    &:hover {
+      background-color: $gray-200;
+    }
 
     .item-name {
       font-weight: bold;
@@ -187,10 +193,12 @@ onMounted(async () => {
     }
 
     .section-badge {
-      font-size: 9px;
+      font-size: .6rem;
+      line-height: 1.2rem;
       text-transform: uppercase;
       font-weight: normal;
       margin-right: 3px;
+      padding: 0 6px;
     }
   }
 </style>

@@ -42,7 +42,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-neutral"
           @click="clickNo">
           {{ props.noText }}
         </button>
@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 import {computed, ref, Ref, withDefaults} from "vue";
 import EmModal from "@/components/base/EmModal.vue";
-import {EmModalContext} from "@/shared/types/em-modal-context";
+import {ModalContext} from "@/shared/types/modal-context";
 
 const props = withDefaults(defineProps<{
   callback: () => void,
@@ -68,7 +68,7 @@ const props = withDefaults(defineProps<{
   noText: 'No'
 });
 
-const modalContext: Ref<EmModalContext | null> = ref(null);
+const modalContext: Ref<ModalContext | null> = ref(null);
 const userConfirmationWord: Ref<string> = ref('');
 
 const confirmationAllowed = computed(() => {
@@ -90,7 +90,7 @@ function clickNo() {
   userConfirmationWord.value = '';
 }
 
-function modalLoaded(context: EmModalContext): void {
+function modalLoaded(context: ModalContext): void {
   modalContext.value = context;
   userConfirmationWord.value = '';
 }

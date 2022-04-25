@@ -8,7 +8,7 @@ const router = createRouter({
 
 router.beforeEach((to: RouteLocationNormalized) => {
     store.commit('generalModule/setLoaded', false);
-    store.commit('generalModule/setPageTitle', { main: to.meta.title, parent: to.meta.parentTitle});
+    store.commit('generalModule/setPageTitle', { main: to.meta.title });
 })
 
 router.afterEach(()  => {

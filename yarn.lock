@@ -2107,6 +2107,11 @@ magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.4"
 
+mdb-ui-kit@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/mdb-ui-kit/-/mdb-ui-kit-3.11.0.tgz#0205c070f04d8e4966906b1fe9e1dae62152b185"
+  integrity sha512-rUUzdS7UB7a8iw+/7HrQnitGzq+0ZBYeHAzGJnU4Tl8jssiFl95F3Kmf1cPcAtKd+o5jMJokDRR4mSFKt1p2ig==
+
 merge2@^1.2.3, merge2@^1.3.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"

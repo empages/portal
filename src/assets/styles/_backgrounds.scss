@@ -1,17 +1,25 @@
-@each $color, $value in $bg-custom-colors {
-  .bg-custom-#{$color} {
-    background: $value !important;
-  }
+//@each $color, $value in $bg-custom-colors {
+//  .bg-custom-#{$color} {
+//    background: $value !important;
+//  }
+//}
+//
+//.bg-darkest-gray {
+//  background: $darkest-gray;
+//}
+//
+//.bg-main-gradient {
+//  background: linear-gradient(45deg, $base, $base-dark);
+//}
+//
+//.bg-gray-gradient {
+//  background: linear-gradient(120deg, $darkest-gray, $darker-gray);
+//}
+
+.bg-dx-green-gradient {
+  background: linear-gradient(45deg, $base-green-color, $secondary-green-color) !important;
 }
 
-.bg-darkest-gray {
-  background: $darkest-gray;
-}
-
-.bg-main-gradient {
-  background: linear-gradient(45deg, $base, $base-dark);
-}
-
-.bg-gray-gradient {
-  background: linear-gradient(120deg, $darkest-gray, $darker-gray);
+.bg-dx-blue-gradient {
+  background: linear-gradient(45deg, $base-blue-color, $secondary-blue-color) !important;
 }
