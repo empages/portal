@@ -1,43 +1,45 @@
 <template>
-  <EmTable
-    :columns="[...tableColumns, ...actionColumns]"
-    :data="tableData">
-    <template
-      v-for="(item, itemIndex) in tableColumns"
-      :key="`table-item-key-${itemIndex}-${item.key}`"
-      #[item.key]="{data}">
-      <Component
-        :is="getCell(data, item.key)?.component?.sourceName"
-        :view-model="viewModel"
-        :component="getCell(data, item.key)?.component"
-        :renderer-value="getCell(data, item.key)?.value"
-        v-bind="getCell(data, item.key)?.parameters" />
-    </template>
-    <template #actions="{ data, value }">
-      <div class="d-flex">
-        <div class="btn-group">
-          <button
-            class="btn btn-primary px-2 py-1 dropdown-toggle border-0"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Actions
-          </button>
-          <ul class="dropdown-menu">
-            <li
-              v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"
-              :key="`row-${data.identifier}-action-${actionIndex}`">
-              <div class="dropdown-item dropdown-action-item">
-                <EmAction
-                    :action="action"
-                    class="row-action-container" />
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </template>
-  </EmTable>
+  <div>
+    <!--    <EmTable-->
+    <!--      :columns="[...tableColumns, ...actionColumns]"-->
+    <!--      :data="tableData">-->
+    <!--      <template-->
+    <!--        v-for="(item, itemIndex) in tableColumns"-->
+    <!--        :key="`table-item-key-${itemIndex}-${item.key}`"-->
+    <!--        #[item.key]="{data}">-->
+    <!--        <Component-->
+    <!--          :is="getCell(data, item.key)?.component?.sourceName"-->
+    <!--          :view-model="viewModel"-->
+    <!--          :component="getCell(data, item.key)?.component"-->
+    <!--          :renderer-value="getCell(data, item.key)?.value"-->
+    <!--          v-bind="getCell(data, item.key)?.parameters" />-->
+    <!--      </template>-->
+    <!--      <template #actions="{ data, value }">-->
+    <!--        <div class="d-flex">-->
+    <!--          <div class="btn-group">-->
+    <!--            <button-->
+    <!--              class="btn btn-primary px-2 py-1 dropdown-toggle border-0"-->
+    <!--              type="button"-->
+    <!--              data-bs-toggle="dropdown"-->
+    <!--              aria-expanded="false">-->
+    <!--              Actions-->
+    <!--            </button>-->
+    <!--            <ul class="dropdown-menu">-->
+    <!--              <li-->
+    <!--                v-for="(action, actionIndex) in _.sortBy(value, x => x.order)"-->
+    <!--                :key="`row-${data.identifier}-action-${actionIndex}`">-->
+    <!--                <div class="dropdown-item dropdown-action-item">-->
+    <!--                  <EmAction-->
+    <!--                    :action="action"-->
+    <!--                    class="row-action-container" />-->
+    <!--                </div>-->
+    <!--              </li>-->
+    <!--            </ul>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </template>-->
+    <!--    </EmTable>-->
+  </div>
 </template>
 
 <script lang="ts" setup>

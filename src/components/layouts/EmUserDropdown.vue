@@ -38,11 +38,10 @@
 
 <script lang="ts" setup>
 import {computed, ref, Ref, watch} from 'vue'
-import EmDropdown from "@/components/base/DxDropdown.vue";
 import moment from 'moment';
 import {useStore} from "vuex";
 import {useRoute, useRouter} from "vue-router";
-import {DropdownContext} from "@/shared/types/dropdown-context";
+import {EmDropdownContext} from "@/shared/types/em-dropdown-context";
 
 const menuItems = [
   { title: 'Manage 2FA', route: 'manage-2fa', icon: 'mdi mdi-qrcode-edit' },
@@ -54,7 +53,7 @@ const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
-const dropdownContext: Ref<DropdownContext | null> = ref(null);
+const dropdownContext: Ref<EmDropdownContext | null> = ref(null);
 
 const identity = computed(() => {
   return store.getters['identityModule/decodedIdentity'];
@@ -75,7 +74,7 @@ watch(currentRoute, () => {
   dropdownContext.value?.hide();
 })
 
-function loadedDropdown(context: DropdownContext): void {
+function loadedDropdown(context: EmDropdownContext): void {
   dropdownContext.value = context;
 
 }

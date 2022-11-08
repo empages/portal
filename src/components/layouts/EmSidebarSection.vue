@@ -1,10 +1,4 @@
 <template>
-  <li v-if="section.sectionStart">
-    <hr class="navbar-divider my-4 opacity-70">
-    <span class="nav-link text-xs font-semibold text-uppercase text-muted ls-wide">
-      {{ section.sectionStart }}
-    </span>
-  </li>
   <li
     class="nav-item"
     :class="{ 'active': section.isActive }">
