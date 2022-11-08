@@ -43,7 +43,7 @@ import useVuelidate from "@vuelidate/core";
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import {handleRequestError} from "@/shared/helpers";
-import {notificationProvider} from "@/services/notification-provider";
+import {notificationService} from "@/services/notification-service";
 const adminLayout = useAdminLayout();
 
 const form = ref({
@@ -76,14 +76,14 @@ async function changePassword() {
       //   form.value.newPassword = '';
       //   form.value.confirmedPassword = '';
       //   v$.value.$reset();
-      //   notificationProvider.showSuccessToast('Your password has been changed successfully');
+      //   notificationService.showSuccessToast('Your password has been changed successfully');
       // }
       // else {
-      //   notificationProvider.showErrorToast('Your password has not been changed');
+      //   notificationService.showErrorToast('Your password has not been changed');
       // }
     }
     catch (e) {
-      handleRequestError(e, notificationProvider.handlers.showErrorToast);
+      handleRequestError(e, notificationService.handlers.showErrorToast);
     }
   }
 }

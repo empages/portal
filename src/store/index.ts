@@ -1,11 +1,11 @@
-import {ActionContext, createStore, Store} from "vuex";
+import {createStore, Store} from "vuex";
+import type {ActionContext} from "vuex";
 import settingsModule from "@/store/modules/settings-module";
 import generalModule from "@/store/modules/general-module";
 import identityModule from "@/store/modules/identity-module";
-import sidebarModule from "@/store/modules/sidebar-module";
 import navActionsModule from "@/store/modules/nav-actions-module";
-import configurationService from "@/services/configuration-service";
-import {notificationProvider} from "@/services/notification-provider";
+import stateService from "@/services/state-service";
+import {notificationService} from "@/services/notification-service";
 
 const store: Store<MainState> = createStore({
     state (): MainState {
@@ -19,22 +19,22 @@ const store: Store<MainState> = createStore({
         reloadState(context: ActionContext<MainState, MainState>) {
             const application = context.getters["settingsModule/selectedApplication"];
             if (!application) {
-                notificationProvider.showWarningToast('There is no registered application to connect with');
+                notificationService.showWarningToast('There is no registered application to connect with');
                 context.commit('settingsModule/setIsSelectedApplicationConnected', false);
                 context.commit('settingsModule/setConfiguration', null);
                 return;
             }
 
-            configurationService.getConfiguration(application)
-                .then(config => {
+            stateService.getState(application)
+                .then(state => {
                     context.commit('settingsModule/setIsSelectedApplicationConnected', true);
-                    context.commit('settingsModule/setConfiguration', config);
-                    notificationProvider.showSuccessToast(`Emerald Pages Portal has been connected with **${application.name}**`);
+                    context.commit('settingsModule/setGatewayState', state);
+                    notificationService.showSuccessToast(`Emerald Pages Portal has been connected with **${application.name}**`);
                 })
                 .catch(() => {
                     context.commit('settingsModule/setIsSelectedApplicationConnected', false);
-                    context.commit('settingsModule/setConfiguration', null);
-                    notificationProvider.showErrorToast(`Emerald Pages Portal cannot initialize a connection with **${application.name}**`);
+                    context.commit('settingsModule/setGatewayState', null);
+                    notificationService.showErrorToast(`Emerald Pages Portal cannot initialize a connection with **${application.name}**`);
                 })
         }
     },
@@ -42,7 +42,6 @@ const store: Store<MainState> = createStore({
         settingsModule,
         generalModule,
         identityModule,
-        sidebarModule,
         navActionsModule
     }
 })

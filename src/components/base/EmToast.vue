@@ -23,9 +23,10 @@
 
 <script lang="ts" setup>
 import { Toast } from "bootstrap"
-import {onMounted, ref, Ref} from "vue"
-import { EmToastNotification } from '@/shared/types/em-toast-notification'
-import {notificationProvider} from "@/services/notification-provider";
+import {onMounted, ref} from "vue"
+import type {Ref} from "vue";
+import type { EmToastNotification } from '@/shared/types/em-toast-notification'
+import {notificationService} from "@/services/notification-service";
 
 const props = defineProps<{
   notification: EmToastNotification
@@ -39,7 +40,7 @@ onMounted(() => {
     toast.value = new Toast(toastElement.value);
     toast.value.show();
     toastElement.value.addEventListener('hidden.bs.toast', () => {
-      notificationProvider.removeToast(props.notification.id);
+      notificationService.removeToast(props.notification.id);
     })
   }
 })

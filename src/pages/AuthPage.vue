@@ -81,27 +81,28 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ComputedRef, reactive, ref} from 'vue'
-import {Application} from "@/models/application";
-import {LoginRequest} from '@/models/login-request';
+import {computed, reactive, ref} from 'vue'
+import type {ComputedRef} from 'vue'
+import type {Application} from "@/models/application";
+import type {LoginRequest} from '@/models/login-request';
 import {handleRequestError} from '@/shared/helpers';
 import useVuelidate from '@vuelidate/core'
 import {email, helpers, required, requiredIf} from '@vuelidate/validators'
 import EmInput from "@/components/base/EmInput.vue";
 import {AuthenticationState} from '@/shared/enums';
-import {LoginWithTwoFactorAuthenticationRequest} from "@/models/login-with-two-factor-authentication-request";
-import {AdminAuthResponse} from '@/models/admin-auth-response';
+import type {LoginWithTwoFactorAuthenticationRequest} from "@/models/login-with-two-factor-authentication-request";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import EmLoadingSpinner from "@/components/base/EmLoadingSpinner.vue";
-import {notificationProvider} from "@/services/notification-provider";
+import {notificationService} from "@/services/notification-service";
 import logo from "@/assets/images/logo.svg";
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
+import type {AuthResult} from "@/models/auth-result";
+import authenticationService from "@/services/authentication-service";
 
 const store = useStore();
 const router = useRouter();
 const authenticationState = ref(AuthenticationState.Login);
-const postAuthenticationToken = ref('');
 
 const rules = computed(() => {
   return {
@@ -122,7 +123,8 @@ const loginForm: LoginRequest = reactive({
 
 const loginWithTwoFactor: LoginWithTwoFactorAuthenticationRequest = reactive({
   email: '',
-  code: ''
+  code: '',
+  postAuthenticationToken: ''
 })
 
 const v$ = useVuelidate(rules, { loginForm, loginWithTwoFactor })
@@ -136,50 +138,53 @@ const isSelectedApplicationConnected: ComputedRef<boolean> = computed(() => {
 })
 
 async function submitForm() {
-  console.log('submit login form')
-  notificationProvider.showInfoToast("test test test")
   const isFormCorrect = await v$.value.$validate()
   if (!isFormCorrect) {
     return;
   }
 
   try {
-    let authResponse: AdminAuthResponse | null = null;
-    // if (authenticationState.value === AuthenticationState.Login) {
-    //   authResponse = await adminService.login(loginForm);
-    // }
+    let authResult: AuthResult | null = null;
+    if (authenticationState.value === AuthenticationState.Login) {
+      authResult = await authenticationService.login(loginForm.email, loginForm.password);
+    }
     // else if (authenticationState.value === AuthenticationState.LoginWithTwoFactor) {
     //   loginWithTwoFactor.email = loginForm.email;
     //   authResponse = await adminService.loginWithTwoFactor(loginWithTwoFactor, postAuthenticationToken.value);
     // }
 
-    // if (authResponse && authResponse.succeeded) {
-    //   if (authResponse.requiresAdditionalAuthenticationFactor && authResponse.postAuthenticationToken) {
-    //     notificationProvider.showWarningToast(authResponse.message);
-    //     authenticationState.value = AuthenticationState.LoginWithTwoFactor;
-    //     postAuthenticationToken.value = authResponse.postAuthenticationToken;
-    //     loginForm.password = '';
-    //     v$.value.$reset();
-    //     return;
-    //   }
-    //
-    //   loginForm.email = '';
-    //   loginWithTwoFactor.email = '';
-    //   loginWithTwoFactor.code = '';
-    //   postAuthenticationToken.value = '';
-    //   authenticationState.value = AuthenticationState.Authenticated;
-    //   v$.value.$reset();
-    //
-    //   store.commit('identityModule/storeIdentity', {
-    //     accessToken: authResponse.accessToken,
-    //     applicationId: application.value.id
-    //   });
-    //
-    //   router.go(0);
-    // }
+    if (authResult && !authResult.succeeded) {
+      notificationService.showErrorToast(authResult.message);
+      return;
+    }
+
+    if (authResult && authResult.succeeded) {
+      if (authResult.postAuthenticationToken) {
+        notificationService.showWarningToast(authResult.message);
+        authenticationState.value = AuthenticationState.LoginWithTwoFactor;
+        loginWithTwoFactor.postAuthenticationToken = authResult.postAuthenticationToken;
+        loginForm.password = '';
+        v$.value.$reset();
+        return;
+      }
+
+      loginForm.email = '';
+      loginWithTwoFactor.email = '';
+      loginWithTwoFactor.code = '';
+      loginWithTwoFactor.postAuthenticationToken = '';
+      authenticationState.value = AuthenticationState.Authenticated;
+      v$.value.$reset();
+
+      store.commit('identityModule/storeIdentity', {
+        accessToken: authResult.accessToken,
+        applicationId: application.value.id
+      });
+
+      router.go(0);
+    }
   }
   catch(e: any) {
-    handleRequestError(e, notificationProvider.handlers.showErrorToast);
+    handleRequestError(e, notificationService.handlers.showErrorToast);
   }
 }
 

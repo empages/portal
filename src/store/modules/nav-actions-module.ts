@@ -1,7 +1,5 @@
-import {ActionModel} from "@/models/action-model";
-
 interface NavActionsModuleState {
-    actions: Array<ActionModel>;
+    actions: Array<any>;
 }
 
 export default {
@@ -12,12 +10,12 @@ export default {
         }
     },
     getters: {
-        actions(state: NavActionsModuleState): Array<ActionModel> {
+        actions(state: NavActionsModuleState): Array<any> {
             return state.actions;
         }
     },
     mutations: {
-        setActions(state: NavActionsModuleState, actions: Array<ActionModel>): void {
+        setActions(state: NavActionsModuleState, actions: Array<any>): void {
             state.actions = actions;
         }
     },

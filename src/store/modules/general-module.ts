@@ -1,4 +1,4 @@
-import {RouteLocationRaw} from "vue-router";
+import type {RouteLocationRaw} from "vue-router";
 import {strings} from "@/shared/strings";
 
 interface GeneralModuleState {
@@ -58,7 +58,7 @@ export default {
                 documentTitle = `${titles.main} | ${titles.parent}`;
             }
 
-            document.title = `${documentTitle} | Emeraude Portal`;
+            document.title = `${documentTitle} | Emerald Pages Portal`;
         },
         setPageActions(state: GeneralModuleState, actions: PageAction[]): void {
           state.pageActions = actions;

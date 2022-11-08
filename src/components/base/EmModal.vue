@@ -40,8 +40,9 @@
 
 <script lang="ts" setup>
 import { Modal } from 'bootstrap'
-import {withDefaults, Ref, ref, computed, onMounted} from "vue";
-import {ModalContext} from "@/shared/types/modal-context";
+import {withDefaults, ref, computed, onMounted} from "vue";
+import type {Ref} from "vue";
+import type {ModalContext} from "@/shared/types/modal-context";
 
 const props = withDefaults(defineProps<{
   hideHeader?: boolean,

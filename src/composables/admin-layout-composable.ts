@@ -1,8 +1,7 @@
 import {useStore} from "vuex";
-import {ActionModel} from "@/models/action-model";
 
 export interface AdminLayoutReloadOptions {
-    navbarActions: Array<ActionModel>;
+    navbarActions: Array<any>;
 }
 
 export interface AdminLayout {

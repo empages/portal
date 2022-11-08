@@ -1,5 +1,5 @@
-import {Application} from "@/models/application";
-import {IdentityStorageRecord} from "@/models/identity-storage-record";
+import type {Application} from "@/models/application";
+import type {IdentityStorageRecord} from "@/models/identity-storage-record";
 import {validateAccessTokenExpiration} from "@/shared/helpers";
 
 export class StorageService {

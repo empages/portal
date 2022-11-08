@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="navbar-user d-none d-sm-block ms-auto me-0">
         <div class="hstack gap-3 ms-4">
-          <DxUserDropdown/>
+          <EmUserDropdown/>
         </div>
       </div>
     </div>
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import DxUserDropdown from "@/components/layouts/EmUserDropdown.vue";
+import EmUserDropdown from "@/components/layouts/EmUserDropdown.vue";
 
 defineEmits(['menu:toggle'])
 

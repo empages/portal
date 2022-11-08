@@ -1,16 +1,17 @@
 import store from '@/store'
-import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {notificationProvider} from "@/services/notification-provider";
+import type {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
+import {notificationService} from "@/services/notification-service";
+import stateService from "@/services/state-service";
 
 export const authenticationGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     try {
         if (!store.getters['settingsModule/applications'].length) {
             next({ name: 'settings' });
-            notificationProvider.showWarningToast('Emeraude Portal requires registration of at least one application');
+            notificationService.showWarningToast('Emerald Pages Portal requires registration of at least one application');
             return;
         }
 
-        store.getters['settingsModule/configuration']?.identity.currentUser
+        await stateService.checkAuthState();
     }
     catch (e) {
         const currentIdentityRecord = store.getters['identityModule/currentIdentityRecord'];

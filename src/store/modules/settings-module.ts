@@ -1,13 +1,13 @@
-import {Application} from "@/models/application";
+import type {Application} from "@/models/application";
 import {newGuid} from "@/shared/helpers";
 import storageService from "@/services/storage-service";
-import {EmConfiguration} from "@/models/em-configuration";
+import type {PortalGatewayState} from "@/models/portal-gateway-state";
 
 interface SettingsModuleState {
     applications: Array<Application>;
     selectedApplicationId: string | null
     isSelectedApplicationConnected: boolean;
-    configuration: EmConfiguration | null;
+    gatewayState: PortalGatewayState | null;
 }
 
 export default {
@@ -46,13 +46,13 @@ export default {
                 saveSettings(state);
             }
         },
-        setConfiguration(state: SettingsModuleState, configuration: EmConfiguration) {
-            state.configuration = configuration;
+        setGatewayState(state: SettingsModuleState, gatewayState: PortalGatewayState) {
+            state.gatewayState = gatewayState;
         }
     },
     getters: {
-        configuration(state: SettingsModuleState): EmConfiguration | null {
-          return state.configuration;
+        gatewayState(state: SettingsModuleState): PortalGatewayState | null {
+          return state.gatewayState;
         },
         applications(state: SettingsModuleState): Array<Application> {
             return state.applications;
@@ -93,7 +93,7 @@ function buildInitialSettings() {
         applications,
         selectedApplicationId,
         isSelectedApplicationConnected: false,
-        configuration: null
+        gatewayState: null
     };
 
     saveSettings(settings);

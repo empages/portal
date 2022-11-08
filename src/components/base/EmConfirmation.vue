@@ -52,9 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref, Ref, withDefaults} from "vue";
+import {computed, ref, withDefaults} from "vue";
+import type {Ref} from "vue";
 import EmModal from "@/components/base/EmModal.vue";
-import {ModalContext} from "@/shared/types/modal-context";
+import type {ModalContext} from "@/shared/types/modal-context";
 
 const props = withDefaults(defineProps<{
   callback: () => void,

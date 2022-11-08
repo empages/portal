@@ -1,11 +1,10 @@
-import jwtDecode, {JwtPayload} from "jwt-decode";
-import {AxiosError} from "axios";
+import jwtDecode from "jwt-decode";
+import type {JwtPayload} from "jwt-decode";
+import type {AxiosError} from "axios";
 import {strings} from "@/shared/strings";
-import {EmPageFormViewModel} from "@/models/em-page-form-view-model";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import pluralize from "pluralize"
-import {RouteLocationNormalizedLoaded} from "vue-router";
 
 export function newGuid(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -43,22 +42,6 @@ export function getPropertyNameFromOrigin(originPropertyName: string): string {
     }
 
     return originPropertyName.charAt(0).toLowerCase() + originPropertyName.slice(1);
-}
-
-export function getModelFromFormViewModel(viewModel: EmPageFormViewModel | null): any {
-    const model: any = {};
-    if (viewModel) {
-        for (const input of viewModel.inputs) {
-            const propertyName = getPropertyNameFromOrigin(input.property);
-            model[propertyName] = input.value;
-        }
-
-        if (!model.id) {
-            model['id'] = viewModel.identifier;
-        }
-    }
-
-    return model;
 }
 
 export function decodeAccessToken(token: string): JwtPayload {
@@ -108,6 +91,8 @@ export function getMessagesFromErrorResponse(error: AxiosError) {
         return [];
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const mappedErrorsObject = error.response.data?.errors || error.response.data;
     const errors: Array<string> = [];
     const mappedErrors = Object.keys(mappedErrorsObject).map(x => mappedErrorsObject[x]);
@@ -183,18 +168,4 @@ export function parseTimeSpan(timeSpan: string | null): { hours: number, minutes
     }
 
     return parsedTime;
-}
-
-export function getQueryStringFromRoute(route: RouteLocationNormalizedLoaded): string {
-    if (!route || !route.query) {
-        return '';
-    }
-
-    const queryKeys = Object.keys(route.query);
-    let queryString = '?';
-    for (const queryKey of queryKeys) {
-        queryString += `${queryKey}=${route.query[queryKey]}&`
-    }
-
-    return encodeURI(queryString);
 }

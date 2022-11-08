@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
 import {authenticatedGuard, authenticationGuard} from "@/router/guards";
 import {layouts} from "@/plugins/layouts";
 

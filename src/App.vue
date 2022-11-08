@@ -1,5 +1,5 @@
 <template>
-  <div id="emeraude">
+  <div id="empages">
     <div class="h-100">
       <Component :is="layout">
         <RouterView />

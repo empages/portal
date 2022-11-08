@@ -1,7 +1,8 @@
-import {IdentityStorageRecord} from "@/models/identity-storage-record";
+import type {IdentityStorageRecord} from "@/models/identity-storage-record";
 import storageService from "@/services/storage-service";
 import {validateAccessTokenExpiration} from "@/shared/helpers";
-import jwtDecode, {JwtPayload} from "jwt-decode";
+import jwtDecode from "jwt-decode";
+import type {JwtPayload} from "jwt-decode";
 
 interface IdentityModuleState {
     identityRecords: Array<IdentityStorageRecord>;

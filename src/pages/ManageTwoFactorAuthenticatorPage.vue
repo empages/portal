@@ -60,7 +60,7 @@ import {handleRequestError} from "@/shared/helpers";
 import {useRouter} from "vue-router";
 import EmRow from "@/components/base/EmRow.vue";
 import EmCol from "@/components/base/EmCol.vue";
-import {notificationProvider} from "@/services/notification-provider";
+import {notificationService} from "@/services/notification-service";
 
 const adminLayout = useAdminLayout();
 adminLayout.reload({
@@ -94,15 +94,15 @@ async function activateTwoFactorAuthentication() {
   //     if (result.succeeded) {
   //       form.value.code = '';
   //       v$.value.$reset();
-  //       notificationProvider.showSuccessToast('Your two-factor authenticator has been activated');
+  //       notificationService.showSuccessToast('Your two-factor authenticator has been activated');
   //       await loadInitialData();
   //     }
   //     else {
-  //       notificationProvider.showErrorToast('Your two-factor authenticator has not been activated');
+  //       notificationService.showErrorToast('Your two-factor authenticator has not been activated');
   //     }
   //   }
   //   catch (e) {
-  //     handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  //     handleRequestError(e, notificationService.handlers.showErrorToast);
   //   }
   // }
 }
@@ -111,15 +111,15 @@ async function resetAuthenticatorKey() {
   // try {
   //   const result = await adminService.resetTwoFactorAuthenticator();
   //   if (result.succeeded) {
-  //     notificationProvider.showSuccessToast('Your two-factor authenticator has been reset');
+  //     notificationService.showSuccessToast('Your two-factor authenticator has been reset');
   //     router.go(0);
   //   }
   //   else {
-  //     notificationProvider.showErrorToast('Your two-factor authenticator has not been reset');
+  //     notificationService.showErrorToast('Your two-factor authenticator has not been reset');
   //   }
   // }
   // catch (e) {
-  //   handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  //   handleRequestError(e, notificationService.handlers.showErrorToast);
   // }
 }
 
@@ -135,7 +135,7 @@ async function loadInitialData() {
   //   }
   // }
   // catch (e) {
-  //   handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  //   handleRequestError(e, notificationService.handlers.showErrorToast);
   // }
 }
 </script>

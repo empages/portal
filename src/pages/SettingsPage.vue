@@ -90,16 +90,16 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, Ref, ref} from 'vue'
+import {computed, ref} from 'vue'
+import type {Ref} from "vue";
 import EmTable from "@/components/base/EmTable.vue";
 import { Application } from '@/models/application';
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
-import configurationService from "@/services/configuration-service";
-import {applicationsTableColumns} from "@/shared/tables-columns/applications-table-columns";
+import stateService from "@/services/state-service";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import EmLoadingContainer from '@/components/base/EmLoadingContainer.vue'
-import {notificationProvider} from "@/services/notification-provider";
+import {notificationService} from "@/services/notification-service";
 import EmModal from "@/components/base/EmModal.vue";
 import {useModalContext} from "@/composables/modal-composable";
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
@@ -123,6 +123,27 @@ const emptyApplication: Ref<Application> = ref({
 
 const applicationForEdit: Ref<Application> = ref(emptyApplication.value);
 const detectedChange = ref(false);
+
+const applicationsTableColumns = [
+  {
+    key: 'name',
+    title: 'Name'
+  },
+  {
+    key: 'url',
+    title: 'URL'
+  },
+  {
+    key: 'environment',
+    title: 'Environment'
+  },
+  {
+    key: 'actions',
+    title: 'Actions',
+    thClass: 'fit',
+    tdClass: 'fit'
+  }
+]
 
 const rules = {
   name: { required: helpers.withMessage('Name is required', required), },
@@ -149,7 +170,7 @@ async function formSubmit() {
 
 async function saveApplication(application: Application): Promise<void> {
   try {
-    const config = await configurationService.getConfiguration(application);
+    const config = await stateService.getConfiguration(application);
     if (config) {
       detectedChange.value = true;
 
@@ -163,7 +184,7 @@ async function saveApplication(application: Application): Promise<void> {
         store.commit('settingsModule/addApplication', application);
       }
 
-      notificationProvider.showSuccessToast('Application has been saved');
+      notificationService.showSuccessToast('Application has been saved');
       router.go(0);
       return;
     }
@@ -172,12 +193,12 @@ async function saveApplication(application: Application): Promise<void> {
     console.log("Portal access has not been verified");
   }
 
-  notificationProvider.showErrorToast(`We cannot initialize a valid connection with **${application.name}**`);
+  notificationService.showErrorToast(`We cannot initialize a valid connection with **${application.name}**`);
 }
 
 function removeApplication(id: string): void {
   store.commit('settingsModule/removeApplication', id);
-  notificationProvider.showSuccessToast('Application has been removed');
+  notificationService.showSuccessToast('Application has been removed');
   router.go(0);
 }
 

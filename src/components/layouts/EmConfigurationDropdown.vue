@@ -50,7 +50,7 @@
         </li>
         <li class="dropdown-divider" />
         <li class="help-section">
-          To configure the Emeraude Portal and included applications use the <RouterLink
+          To configure the Emerald Pages Portal and included applications use the <RouterLink
             :to="{ name: 'settings' }"
             title="Settings">
             Settings

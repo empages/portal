@@ -13,7 +13,7 @@
     </a>
     <div class="dropdown-menu dropdown-menu-end">
       <div class="dropdown-header">
-        <span class="d-block text-heading font-semibold">{{ identity?.sub }}</span>
+        <span class="d-block text-heading font-semibold">{{ identity?.email }}</span>
       </div>
       <div class="dropdown-divider" />
       <RouterLink

@@ -37,7 +37,7 @@ import {email, helpers, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import {handleRequestError} from "@/shared/helpers";
 import {useStore} from "vuex";
-import {notificationProvider} from "@/services/notification-provider";
+import {notificationService} from "@/services/notification-service";
 
 const adminLayout = useAdminLayout();
 const store = useStore();
@@ -68,14 +68,14 @@ async function changeEmail() {
   //     if (result.succeeded) {
   //       form.value.newEmail = '';
   //       v$.value.$reset();
-  //       notificationProvider.showSuccessToast('Your email has been changed successfully');
+  //       notificationService.showSuccessToast('Your email has been changed successfully');
   //     }
   //     else {
-  //       notificationProvider.showErrorToast('Your email has not been changed');
+  //       notificationService.showErrorToast('Your email has not been changed');
   //     }
   //   }
   //   catch (e) {
-  //     handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  //     handleRequestError(e, notificationService.handlers.showErrorToast);
   //   }
   // }
 }

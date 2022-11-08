@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import {computed, onBeforeMount, ref} from "vue";
 import EmToast from "@/components/base/EmToast.vue";
-import {notificationProvider} from "@/services/notification-provider";
+import {notificationService} from "@/services/notification-service";
 
 const counter = ref(0);
 
@@ -23,11 +23,11 @@ const notifications = computed(() => {
       // trigger reactivity
   }
 
-  return notificationProvider.getNotifications();
+  return notificationService.getNotifications();
 })
 
 onBeforeMount(() => {
-  notificationProvider.setTrigger(trigger);
+  notificationService.setTrigger(trigger);
 })
 
 </script>

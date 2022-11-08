@@ -1,4 +1,4 @@
-import {ModalContext} from "@/shared/types/modal-context";
+import type {ModalContext} from "@/shared/types/modal-context";
 
 export const useModalContext = function (): [ModalContext, (context: ModalContext) => void] {
     const modalContext: ModalContext = {
