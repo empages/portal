@@ -23,7 +23,6 @@
 
 <script lang="ts" setup>
 
-import adminService from "@/services/admin-service";
 import {computed, onMounted, ref, Ref, watch} from "vue";
 import {useAdminLayout} from "@/composables/admin-layout-composable";
 import {EmPageIndexViewModel} from "@/models/em-page-index-view-model";
@@ -51,23 +50,23 @@ const viewModel: Ref<EmPageIndexViewModel | null> = ref(null);
 const { page, searchQuery, orderByType, orderBy, orderByProperties, orderByTypes, loadQueryParams, resetQueryStringParams, preventInvalidProperties } = useEmPageFilter(viewModel)
 
 async function loadViewModel(route: string | null) {
-  try {
-    viewModel.value = null;
-    adminLayout.reset();
-    viewModel.value = await adminService.getIndexViewModel(
-        route || '',
-        page.value,
-        searchQuery.value,
-        orderBy.value || '',
-        orderByType.value || orderByTypes[0]);
-    pageSettings.setTitle(getPluralFormat(viewModel.value?.context?.title), 'Admin');
-    adminLayout.reload({
-      navbarActions: viewModel.value.context.navbarActions
-    })
-  }
-  catch (e: any) {
-   await pageSettings.throwEmPageRequestError(e);
-  }
+  // try {
+  //   viewModel.value = null;
+  //   adminLayout.reset();
+  //   viewModel.value = await adminService.getIndexViewModel(
+  //       route || '',
+  //       page.value,
+  //       searchQuery.value,
+  //       orderBy.value || '',
+  //       orderByType.value || orderByTypes[0]);
+  //   pageSettings.setTitle(getPluralFormat(viewModel.value?.context?.title), 'Admin');
+  //   adminLayout.reload({
+  //     navbarActions: viewModel.value.context.navbarActions
+  //   })
+  // }
+  // catch (e: any) {
+  //  await pageSettings.throwEmPageRequestError(e);
+  // }
 }
 
 watch(() => props.pageRoute, async (value) => {

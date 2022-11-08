@@ -56,7 +56,6 @@
 <script lang="ts" setup>
 import { useAdminLayout } from '@/composables/admin-layout-composable'
 import { computed, onMounted, ref, Ref, watch } from 'vue'
-import adminService from '@/services/admin-service'
 import { EmPageFormViewModel } from '@/models/em-page-form-view-model'
 import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 import {EmPageFormType} from "@/shared/enums";
@@ -99,18 +98,18 @@ const modelValidationRules = computed(() => {
 const v$ = useVuelidate(modelValidationRules, model);
 
 async function loadViewModel (route: string | null, identifier: string | null) {
-  try {
-    const queryString = getQueryStringFromRoute(routeInstance);
-    viewModel.value = await adminService.getFormViewModel(route || '', identifier || '', queryString);
-    model.value = getModelFromFormViewModel(viewModel.value);
-    pageSettings.setTitle(`${identifier ? 'Edit' : 'Create a new'} ${viewModel.value?.context?.title?.toLowerCase()}`, 'Admin');
-    adminLayout.reload({
-      navbarActions: viewModel.value.context.navbarActions
-    })
-  }
-  catch (e: any) {
-    await pageSettings.throwEmPageRequestError(e);
-  }
+  // try {
+  //   const queryString = getQueryStringFromRoute(routeInstance);
+  //   viewModel.value = await adminService.getFormViewModel(route || '', identifier || '', queryString);
+  //   model.value = getModelFromFormViewModel(viewModel.value);
+  //   pageSettings.setTitle(`${identifier ? 'Edit' : 'Create a new'} ${viewModel.value?.context?.title?.toLowerCase()}`, 'Admin');
+  //   adminLayout.reload({
+  //     navbarActions: viewModel.value.context.navbarActions
+  //   })
+  // }
+  // catch (e: any) {
+  //   await pageSettings.throwEmPageRequestError(e);
+  // }
 }
 
 watch(() => props.pageRoute, async (value) => {
@@ -134,23 +133,23 @@ function hasErrorOnClient(originProperty: string): boolean {
 }
 
 async function submitForm() {
-  const isFormValid = await v$.value.$validate();
-  if (isFormValid) {
-    const response = await adminService.submitFormModel(viewModel.value?.context?.route ?? '', props.type, model.value);
-    if (response && !response.succeeded && viewModel.value) {
-      notificationProvider.showErrorToast(response.operationError ?? 'Form submission has been invalid');
-      mapErrorsFromResponse(viewModel.value, response);
-    }
-    else {
-      notificationProvider.showSuccessToast('Form submission has been successful');
-      if (routeInstance.query.redirectTo) {
-        await router.push(`${routeInstance.query.redirectTo}`);
-      }
-      else {
-        await router.push(`/admin/${props.pageRoute}`);
-      }
-    }
-  }
+  // const isFormValid = await v$.value.$validate();
+  // if (isFormValid) {
+  //   const response = await adminService.submitFormModel(viewModel.value?.context?.route ?? '', props.type, model.value);
+  //   if (response && !response.succeeded && viewModel.value) {
+  //     notificationProvider.showErrorToast(response.operationError ?? 'Form submission has been invalid');
+  //     mapErrorsFromResponse(viewModel.value, response);
+  //   }
+  //   else {
+  //     notificationProvider.showSuccessToast('Form submission has been successful');
+  //     if (routeInstance.query.redirectTo) {
+  //       await router.push(`${routeInstance.query.redirectTo}`);
+  //     }
+  //     else {
+  //       await router.push(`/admin/${props.pageRoute}`);
+  //     }
+  //   }
+  // }
 }
 
 function clearErrors(model: EmPageFormViewModel) {

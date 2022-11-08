@@ -42,7 +42,6 @@ import {helpers, required, sameAs} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
 import EmInput from "@/components/base/EmInput.vue";
-import adminService from "@/services/admin-service";
 import {handleRequestError} from "@/shared/helpers";
 import {notificationProvider} from "@/services/notification-provider";
 const adminLayout = useAdminLayout();
@@ -71,17 +70,17 @@ async function changePassword() {
   const isFormValid = await v$.value.$validate();
   if (isFormValid) {
     try {
-      const result = await adminService.changePassword(form.value.currentPassword, form.value.newPassword, form.value.confirmedPassword);
-      if (result.succeeded) {
-        form.value.currentPassword = '';
-        form.value.newPassword = '';
-        form.value.confirmedPassword = '';
-        v$.value.$reset();
-        notificationProvider.showSuccessToast('Your password has been changed successfully');
-      }
-      else {
-        notificationProvider.showErrorToast('Your password has not been changed');
-      }
+      // const result = await adminService.changePassword(form.value.currentPassword, form.value.newPassword, form.value.confirmedPassword);
+      // if (result.succeeded) {
+      //   form.value.currentPassword = '';
+      //   form.value.newPassword = '';
+      //   form.value.confirmedPassword = '';
+      //   v$.value.$reset();
+      //   notificationProvider.showSuccessToast('Your password has been changed successfully');
+      // }
+      // else {
+      //   notificationProvider.showErrorToast('Your password has not been changed');
+      // }
     }
     catch (e) {
       handleRequestError(e, notificationProvider.handlers.showErrorToast);

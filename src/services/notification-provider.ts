@@ -1,6 +1,5 @@
 import {EmToastNotification} from "@/shared/types/em-toast-notification";
-import {Store} from "vuex";
-import store from '@/store'
+import {newGuid} from "@/shared/helpers";
 
 export interface NotificationProviderContract {
     showToast: (notification: EmToastNotification) => void;
@@ -13,9 +12,25 @@ export interface NotificationProviderContract {
 
 class NotificationProvider implements NotificationProviderContract {
 
-    private store: Store<any>
-    constructor() {
-        this.store = store;
+    private notifications: EmToastNotification[] = [];
+    private triggerFunc: () => void = () => { console.log('initialize') };
+
+    getNotifications(): EmToastNotification[] {
+        return this.notifications;
+    }
+
+    setTrigger(triggerFunc: () => void) {
+        this.triggerFunc = triggerFunc;
+    }
+
+    removeToast(toastId: string) {
+        const toastForRemoval = this.notifications.find(x => x.id == toastId);
+        if (!toastForRemoval) {
+            return;
+        }
+
+        const targetIndex = this.notifications.indexOf(toastForRemoval);
+        this.notifications.splice(targetIndex, 1);
     }
 
     showErrorToast(message: string): void {
@@ -52,7 +67,9 @@ class NotificationProvider implements NotificationProviderContract {
     }
 
     showToast(notification: EmToastNotification): void {
-        this.store.commit('notificationModule/addNotification', notification);
+        notification.id = newGuid();
+        this.notifications.push(notification);
+        this.triggerFunc();
     }
 
     showWarningToast(message: string): void {

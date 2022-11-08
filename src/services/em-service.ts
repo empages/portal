@@ -3,7 +3,7 @@ import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
 import storageService from "@/services/storage-service";
 
 export abstract class EmService {
-    protected readonly apiBaseRoutePrefix = '/_em/api';
+    protected readonly apiBaseRoutePrefix = '/__em';
     protected application: Application | null;
     protected httpClient: AxiosInstance | null;
 
@@ -19,7 +19,7 @@ export abstract class EmService {
                 baseURL: this.application.url
             });
 
-            this.httpClient.defaults.headers.common['Em-Portal-Gateway-Id'] = this.application.gatewayId;
+            this.httpClient.defaults.headers.common['X-Em-Portal-Gateway-Id'] = this.application.gatewayId;
 
             if (this.requiresAccessToken) {
                 this.httpClient.interceptors.request.use(function(config) {

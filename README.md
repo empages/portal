@@ -1,20 +1,14 @@
-<img align="left" width="300px" style="background-color:white;" title="Emeraude" alt="Emeraude" src="https://raw.githubusercontent.com/emeraudeframework/emeraude/master/art/logo_text.svg" />
-
-<br/>
-
-# Emeraude Portal
+# Emerald Pages Portal
 
  - Is a web application client
  - Is a single page application
  - Is a multi-application manager
  - Is a web API consumer
- - Is the Emeraude Framework management portal
  - Is free and open-source
  - Is not a software as a service
  - Is not a NPM package
  - Is not consuming internal back-end
  - Is not tracking activity
- - Is not dependent on any server-side technology
  - Is not paid
 
 ## Sponsors

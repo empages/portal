@@ -94,7 +94,7 @@ import {computed, Ref, ref} from 'vue'
 import EmTable from "@/components/base/EmTable.vue";
 import { Application } from '@/models/application';
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
-import accessService from "@/services/access-service";
+import configurationService from "@/services/configuration-service";
 import {applicationsTableColumns} from "@/shared/tables-columns/applications-table-columns";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
@@ -149,12 +149,12 @@ async function formSubmit() {
 
 async function saveApplication(application: Application): Promise<void> {
   try {
-    const gatewayResponse = await accessService.verifyPortalAccess(application);
-    if (gatewayResponse.verified) {
+    const config = await configurationService.getConfiguration(application);
+    if (config) {
       detectedChange.value = true;
 
-      application.environment = gatewayResponse.environment;
-      application.version = gatewayResponse.frameworkVersion;
+      application.environment = config.source.environment;
+      application.version = config.framework.version;
 
       if (application.id) {
         store.commit('settingsModule/editApplication', application);

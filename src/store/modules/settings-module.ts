@@ -1,11 +1,13 @@
 import {Application} from "@/models/application";
 import {newGuid} from "@/shared/helpers";
 import storageService from "@/services/storage-service";
+import {EmConfiguration} from "@/models/em-configuration";
 
 interface SettingsModuleState {
     applications: Array<Application>;
     selectedApplicationId: string | null
     isSelectedApplicationConnected: boolean;
+    configuration: EmConfiguration | null;
 }
 
 export default {
@@ -43,9 +45,15 @@ export default {
                 state.applications.splice(indexForRemove, 1);
                 saveSettings(state);
             }
+        },
+        setConfiguration(state: SettingsModuleState, configuration: EmConfiguration) {
+            state.configuration = configuration;
         }
     },
     getters: {
+        configuration(state: SettingsModuleState): EmConfiguration | null {
+          return state.configuration;
+        },
         applications(state: SettingsModuleState): Array<Application> {
             return state.applications;
         },
@@ -61,7 +69,8 @@ export default {
             return state.isSelectedApplicationConnected;
         }
     },
-    actions: {},
+    actions: {
+    },
 }
 
 function saveSettings(settings: SettingsModuleState): void {
@@ -83,7 +92,8 @@ function buildInitialSettings() {
     const settings: SettingsModuleState = {
         applications,
         selectedApplicationId,
-        isSelectedApplicationConnected: false
+        isSelectedApplicationConnected: false,
+        configuration: null
     };
 
     saveSettings(settings);

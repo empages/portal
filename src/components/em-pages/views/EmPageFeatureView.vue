@@ -24,7 +24,6 @@ import EmPageView from '@/components/em-pages/views/EmPageView.vue'
 import EmPageTableView from '@/components/em-pages/views/EmPageTableView.vue'
 import { useAdminLayout } from '@/composables/admin-layout-composable'
 import {computed, onMounted, ref, Ref, watch} from 'vue'
-import adminService from '@/services/admin-service'
 import { EmPageIndexViewModel } from '@/models/em-page-index-view-model'
 import {usePageSettings} from "@/composables/page-settings-composables";
 import {getPluralFormat} from "@/shared/helpers";
@@ -51,18 +50,18 @@ async function loadViewModel (route: string | null, identifier: string | null, f
   try {
     viewModel.value = {} as EmPageIndexViewModel;
     adminLayout.reset();
-    viewModel.value = await adminService.getFeatureIndexViewModel(
-        route || '',
-        identifier || '',
-        feature || '',
-        page.value,
-        searchQuery.value,
-        orderBy.value || '',
-        orderByType.value || orderByTypes[0]);
-    pageSettings.setTitle(getPluralFormat(viewModel.value?.context?.title), 'Admin');
-    adminLayout.reload({
-      navbarActions: viewModel.value.context.navbarActions
-    })
+    // viewModel.value = await adminService.getFeatureIndexViewModel(
+    //     route || '',
+    //     identifier || '',
+    //     feature || '',
+    //     page.value,
+    //     searchQuery.value,
+    //     orderBy.value || '',
+    //     orderByType.value || orderByTypes[0]);
+    // pageSettings.setTitle(getPluralFormat(viewModel.value?.context?.title), 'Admin');
+    // adminLayout.reload({
+    //   navbarActions: viewModel.value.context.navbarActions
+    // })
   }
   catch (e: any) {
     await pageSettings.throwEmPageRequestError(e);

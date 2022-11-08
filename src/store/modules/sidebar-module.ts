@@ -4,7 +4,6 @@ import {SidebarMenuLink} from "@/models/sidebar-menu-link";
 import {normalizeRoute} from "@/shared/helpers";
 import {ActionContext} from "vuex";
 import {MainState} from "@/store";
-import adminService from "@/services/admin-service";
 
 interface SidebarModuleState {
     sidebarSchema: SidebarSchema | null;
@@ -34,8 +33,6 @@ export default {
     },
     actions: {
         async loadSidebarSchema(context: ActionContext<SidebarModuleState, MainState>) {
-            const sidebarSchema = await adminService.getAdminMenus();
-            context.commit('setSidebarSchema', sidebarSchema);
         }
     }
 }

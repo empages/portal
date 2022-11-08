@@ -1,6 +1,5 @@
 import store from '@/store'
 import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import adminService from "@/services/admin-service";
 import {notificationProvider} from "@/services/notification-provider";
 
 export const authenticationGuard = async function (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
@@ -11,7 +10,7 @@ export const authenticationGuard = async function (to: RouteLocationNormalized, 
             return;
         }
 
-        await adminService.checkAuthorization();
+        store.getters['settingsModule/configuration']?.identity.currentUser
     }
     catch (e) {
         const currentIdentityRecord = store.getters['identityModule/currentIdentityRecord'];

@@ -55,7 +55,6 @@ import useVuelidate from "@vuelidate/core";
 import EmFormGroup from "@/components/base/EmFormGroup.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import QRCode from "qrcode"
-import adminService from "@/services/admin-service";
 import EmConfirmation from "@/components/base/EmConfirmation.vue";
 import {handleRequestError} from "@/shared/helpers";
 import {useRouter} from "vue-router";
@@ -88,56 +87,56 @@ onMounted(() => {
 })
 
 async function activateTwoFactorAuthentication() {
-  const isFormValid = await v$.value.$validate();
-  if (isFormValid) {
-    try {
-      const result = await adminService.activateTwoFactorAuthentication(form.value.code);
-      if (result.succeeded) {
-        form.value.code = '';
-        v$.value.$reset();
-        notificationProvider.showSuccessToast('Your two-factor authenticator has been activated');
-        await loadInitialData();
-      }
-      else {
-        notificationProvider.showErrorToast('Your two-factor authenticator has not been activated');
-      }
-    }
-    catch (e) {
-      handleRequestError(e, notificationProvider.handlers.showErrorToast);
-    }
-  }
+  // const isFormValid = await v$.value.$validate();
+  // if (isFormValid) {
+  //   try {
+  //     const result = await adminService.activateTwoFactorAuthentication(form.value.code);
+  //     if (result.succeeded) {
+  //       form.value.code = '';
+  //       v$.value.$reset();
+  //       notificationProvider.showSuccessToast('Your two-factor authenticator has been activated');
+  //       await loadInitialData();
+  //     }
+  //     else {
+  //       notificationProvider.showErrorToast('Your two-factor authenticator has not been activated');
+  //     }
+  //   }
+  //   catch (e) {
+  //     handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  //   }
+  // }
 }
 
 async function resetAuthenticatorKey() {
-  try {
-    const result = await adminService.resetTwoFactorAuthenticator();
-    if (result.succeeded) {
-      notificationProvider.showSuccessToast('Your two-factor authenticator has been reset');
-      router.go(0);
-    }
-    else {
-      notificationProvider.showErrorToast('Your two-factor authenticator has not been reset');
-    }
-  }
-  catch (e) {
-    handleRequestError(e, notificationProvider.handlers.showErrorToast);
-  }
+  // try {
+  //   const result = await adminService.resetTwoFactorAuthenticator();
+  //   if (result.succeeded) {
+  //     notificationProvider.showSuccessToast('Your two-factor authenticator has been reset');
+  //     router.go(0);
+  //   }
+  //   else {
+  //     notificationProvider.showErrorToast('Your two-factor authenticator has not been reset');
+  //   }
+  // }
+  // catch (e) {
+  //   handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  // }
 }
 
 async function loadInitialData() {
-  try {
-    const twoFactorDescription = await adminService.requestTwoFactorAuthenticationDescription();
-    sharedKey.value = twoFactorDescription.sharedKey;
-    is2FaEnabled.value = twoFactorDescription.is2FaEnabled;
-    if (!twoFactorDescription.is2FaEnabled) {
-      await QRCode.toCanvas(qrCodeRef.value, twoFactorDescription.authenticatorUri, {
-        width: 240
-      });
-    }
-  }
-  catch (e) {
-    handleRequestError(e, notificationProvider.handlers.showErrorToast);
-  }
+  // try {
+  //   const twoFactorDescription = await adminService.requestTwoFactorAuthenticationDescription();
+  //   sharedKey.value = twoFactorDescription.sharedKey;
+  //   is2FaEnabled.value = twoFactorDescription.is2FaEnabled;
+  //   if (!twoFactorDescription.is2FaEnabled) {
+  //     await QRCode.toCanvas(qrCodeRef.value, twoFactorDescription.authenticatorUri, {
+  //       width: 240
+  //     });
+  //   }
+  // }
+  // catch (e) {
+  //   handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  // }
 }
 </script>
 

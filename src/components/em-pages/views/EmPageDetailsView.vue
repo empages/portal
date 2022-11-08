@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import adminService from "@/services/admin-service";
 import {ref, Ref, watch, onMounted, computed} from "vue";
 import {EmPageDetailsViewModel} from "@/models/em-page-details-view-model";
 import _ from "lodash";
@@ -43,16 +42,16 @@ const pageSettings = usePageSettings();
 const viewModel: Ref<EmPageDetailsViewModel | null> = ref(null);
 
 async function loadViewModel (route: string | null, identifier: string | null) {
-  try {
-    viewModel.value = await adminService.getDetailsViewModel(route || '', identifier || '');
-    pageSettings.setTitle(`${viewModel.value?.context?.title} details`, 'Admin');
-    adminLayout.reload({
-      navbarActions: viewModel.value.context.navbarActions
-    })
-  }
-  catch (e: any) {
-    await pageSettings.throwEmPageRequestError(e);
-  }
+  // try {
+  //   viewModel.value = await adminService.getDetailsViewModel(route || '', identifier || '');
+  //   pageSettings.setTitle(`${viewModel.value?.context?.title} details`, 'Admin');
+  //   adminLayout.reload({
+  //     navbarActions: viewModel.value.context.navbarActions
+  //   })
+  // }
+  // catch (e: any) {
+  //   await pageSettings.throwEmPageRequestError(e);
+  // }
 }
 
 watch(() => props.pageRoute, async (value) => {

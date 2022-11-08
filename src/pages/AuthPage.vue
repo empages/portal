@@ -2,7 +2,7 @@
   <div class="auth-container">
     <span v-if="!isSelectedApplicationConnected">
       <span class="alert alert-danger text-small px-2 py-1 mb-4 d-block">
-        Authentication is not allowed for applications that are not connected with the Emeraude Portal
+        Authentication is not allowed for applications that are not connected with the Portal
       </span>
     </span>
     <div class="card mx-auto">
@@ -13,11 +13,11 @@
               <img
                 :src="logo"
                 :class="{ 'grayscale': !isSelectedApplicationConnected }"
-                alt="Emeraude">
+                alt="Emerald Pages">
             </div>
           </div>
           <h2 class="title">
-            Emeraude Portal Login
+            Emerald Pages Portal Login
           </h2>
           <div class="subtitle">
             <span
@@ -84,7 +84,6 @@
 import {computed, ComputedRef, reactive, ref} from 'vue'
 import {Application} from "@/models/application";
 import {LoginRequest} from '@/models/login-request';
-import adminService from '@/services/admin-service';
 import {handleRequestError} from '@/shared/helpers';
 import useVuelidate from '@vuelidate/core'
 import {email, helpers, required, requiredIf} from '@vuelidate/validators'
@@ -137,6 +136,8 @@ const isSelectedApplicationConnected: ComputedRef<boolean> = computed(() => {
 })
 
 async function submitForm() {
+  console.log('submit login form')
+  notificationProvider.showInfoToast("test test test")
   const isFormCorrect = await v$.value.$validate()
   if (!isFormCorrect) {
     return;
@@ -144,38 +145,38 @@ async function submitForm() {
 
   try {
     let authResponse: AdminAuthResponse | null = null;
-    if (authenticationState.value === AuthenticationState.Login) {
-      authResponse = await adminService.login(loginForm);
-    }
-    else if (authenticationState.value === AuthenticationState.LoginWithTwoFactor) {
-      loginWithTwoFactor.email = loginForm.email;
-      authResponse = await adminService.loginWithTwoFactor(loginWithTwoFactor, postAuthenticationToken.value);
-    }
+    // if (authenticationState.value === AuthenticationState.Login) {
+    //   authResponse = await adminService.login(loginForm);
+    // }
+    // else if (authenticationState.value === AuthenticationState.LoginWithTwoFactor) {
+    //   loginWithTwoFactor.email = loginForm.email;
+    //   authResponse = await adminService.loginWithTwoFactor(loginWithTwoFactor, postAuthenticationToken.value);
+    // }
 
-    if (authResponse && authResponse.succeeded) {
-      if (authResponse.requiresAdditionalAuthenticationFactor && authResponse.postAuthenticationToken) {
-        notificationProvider.showWarningToast(authResponse.message);
-        authenticationState.value = AuthenticationState.LoginWithTwoFactor;
-        postAuthenticationToken.value = authResponse.postAuthenticationToken;
-        loginForm.password = '';
-        v$.value.$reset();
-        return;
-      }
-
-      loginForm.email = '';
-      loginWithTwoFactor.email = '';
-      loginWithTwoFactor.code = '';
-      postAuthenticationToken.value = '';
-      authenticationState.value = AuthenticationState.Authenticated;
-      v$.value.$reset();
-
-      store.commit('identityModule/storeIdentity', {
-        accessToken: authResponse.accessToken,
-        applicationId: application.value.id
-      });
-
-      router.go(0);
-    }
+    // if (authResponse && authResponse.succeeded) {
+    //   if (authResponse.requiresAdditionalAuthenticationFactor && authResponse.postAuthenticationToken) {
+    //     notificationProvider.showWarningToast(authResponse.message);
+    //     authenticationState.value = AuthenticationState.LoginWithTwoFactor;
+    //     postAuthenticationToken.value = authResponse.postAuthenticationToken;
+    //     loginForm.password = '';
+    //     v$.value.$reset();
+    //     return;
+    //   }
+    //
+    //   loginForm.email = '';
+    //   loginWithTwoFactor.email = '';
+    //   loginWithTwoFactor.code = '';
+    //   postAuthenticationToken.value = '';
+    //   authenticationState.value = AuthenticationState.Authenticated;
+    //   v$.value.$reset();
+    //
+    //   store.commit('identityModule/storeIdentity', {
+    //     accessToken: authResponse.accessToken,
+    //     applicationId: application.value.id
+    //   });
+    //
+    //   router.go(0);
+    // }
   }
   catch(e: any) {
     handleRequestError(e, notificationProvider.handlers.showErrorToast);

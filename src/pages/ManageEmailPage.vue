@@ -35,7 +35,6 @@ import EmInput from "@/components/base/EmInput.vue";
 import {computed, ref} from "vue";
 import {email, helpers, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import adminService from "@/services/admin-service";
 import {handleRequestError} from "@/shared/helpers";
 import {useStore} from "vuex";
 import {notificationProvider} from "@/services/notification-provider";
@@ -62,23 +61,23 @@ adminLayout.reload({
 })
 
 async function changeEmail() {
-  const isFormValid = await v$.value.$validate();
-  if (isFormValid) {
-    try {
-      const result = await adminService.changeEmail(form.value.newEmail);
-      if (result.succeeded) {
-        form.value.newEmail = '';
-        v$.value.$reset();
-        notificationProvider.showSuccessToast('Your email has been changed successfully');
-      }
-      else {
-        notificationProvider.showErrorToast('Your email has not been changed');
-      }
-    }
-    catch (e) {
-      handleRequestError(e, notificationProvider.handlers.showErrorToast);
-    }
-  }
+  // const isFormValid = await v$.value.$validate();
+  // if (isFormValid) {
+  //   try {
+  //     const result = await adminService.changeEmail(form.value.newEmail);
+  //     if (result.succeeded) {
+  //       form.value.newEmail = '';
+  //       v$.value.$reset();
+  //       notificationProvider.showSuccessToast('Your email has been changed successfully');
+  //     }
+  //     else {
+  //       notificationProvider.showErrorToast('Your email has not been changed');
+  //     }
+  //   }
+  //   catch (e) {
+  //     handleRequestError(e, notificationProvider.handlers.showErrorToast);
+  //   }
+  // }
 }
 </script>
 

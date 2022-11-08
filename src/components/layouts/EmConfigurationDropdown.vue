@@ -62,15 +62,11 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ComputedRef, onMounted} from 'vue'
+import {computed, ComputedRef} from 'vue'
 import EmDropdown from "@/components/base/EmDropdown.vue";
 import {Application} from "@/models/application";
-import accessService from '@/services/access-service';
-import clientBuilderService from '@/services/client-builder-service';
-import adminService from '@/services/admin-service';
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
-import {notificationProvider} from "@/services/notification-provider";
 
 const store = useStore();
 const router = useRouter();
@@ -87,39 +83,6 @@ const isSelectedApplicationConnected = computed(() => {
   return store.getters['settingsModule/isSelectedApplicationConnected'];
 })
 
-async function refreshApplicationState() {
-
-  const application = store.getters["settingsModule/selectedApplication"];
-  if (!application) {
-    notificationProvider.showWarningToast('There is no registered application to connect with');
-    store.commit('settingsModule/setIsSelectedApplicationConnected', false);
-    return;
-  }
-
-  notificationProvider.showInfoToast(`Initializing a connection with **${application.name}**`);
-  await accessService.verifyPortalAccess(application)
-      .then(response => {
-        let isSelectedApplicationConnected = false;
-        if (!response.verified) {
-          isSelectedApplicationConnected = false;
-          notificationProvider.showErrorToast(`Emeraude Portal cannot initialize a connection with **${application.name}**`);
-        }
-        else {
-          isSelectedApplicationConnected = true;
-          adminService.setApplication(application);
-          notificationProvider.showSuccessToast(`Emeraude Portal has been connected with **${application.name}**`);
-        }
-
-        store.commit('settingsModule/setIsSelectedApplicationConnected', isSelectedApplicationConnected);
-      })
-      .catch(() => {
-        notificationProvider.showErrorToast(`Emeraude Portal cannot initialize a connection with **${application.name}**`);
-        store.commit('settingsModule/setIsSelectedApplicationConnected', false);
-      })
-
-
-}
-
 async function selectApplication(applicationId: string): Promise<void> {
   if (selectedApplication.value && selectedApplication.value.id === applicationId) {
     return;
@@ -129,9 +92,6 @@ async function selectApplication(applicationId: string): Promise<void> {
   router.go(0);
 }
 
-onMounted(async () => {
-  await refreshApplicationState();
-})
 </script>
 
 <style scoped lang="scss">

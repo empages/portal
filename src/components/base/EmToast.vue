@@ -24,14 +24,13 @@
 <script lang="ts" setup>
 import { Toast } from "bootstrap"
 import {onMounted, ref, Ref} from "vue"
-import {useStore} from "vuex";
 import { EmToastNotification } from '@/shared/types/em-toast-notification'
+import {notificationProvider} from "@/services/notification-provider";
 
 const props = defineProps<{
   notification: EmToastNotification
 }>()
 
-const store = useStore();
 const toastElement: Ref<Element | null> = ref(null);
 const toast: Ref<Toast | null> = ref(null);
 
@@ -40,10 +39,9 @@ onMounted(() => {
     toast.value = new Toast(toastElement.value);
     toast.value.show();
     toastElement.value.addEventListener('hidden.bs.toast', () => {
-      store.commit('notificationModule/clearNotification', props.notification.id);
+      notificationProvider.removeToast(props.notification.id);
     })
   }
-
 })
 
 </script>
