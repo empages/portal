@@ -21,7 +21,9 @@
     "qrcode": "^1.5.0",
     "vue": "^3.2.41",
     "vue-router": "^4.1.6",
-    "vuex": "^4.1.0"
+    "vuex": "^4.1.0",
+    "firebase": "^9.13.0",
+    "crypto-js": "^4.1.1"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.1.6",

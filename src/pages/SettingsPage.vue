@@ -2,10 +2,31 @@
   <div>
     <EmLoadingContainer :loaded="!detectedChange">
       <EmTable
-        table-title="Registered applications"
+        table-title="Applications"
         :columns="applicationsTableColumns"
         :data="applications">
         <template #bulkActions>
+          <EmModal
+            :hide-footer="true"
+            :hide-header="true"
+            :keyboard="false"
+            :static="true">
+            <template #body>
+              <FirebaseStorageLoaderModalBody
+                :firebase-context="firebaseContext"
+                @reload:apps="router.go(0)" />
+            </template>
+            <template #trigger="{assigner}">
+              <div v-once>
+                {{ assigner(firebaseContextAssigner) }}
+              </div>
+              <button
+                class="btn btn-neutral btn-sm me-2"
+                @click="showFirebaseModal">
+                <i class="mdi mdi-firebase" />
+              </button>
+            </template>
+          </EmModal>
           <EmModal
             :hide-footer="true"
             :hide-header="true"
@@ -74,7 +95,7 @@
           <EmConfirmation
             v-slot="{ context }"
             class="d-inline-block"
-            :confirmation-word="data.name"
+            confirmation-word="delete"
             :message="`Are you sure you want to remove it from the application list?`"
             :callback="() => removeApplication(data.id)">
             <button
@@ -106,11 +127,13 @@ import EmFormGroup from "@/components/base/EmFormGroup.vue";
 import EmInput from "@/components/base/EmInput.vue";
 import {helpers, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import FirebaseStorageLoaderModalBody from "@/components/wrappers/FirebaseStorageLoaderModalBody.vue";
 
 const store = useStore();
 const router = useRouter();
 
 const [formContext, formContextAssigner] = useModalContext();
+const [firebaseContext, firebaseContextAssigner] = useModalContext();
 
 const emptyApplication: Ref<Application> = ref({
   id: '',
@@ -158,7 +181,6 @@ const applications = computed(() => {
 })
 
 async function formSubmit() {
-  console.log(applicationForEdit);
   const isFormCorrect = await v$.value.$validate()
   if (!isFormCorrect) {
     return;
@@ -170,12 +192,12 @@ async function formSubmit() {
 
 async function saveApplication(application: Application): Promise<void> {
   try {
-    const config = await stateService.getConfiguration(application);
-    if (config) {
+    const state = await stateService.getState(application);
+    if (state) {
       detectedChange.value = true;
 
-      application.environment = config.source.environment;
-      application.version = config.framework.version;
+      application.environment = state.environment;
+      application.version = state.version;
 
       if (application.id) {
         store.commit('settingsModule/editApplication', application);
@@ -210,6 +232,10 @@ function selectEmptyApplicationForEdit() {
 function selectApplicationForEdit(application: Application) {
   applicationForEdit.value = Object.assign({}, application);
   formContext.show();
+}
+
+function showFirebaseModal() {
+  firebaseContext.show();
 }
 
 function closeForm() {

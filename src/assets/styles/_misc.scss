@@ -16,3 +16,11 @@
     font-size: 12px;
     font-weight: 500;
 }
+
+.input-group {
+    .form-control {
+        &:focus {
+            border-width: 1px !important;
+        }
+    }
+}

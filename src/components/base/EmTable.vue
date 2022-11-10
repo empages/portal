@@ -23,6 +23,11 @@
           </tr>
         </thead>
         <tbody>
+          <tr v-if="!props.data || !props.data.length">
+            <td colspan="100%">
+              No records found
+            </td>
+          </tr>
           <tr
             v-for="(dataItem, dataItemIndex) in props.data"
             :key="`data-item-${dataItemIndex}`">

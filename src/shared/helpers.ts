@@ -5,6 +5,12 @@ import {strings} from "@/shared/strings";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import pluralize from "pluralize"
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import AES from 'crypto-js/aes';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Utf8 from 'crypto-js/enc-utf8';
 
 export function newGuid(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -168,4 +174,14 @@ export function parseTimeSpan(timeSpan: string | null): { hours: number, minutes
     }
 
     return parsedTime;
+}
+
+export function encryptWithAES(text: string, passphrase: string) {
+    return AES.encrypt(text, passphrase).toString();
+}
+
+export function decryptWithAES(ciphertext: string, passphrase: string) {
+    const bytes = AES.decrypt(ciphertext, passphrase);
+    const originalText = bytes.toString(Utf8);
+    return originalText;
 }
