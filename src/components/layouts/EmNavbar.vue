@@ -20,7 +20,7 @@ defineEmits(['menu:toggle'])
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/styles/variables";
+  @import "src/assets/styles/core";
   .navbar-toggle-menu {
     border: none;
     box-shadow: none;

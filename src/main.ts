@@ -4,6 +4,7 @@ import router from '@/router'
 import store from "@/store";
 import layoutsPlugin from '@/plugins/layouts';
 import directives from "@/plugins/directives";
+import core from "@/plugins/core";
 
 const app = createApp(App);
 
@@ -11,4 +12,5 @@ app.use(router);
 app.use(store);
 app.use(directives);
 app.use(layoutsPlugin);
+app.use(core);
 app.mount('#app');

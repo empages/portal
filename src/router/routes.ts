@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         name: 'em-page',
-        path: '/em/:route',
+        path: '/em/:route(.*)*',
         component: () => import('@/pages/EmPage.vue'),
         beforeEnter: authenticationGuard,
         meta: { layout: layouts.main, title: 'EmPage' }

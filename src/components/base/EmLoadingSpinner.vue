@@ -11,7 +11,7 @@ import spinner from '@/assets/images/spinner.svg';
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/styles/variables";
+@import "src/assets/styles/core";
 
 .spinner-container {
   display: flex;

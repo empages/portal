@@ -20,6 +20,7 @@ const gateway = {
     identityManageMfaReset: new GatewayPort('/identity/manage/mfa-reset'),
     pageRetrieve: new GatewayPort('/page/retrieve'),
     pageCommand: new GatewayPort('/page/command'),
+    layout: new GatewayPort('/layout'),
 }
 
 export default gateway;

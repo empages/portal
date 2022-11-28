@@ -246,7 +246,7 @@ function closeForm() {
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/styles/variables";
+  @import "src/assets/styles/core";
   .info-icon {
     color: $info;
     font-size: 26px;

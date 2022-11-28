@@ -22,8 +22,8 @@
 
 <script lang="ts" setup>
 import { Dropdown } from 'bootstrap';
-import {withDefaults, Ref, ComputedRef, computed, onMounted, ref} from "vue";
-import {EmDropdownContext} from "@/shared/types/em-dropdown-context";
+import {withDefaults, type Ref, type ComputedRef, computed, onMounted, ref} from "vue";
+import type {EmDropdownContext} from "@/shared/types/em-dropdown-context";
 
 const dropdownVisibilities = ['show', 'shown', 'hide', 'hidden'];
 

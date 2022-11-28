@@ -191,7 +191,7 @@ async function submitForm() {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/styles/variables";
+@import "src/assets/styles/core";
 
 .grayscale {
   filter: grayscale(100%);

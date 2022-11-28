@@ -1,5 +1,5 @@
 <template>
-  <span class="text-muted text-small">
+  <span class="text-small">
     <span class="footer-text text-center">
       Apache License 2.0 | Copyright © {{ year }} <a
         href="https://georgi.karagogov.com/"
@@ -13,5 +13,11 @@ const year = new Date().getFullYear();
 </script>
 
 <style scoped>
+.text-small {
+  font-size: 14px;
+}
 
+.footer-text {
+  color: black;
+}
 </style>

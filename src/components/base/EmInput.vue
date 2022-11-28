@@ -20,7 +20,7 @@
 import {withDefaults} from "vue";
 
 const props = withDefaults(defineProps<{
-  validator: any | null | unknown,
+  validator?: any | null | unknown,
   modelValue?: string,
   type?: string,
   placeholder?: string,
@@ -29,6 +29,7 @@ const props = withDefaults(defineProps<{
   autocomplete?: string,
   inputEvent?: (event: Event) => void
 }>(), {
+  validator: null,
   modelValue: '',
   type: 'text',
   placeholder: '',

@@ -95,7 +95,7 @@ async function selectApplication(applicationId: string): Promise<void> {
 </script>
 
 <style scoped lang="scss">
-  @import "src/assets/styles/theme/core/variables/base-colors";
+  @import "../../assets/styles/core/variables/base-colors";
 
   .dropdown-item {
     width: 100%;
