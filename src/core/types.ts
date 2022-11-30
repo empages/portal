@@ -105,7 +105,7 @@ export class EmResponseComponent {
     type: ComponentType;
     isNullable: boolean;
     parameters: any;
-    group: TypeGroup;
+    propertyTypeGroup: TypeGroup;
 }
 
 export class EmPageCommandResult {
